@@ -1,0 +1,425 @@
+/* ─── DESKTOP SECTION ──────────────────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  background: #06100b;
+  overflow: hidden;
+}
+
+/* ─── BACKGROUNDS ─────────────────────────────────────────────── */
+.bgStack {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.bgLayer {
+  position: absolute;
+  inset: -2%;
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.05) contrast(1.04) brightness(0.78);
+  will-change: opacity, transform;
+  animation: kenBurns 14s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+  0%   { transform: scale(1)     translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, 1%); }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(4, 10, 7, 0.92) 0%,
+      rgba(4, 10, 7, 0.64) 40%,
+      rgba(4, 10, 7, 0.18) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(4, 10, 7, 0.78) 0%,
+      transparent 34%
+    );
+}
+
+/* ─── УГЛОВАЯ МЕТКА ────────────────────────────────────────────── */
+.cornerLabel {
+  position: absolute;
+  bottom: 32px;
+  left: 10vw;
+  z-index: 3;
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+
+/* ─── МАРШРУТ ──────────────────────────────────────────────────── */
+.route {
+  position: absolute;
+  right: 6vw;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 220px;
+  z-index: 10;
+}
+
+.routeTrack {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.14);
+  transform-origin: top center;
+}
+
+.routeTrack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #4ee08a, #1aa861);
+  transform-origin: top center;
+  transform: scaleY(inherit);
+}
+
+.routeStop {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+}
+
+.routeDot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1aa861;
+  box-shadow: 0 0 10px rgba(26, 168, 97, 0.7);
+  flex-shrink: 0;
+}
+
+/* Имя точки растёт ВЛЕВО от точки-индикатора (anchor = right edge),
+   поэтому никогда не уходит за правый край экрана. */
+.routeName {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.32);
+  text-align: right;
+
+  white-space: nowrap;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: color 0.4s ease, transform 0.4s ease;
+}
+
+.routeStopActive .routeName {
+  color: #fff;
+  transform: translateY(-50%) translateX(-2px);
+}
+
+/* ─── ТЕКСТОВЫЙ СЛОЙ ───────────────────────────────────────────── */
+.textLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.block {
+  position: absolute;
+  left: 10vw;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 580px;
+}
+
+/* ─── META ─────────────────────────────────────────────────────── */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.blockNum {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(78, 224, 138, 0.85);
+}
+
+.blockNum::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(26, 168, 97, 0.35);
+  background: rgba(26, 168, 97, 0.1);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* ─── NAME ─────────────────────────────────────────────────────── */
+.nameClip {
+  overflow: hidden;
+  padding-bottom: 0.05em;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 6.4vw, 6.4rem);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0;
+}
+
+.location {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.42);
+  margin-bottom: 22px;
+}
+
+/* ─── DESC ─────────────────────────────────────────────────────── */
+.desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.4);
+  max-width: 420px;
+  margin: 0 0 26px;
+}
+
+/* ─── STAT ─────────────────────────────────────────────────────── */
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statValue {
+  font-family: var(--font-bold);
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.statLabel {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(26, 168, 97, 0.65);
+}
+
+/* ─── ROW: STAT + CTA ─────────────────────────────────────────── */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  pointer-events: auto;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid rgba(26, 168, 97, 0.4);
+  background: rgba(26, 168, 97, 0.1);
+  padding: 13px 24px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition:
+    background   0.35s ease,
+    border-color 0.35s ease,
+    transform    0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow   0.4s ease;
+}
+
+.ctaBtn:hover {
+  background: rgba(26, 168, 97, 0.24);
+  border-color: rgba(78, 224, 138, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(26, 168, 97, 0.22);
+}
+
+.ctaBtn svg { transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1); }
+.ctaBtn:hover svg { transform: translateX(4px); }
+
+/* ─── QUOTE ───────────────────────────────────────────────────── */
+.quote {
+  margin: 26px 0 0;
+  padding-left: 16px;
+  border-left: 2px solid rgba(26, 168, 97, 0.45);
+  font-family: var(--font-display);
+  font-size: clamp(0.94rem, 1.2vw, 1.05rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 420px;
+}
+
+/* ─── MOBILE ───────────────────────────────────────────────────── */
+.sectionMobile {
+  position: relative;
+  width: 100%;
+  background: #06100b;
+  padding: 80px 6vw 60px;
+}
+
+.mobileHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 34px;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(26, 168, 97, 0.75);
+}
+
+.mobileTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 11vw, 3.4rem);
+  line-height: 0.95;
+  color: #fff;
+  margin: 0;
+}
+
+.mobileLead {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 480px;
+  margin: 0;
+}
+
+.mobileList {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.mobileCard {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  background-size: cover;
+  background-position: center;
+}
+
+.mobileCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 10, 7, 0.95) 0%, rgba(4, 10, 7, 0.4) 50%, rgba(4, 10, 7, 0.1) 100%);
+}
+
+.mobileCardNum {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  z-index: 2;
+  font-family: var(--font-bold);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mobileCardBody {
+  position: relative;
+  z-index: 2;
+  padding: 22px 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobileCardTitle {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  line-height: 1.05;
+  color: #fff;
+  margin: 4px 0 0;
+}
+
+.mobileCardDesc {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 8px 0 14px;
+}
+
+/* ─── MEDIA ───────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .row {
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .quote {
+    max-width: 100%;
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .section       { display: none !important; }
+  .sectionMobile { display: block !important; }
+}
+
+@media (min-width: 768px) {
+  .sectionMobile { display: none !important; }
+  .section       { display: block !important; }
+}
