@@ -335,3 +335,21 @@
   .sectionMobile { display: none !important; }
   .section       { display: flex !important; }
 }
+
+/* ─── Ссылка на фольклорную карту (map.komi.world) ─── */
+.mapLink {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 9px 17px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .04em;
+  color: #fff;
+  transition: background .25s ease, border-color .25s ease;
+}
+
+.mapLink:hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.55);
+}

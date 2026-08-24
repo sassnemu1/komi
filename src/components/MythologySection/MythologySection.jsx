@@ -9,6 +9,10 @@ import { INFO_DATA } from "@/data/InfoData";
 const MYTH = INFO_DATA.find((c) => c.id === "02");
 const CARDS = MYTH?.works ?? [];
 
+// Фольклорная карта живёт отдельным приложением (репозиторий komi-map).
+// В разработке подменяется через NEXT_PUBLIC_MAP_URL=http://localhost:8936
+const MAP_URL = process.env.NEXT_PUBLIC_MAP_URL || "https://map.komi.world";
+
 function splitTitle(title) {
   const [main, sub] = title.split("\n");
   return { main: main?.trim(), sub: sub?.trim() };
@@ -24,6 +28,9 @@ function MythologyMobile() {
         <p className={styles.mobileLead}>
           Пантеон богов, духи стихий и герои коми-зырянских сказаний.
         </p>
+        <a className={styles.mapLink} href={MAP_URL}>
+          Открыть карту преданий →
+        </a>
       </header>
 
       <div className={styles.mobileList}>
@@ -57,6 +64,7 @@ function MythologyDesktop() {
   const titleRef    = useRef(null);
   const leadRef     = useRef(null);
   const lineRef     = useRef(null);
+  const mapLinkRef  = useRef(null);
   const colRefs     = useRef([]);
 
   const [activeIndex, setActiveIndex] = useState(null);
@@ -73,6 +81,7 @@ function MythologyDesktop() {
       gsap.set(lineRef.current,    { scaleX: 0, transformOrigin: "left center" });
       gsap.set(titleRef.current.children, { yPercent: 110, opacity: 0 });
       gsap.set(leadRef.current,    { opacity: 0, y: 14 });
+      gsap.set(mapLinkRef.current, { opacity: 0, y: 14 });
       gsap.set(colRefs.current,    { opacity: 0, y: 28 });
 
       gsap.timeline({
@@ -84,6 +93,7 @@ function MythologyDesktop() {
           yPercent: 0, opacity: 1, stagger: 0.06, duration: 0.7, ease: "power4.out",
         }, "-=0.4")
         .to(leadRef.current, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.45")
+        .to(mapLinkRef.current, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.35")
         .to(colRefs.current, {
           opacity: 1, y: 0, stagger: 0.05, duration: 0.6, ease: "power3.out",
         }, "-=0.3");
@@ -110,6 +120,9 @@ function MythologyDesktop() {
           Пантеон богов, духи стихий и герои коми-зырянских сказаний — наведите
           курсор, чтобы открыть раздел.
         </p>
+        <a className={styles.mapLink} href={MAP_URL} ref={mapLinkRef}>
+          Открыть карту преданий →
+        </a>
       </header>
 
       <div className={styles.columns}>
