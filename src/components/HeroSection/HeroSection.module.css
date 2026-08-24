@@ -198,6 +198,7 @@
   transition:
     stroke-opacity 0.3s ease,
     fill 0.3s ease,
+    fill-opacity 0.3s ease,
     filter 0.3s ease,
     transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -208,6 +209,22 @@
   filter: drop-shadow(0 0 14px rgba(107, 158, 255, 0.9));
   transform: scale(1.035);
   cursor: pointer;
+}
+
+/*
+  Районы с настоящим флагом: флаг залит паттерном через inline-style
+  (KomiMap.jsx), поэтому fill из :hover выше их не перекрашивает.
+  В покое флаг приглушён до полупрозрачного намёка — чтобы не спорить
+  с «призрачной» эстетикой карты, — а при наведении расцветает.
+*/
+.mapSvg path[data-district][data-has-flag] {
+  fill-opacity: 0.42;
+  stroke-opacity: 0.38;
+}
+
+.mapSvg path[data-district][data-has-flag]:hover {
+  fill-opacity: 1;
+  stroke-opacity: 1;
 }
 
 /* ─── MAP TITLE ───────────────────────────────────────────── */
