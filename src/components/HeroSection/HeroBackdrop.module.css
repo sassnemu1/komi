@@ -78,16 +78,6 @@
 .driftShade { fill: rgba(120, 150, 190, 0.16); }
 .driftLight { fill: rgba(255, 255, 255, 0.55); }
 
-/* Стадо на кромке снега */
-.herd {
-  left: 7%;
-  width: 44%;
-  top: 60.5%;
-  height: 6.5%;
-  color: rgba(8, 16, 40, 0.88);
-  will-change: transform;
-}
-
 /* Передний сугроб — самый быстрый слой параллакса */
 .bank {
   left: -4%;
@@ -253,7 +243,6 @@
 
 @media (max-width: 767px) {
   .photo :global(img) { object-position: 60% 42%; }
-  .herd { left: 4%; width: 70%; top: 61.5%; height: 5%; }
   .moon { width: 40px; height: 40px; right: 12%; top: 11%; }
   .frost { width: 44px; height: 44px; }
   .frostTL { left: 16px; top: 16px; }

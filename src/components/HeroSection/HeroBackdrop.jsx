@@ -83,33 +83,6 @@ const STARS = (() => {
   }));
 })();
 
-// Северный олень: силуэт из примитивов (тело, шея, голова, рога, ноги) —
-// на снежной кромке читается как стадо, деталей на 40 px не нужно.
-function Reindeer({ x, scale = 1, flip = false }) {
-  return (
-    <g transform={`translate(${x} 0) scale(${flip ? -scale : scale} ${scale}) ${flip ? "translate(-120 0)" : ""}`} fill="currentColor" stroke="currentColor">
-      <ellipse cx="55" cy="44" rx="26" ry="13" stroke="none" />
-      <polygon points="74,36 84,18 93,21 84,42" stroke="none" />
-      <ellipse cx="93" cy="19" rx="9" ry="5.5" transform="rotate(-14 93 19)" stroke="none" />
-      <circle cx="102" cy="22" r="3" stroke="none" />
-      <path d="M90 14 L86 3 M86 3 L79 1 M88 8 L82 5 M95 14 L99 2 M99 2 L106 1 M97 8 L103 6" fill="none" strokeWidth="1.8" strokeLinecap="round" />
-      <polygon points="30,37 24,34 27,41" stroke="none" />
-      <polygon points="36,52 39,52 37,78 33,78" stroke="none" />
-      <polygon points="42,53 45,53 47,78 43,78" stroke="none" />
-      <polygon points="68,53 71,53 74,78 70,78" stroke="none" />
-      <polygon points="74,52 77,52 81,78 77,78" stroke="none" />
-    </g>
-  );
-}
-
-const HERD = [
-  { x: 0, scale: 0.85 },
-  { x: 120, scale: 1 },
-  { x: 250, scale: 0.7, flip: true },
-  { x: 330, scale: 0.95 },
-  { x: 470, scale: 0.8 },
-];
-
 // Снежинка для углов рамки: шесть лучей с веточками
 function Snowflake({ className }) {
   return (
@@ -173,10 +146,7 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
         <path className={styles.driftLight} d="M0,250 C220,226 380,272 560,246 C740,220 900,268 1100,242 C1260,222 1360,254 1440,240 L1440,300 L0,300 Z" />
       </svg>
 
-      {/* Стадо оленей на снежной кромке и сугроб на переднем плане */}
-      <svg className={styles.herd} data-depth="22" data-layer="trees" viewBox="0 0 600 80" preserveAspectRatio="xMidYMax meet">
-        {HERD.map((d, i) => <Reindeer key={i} {...d} />)}
-      </svg>
+      {/* Сугроб на переднем плане */}
       <svg className={styles.bank} data-depth="34" data-layer="trees" viewBox="0 0 1440 160" preserveAspectRatio="none">
         <path d="M0,90 C180,50 320,120 520,84 C700,52 860,118 1040,86 C1220,56 1340,96 1440,74 L1440,160 L0,160 Z" />
       </svg>
