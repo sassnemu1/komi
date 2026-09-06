@@ -1,0 +1,193 @@
+/* ─── HOLDING — кто строит komi.world ─────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  background: #07070a;
+  padding: clamp(80px, 11vh, 128px) 0;
+  overflow: hidden;
+}
+
+/* Плитка орнамента коми — тонкой сеткой, как в подвале (маска SVG) */
+.texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.035);
+  -webkit-mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
+  mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
+  -webkit-mask-size: 260px auto;
+  mask-size: 260px auto;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+}
+
+.inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 30px 26px;
+  border-radius: 18px;
+  background: #0e0e12;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover { border-color: rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
+
+.cardWash {
+  position: absolute;
+  inset: 0;
+  background: var(--card-bg);
+  opacity: 0.22;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover .cardWash { opacity: 0.32; }
+
+/* Тонкая цветная линия сверху — код части */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 0;
+  height: 2px;
+  background: var(--card-bg);
+  opacity: 0.9;
+}
+
+.cardHead,
+.cardTitle,
+.cardDesc,
+.facts,
+.cardLink { position: relative; }
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.cardIdx {
+  font-family: var(--font-bold);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.cardCat {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.4vw, 2.3rem);
+  line-height: 1;
+  color: #fff;
+  margin: 0 0 14px;
+}
+
+.cardDesc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+}
+
+.facts {
+  margin: 20px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 14px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.factLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  padding-top: 2px;
+}
+
+.factValue {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.cardLink {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 22px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.cardLink span {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardLink:hover span { transform: translate(3px, -2px); }
+
+.note {
+  margin: clamp(32px, 4vw, 48px) 0 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.noteLink {
+  color: rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; gap: 12px; }
+  .card { padding: 22px 20px 22px; }
+  .card::before { left: 20px; right: 20px; }
+  .fact { grid-template-columns: 96px minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .cardWash, .cardLink span { transition: none; }
+  .card:hover { transform: none; }
+}

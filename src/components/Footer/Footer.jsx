@@ -13,27 +13,34 @@ const SECTIONS = [
   { href: "#made-in-komi", label: "Сделано в Коми" },
   { href: "#transport",    label: "Аренда транспорта" },
   { href: "#taxi",         label: "Такси" },
+  { href: "#holding",      label: "Холдинг" },
 ];
 
-// Бренды холдинга (по README УК «Велес И К»). Сайтов у брендов нет — без ссылок.
+const VELES_URL = "https://veles-site-kiselev.vercel.app";
+const YORAN_URL = "https://yoran-web.vercel.app";
+
+// Бренды холдинга (по README УК «Велес И К»). Ссылки — на страницы
+// брендов сайта завода «Велес» и сайт YÖRAN; у остальных сайтов нет.
 const BRANDS = [
-  "ПАРМА",
-  "A-Live",
-  "L'ESSENCE",
-  "Нянь Мунам",
-  "Корни Пармы",
-  "Ёр Лайна",
-  "Зарни",
-  "YÖRAN",
+  { label: "ПАРМА",       href: `${VELES_URL}/parma.html` },
+  { label: "A-Live",      href: `${VELES_URL}/a-live.html` },
+  { label: "L'ESSENCE",   href: `${VELES_URL}/l-essence.html` },
+  { label: "Нянь Мунам" },
+  { label: "Корни Пармы" },
+  { label: "Ёр Лайна" },
+  { label: "Зарни" },
+  { label: "YÖRAN",       href: `${YORAN_URL}/` },
 ];
 
-// Проекты экосистемы. Живая ссылка есть только у карты преданий.
+// Проекты экосистемы. Живые ссылки — карта преданий и сайты завода и YÖRAN.
 const PROJECTS = [
   { label: "Карта преданий", href: MAP_URL, external: true },
-  { label: "Коридор Якша — Маньпупунёр" },
-  { label: "Taiga Taxi" },
-  { label: "Taigarenda" },
-  { label: "Camping.Komi" },
+  { label: "Завод напитков «Велес»", href: `${VELES_URL}/`, external: true },
+  { label: "YÖRAN Sever Technologies", href: `${YORAN_URL}/`, external: true },
+  { label: "Коридор Якша — Маньпупунёр", href: "#experiences" },
+  { label: "Taiga Taxi", href: "#taxi" },
+  { label: "Taigarenda", href: "#transport" },
+  { label: "Camping.Komi", href: "#camping" },
 ];
 
 export default function Footer() {
@@ -70,9 +77,17 @@ export default function Footer() {
           <div className={styles.col}>
             <h3 className={styles.colTitle}>Бренды</h3>
             <ul className={styles.list}>
-              {BRANDS.map((b) => (
-                <li key={b} className={styles.plain}>{b}</li>
-              ))}
+              {BRANDS.map((b) =>
+                b.href ? (
+                  <li key={b.label}>
+                    <a href={b.href} className={styles.link} target="_blank" rel="noopener noreferrer">
+                      {b.label} <span aria-hidden="true">↗</span>
+                    </a>
+                  </li>
+                ) : (
+                  <li key={b.label} className={styles.plain}>{b.label}</li>
+                )
+              )}
             </ul>
           </div>
 

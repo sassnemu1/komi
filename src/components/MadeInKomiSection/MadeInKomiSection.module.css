@@ -12,6 +12,42 @@
   padding: 0 clamp(20px, 5vw, 48px);
 }
 
+/* ─── Строка цифр под заголовком ──────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 clamp(20px, 3vw, 40px);
+  margin: calc(-1 * clamp(16px, 2vw, 28px)) 0 clamp(44px, 6vw, 72px);
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse; /* цифра сверху, подпись снизу; в DOM — наоборот, для dl */
+  gap: 8px;
+  padding: 22px 0 0;
+  border-top: 1px solid transparent;
+}
+
+.statValue {
+  font-family: var(--font-bold);
+  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+  color: #fff;
+  margin: 0;
+}
+
+.statLabel {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 220px;
+}
+
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(360px, 0.85fr);
@@ -212,12 +248,85 @@
   margin: 0;
 }
 
+/* ─── Ступени линейки (YÖRAN) ──────────────────────────────────── */
+.lineup {
+  position: relative;
+  margin-top: 22px;
+}
+
+.lineupTitle {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 10px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-areas: "num name year" "num type year";
+  column-gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stepNum {
+  grid-area: num;
+  font-family: var(--font-bold);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.stepName {
+  grid-area: name;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1;
+  color: #fff;
+}
+
+.stepType {
+  grid-area: type;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 3px;
+}
+
+.stepYear {
+  grid-area: year;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+}
+
 .dossierFoot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   margin-top: 22px;
+}
+
+.dossierLinks {
+  margin-left: auto;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
 }
 
 .chip {
@@ -232,7 +341,6 @@
 }
 
 .dossierLink {
-  margin-left: auto;
   font-family: var(--font-body);
   font-size: 10px;
   letter-spacing: 0.14em;
@@ -244,6 +352,9 @@
 
 /* ─── RESPONSIVE ───────────────────────────────────────────────── */
 @media (max-width: 900px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+  .stat { padding-top: 18px; }
+  .statValue { font-size: 2.1rem; }
   .layout { grid-template-columns: 1fr; }
   .panel { display: none; }
   .inline { display: block; padding: 4px 0 18px; }

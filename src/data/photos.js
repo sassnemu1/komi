@@ -6,17 +6,6 @@
 // pos — object-position для кадров, где центр обрезает сюжет.
 
 export const PHOTOS = {
-  "hero-manpupuner": {
-    "pos": "center 58%",
-    "src": "/photos/hero-manpupuner.jpg",
-    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAALABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAQL/xAAVAQEBAAAAAAAAAAAAAAAAAAACAf/aAAwDAQACEAMQAAAAxShxVIGRj//EACAQAAEDAwUBAAAAAAAAAAAAAAEAAgMREiEEIjJBgZP/2gAIAQEAAT8AfLA/gdR8ipIq5F/rVLGbG0Ye64TpH7coklPJX//EABgRAQEAAwAAAAAAAAAAAAAAAAEAERJB/9oACAECAQE/AMp22S//xAAXEQADAQAAAAAAAAAAAAAAAAAAAQIS/9oACAEDAQE/AMSzEs//2Q==",
-    "alt": "Плато Маньпупунёр зимой на закате, Троицко-Печорский район",
-    "author": "Алексей Романов",
-    "license": "CC BY-SA 4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%B0%D0%BD%D1%8C%D0%9F%D1%83%D0%BF%D1%83%D0%BD%D1%91%D1%80_%D0%B2%D0%B5%D1%87%D0%B5%D1%80_1.jpg",
-    "w": 4724,
-    "h": 2185
-  },
   "manpupuner-aurora": {
     "pos": "62% center",
     "src": "/photos/manpupuner-aurora.jpg",

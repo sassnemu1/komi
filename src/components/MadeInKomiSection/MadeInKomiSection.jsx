@@ -27,6 +27,23 @@ function Dossier({ work, index }) {
       <h3 className={styles.dossierName}>{work.title}</h3>
       {work.desc && <p className={styles.dossierDesc}>{work.desc}</p>}
 
+      {/* Ступени линейки (YÖRAN): римский номер, имя из эпоса, тип, срок */}
+      {work.lineup?.length > 0 && (
+        <div className={styles.lineup}>
+          {work.lineupTitle && <span className={styles.lineupTitle}>{work.lineupTitle}</span>}
+          <ol className={styles.steps}>
+            {work.lineup.map((m) => (
+              <li className={styles.step} key={m.step}>
+                <span className={styles.stepNum}>{m.step}</span>
+                <span className={styles.stepName}>{m.name}</span>
+                <span className={styles.stepType}>{m.type}</span>
+                <span className={styles.stepYear}>{m.year}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
+
       {facts.length > 0 && (
         <dl className={styles.facts}>
           {facts.map(([label, value]) => (
@@ -41,11 +58,18 @@ function Dossier({ work, index }) {
       <div className={styles.dossierFoot}>
         {work.location && <span className={styles.chip}>{work.location}</span>}
         {work.badge && <span className={styles.chip}>{work.badge}</span>}
-        {work.href && (
-          <a className={styles.dossierLink} href={work.href} target="_blank" rel="noopener noreferrer">
-            Читать на карте преданий <span aria-hidden="true">↗</span>
-          </a>
-        )}
+        <span className={styles.dossierLinks}>
+          {work.href && (
+            <a className={styles.dossierLink} href={work.href} target="_blank" rel="noopener noreferrer">
+              Читать на карте преданий <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {work.site && (
+            <a className={styles.dossierLink} href={work.site.href} target="_blank" rel="noopener noreferrer">
+              {work.site.label} <span aria-hidden="true">↗</span>
+            </a>
+          )}
+        </span>
       </div>
     </div>
   );
@@ -71,6 +95,18 @@ export default function MadeInKomiSection() {
           title={"Сделано\nв Коми"}
           lead={DATA.desc}
         />
+
+        {/* Строка цифр: README холдинга + сайты завода «Велес» и YÖRAN */}
+        {DATA.stats?.length > 0 && (
+          <dl className={styles.stats}>
+            {DATA.stats.map((s) => (
+              <div className={styles.stat} key={s.label} data-reveal>
+                <dt className={styles.statLabel}>{s.label}</dt>
+                <dd className={styles.statValue}>{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
         <div className={styles.layout}>
           <ol className={styles.index} aria-label="Бренды холдинга">

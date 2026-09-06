@@ -11,10 +11,12 @@ import CampingSection from "@/components/CampingSection/CampingSection";
 import MadeInKomiSection from "@/components/MadeInKomiSection/MadeInKomiSection";
 import CarRental from "@/components/CarRental/CarRental";
 import TaxiSection from "@/components/TaxiSection/TaxiSection";
+import HoldingSection from "@/components/HoldingSection/HoldingSection";
 
 // Порядок глав. Якоря секции ставят сами:
 // #hero (#map — стадия карты) → #mythology → #landmarks → #stay →
-// #experiences → #camping → #made-in-komi → #transport → #taxi → #contacts
+// #experiences → #camping → #made-in-komi → #transport → #taxi → #holding →
+// #contacts
 // Между главами — фото-интерлюдии (Wikimedia Commons, авторы в подвале).
 export default function Home() {
   return (
@@ -57,6 +59,7 @@ export default function Home() {
 
         <CarRental />
         <TaxiSection videoSrc="/video-komi-taxi.mp4" />
+        <HoldingSection />
       </main>
 
       <Footer />
