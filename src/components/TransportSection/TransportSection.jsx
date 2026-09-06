@@ -55,7 +55,6 @@ function Stage({ idx, touch }) {
                   quality={78}
                   placeholder={p.blur ? "blur" : "empty"}
                   blurDataURL={p.blur}
-                  priority={i === 0}
                 />
               </div>
             </div>
@@ -163,6 +162,7 @@ function TaxiPanel({ onShow, lit }) {
         aria-hidden="true"
       />
       <div className={styles.panelWash} aria-hidden="true" />
+      <span className={styles.panelChip}>Визуализация</span>
       <div className={styles.panelTop}>
         <span className={styles.panelLabel}>YÖRAN Taxi</span>
         <span className={styles.panelEyebrow}>Taiga Taxi · сервис холдинга «Велес И К»</span>
@@ -206,6 +206,7 @@ function RentalPanel({ onShow }) {
         <Image src={map.src} alt="" fill sizes="(max-width: 900px) 100vw, 50vw" quality={72} placeholder="blur" blurDataURL={map.blur} />
       </div>
       <div className={styles.panelWash} aria-hidden="true" />
+      <span className={styles.panelChip}>Визуализация</span>
       <div className={styles.panelTop}>
         <span className={styles.panelLabel}>YÖRAN Прокат</span>
         <span className={styles.panelEyebrow}>Taigarenda · сервис проката холдинга</span>
@@ -233,6 +234,7 @@ function RentalPanel({ onShow }) {
           <dd><span className={styles.rentMachine}>по запросу через контакты</span></dd>
         </div>
       </dl>
+      <p className={styles.rentNoteFoot}>Справа — какая машина плановой линейки YÖRAN отвечает классу; это соответствие с планом, а не сегодняшний парк.</p>
 
       <div className={styles.skyview}>
         <div className={styles.inset}>
@@ -305,6 +307,9 @@ export default function TransportSection() {
       pin: true,
       pinSpacing: true,
       scrub: true,
+      // См. LandmarksSection: сортировка триггеров по положению в документе
+      refreshPriority: 0,
+      invalidateOnRefresh: true,
       onUpdate: (self) => {
         const p = self.progress;
         if (fillRef.current) gsap.set(fillRef.current, { scaleX: p });
@@ -312,6 +317,8 @@ export default function TransportSection() {
       },
     });
     pinRef.current = st;
+    // Секции выше могли добавить свои пины после нашего измерения — пересчёт
+    ScrollTrigger.refresh();
     return () => { st.kill(); pinRef.current = null; };
   }, [gsap, ScrollTrigger, mode, setIdx]);
 
@@ -389,7 +396,7 @@ export default function TransportSection() {
         <div className={styles.garage} ref={garageRef} data-garage data-mode={mode}>
           <div className={styles.garageMain}>
             {mode === "mobile" ? (
-              <div className={styles.rail} ref={railRef}>
+              <div className={styles.rail} ref={railRef} id="garage-stage" role="tabpanel" aria-labelledby={`garage-tab-${idx}`}>
                 {MACHINES.map((mm, i) => {
                   const p = photoOf(mm);
                   return (
@@ -414,13 +421,14 @@ export default function TransportSection() {
               <Stage idx={idx} touch={touch} />
             )}
 
-            {/* Полоса ступеней */}
+            {/* Полоса ступеней; хвост «→ Такси» — вне tablist */}
+            <div className={styles.stripWrap}>
+            <a className={styles.stripTail} href="#taxi" onMouseEnter={() => setLit(true)} onMouseLeave={() => setLit(false)} onFocus={() => setLit(true)} onBlur={() => setLit(false)}>
+              → Такси
+            </a>
             <div className={styles.strip} role="tablist" aria-label="Ступени линейки YÖRAN">
               <span className={styles.stripFill} ref={fillRef} aria-hidden="true" />
               <span className={styles.stripMark} style={{ left: `${((idx + 0.5) / STEPS) * 100}%` }} aria-hidden="true" />
-              <a className={styles.stripTail} href="#taxi" onMouseEnter={() => setLit(true)} onMouseLeave={() => setLit(false)} onFocus={() => setLit(true)} onBlur={() => setLit(false)}>
-                → Такси
-              </a>
               {MACHINES.map((mm, i) => {
                 const p = photoOf(mm);
                 const state = i === idx ? styles.stepActive : i < idx ? styles.stepPast : styles.stepFuture;
@@ -447,6 +455,7 @@ export default function TransportSection() {
                   </button>
                 );
               })}
+            </div>
             </div>
           </div>
 

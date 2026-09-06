@@ -188,7 +188,7 @@ function Drawer({ work, index, onClose, narrow, gsap, ScrollTrigger }) {
                 <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 900px) 92vw, 480px" quality={76} className={styles.contain} />
               </div>
               <div className={styles.stageReflect} aria-hidden="true">
-                <Image src={photo.src} alt="" fill sizes="(max-width: 900px) 92vw, 480px" quality={72} className={styles.contain} />
+                <Image src={photo.src} alt="" fill sizes="(max-width: 900px) 92vw, 480px" quality={76} className={styles.contain} />
               </div>
               <span className={styles.stageLine} aria-hidden="true" />
               <span className={styles.stageCaption}>{photo.caption}</span>
@@ -297,7 +297,15 @@ export default function MadeInKomiSection() {
     });
   }, []);
 
-  const close = useCallback(() => { setActive(null); setLive("Досье закрыто"); }, []);
+  const close = useCallback(() => {
+    setActive((cur) => {
+      // Фокус — назад на плитку, которая открыла ящик
+      const tile = cur !== null ? document.querySelectorAll("#made-in-komi button[aria-controls=madein-drawer]")[cur] : null;
+      if (tile) requestAnimationFrame(() => tile.focus());
+      return null;
+    });
+    setLive("Досье закрыто");
+  }, []);
 
   if (!DATA) return null;
   const works = DATA.works;

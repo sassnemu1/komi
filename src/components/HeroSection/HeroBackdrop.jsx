@@ -74,11 +74,23 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
       </div>
 
       {/* Лес — три плана иллюстраций с прозрачным фоном */}
-      {FOREST.map((f) => (
-        <div className={`${styles.forest} ${styles[`forest_${f.key}`]}`} data-depth={f.depth} data-layer="trees" key={f.key}>
-          <Image src={f.src} alt={f.alt} fill sizes="110vw" quality={78} priority={f.key === "mid"} />
-        </div>
-      ))}
+      {FOREST.map((f) => {
+        const p = PHOTOS[`forest-${f.key}`];
+        return (
+          <div className={`${styles.forest} ${styles[`forest_${f.key}`]}`} data-depth={f.depth} data-layer="trees" key={f.key}>
+            <Image
+              src={f.src}
+              alt={f.alt}
+              fill
+              sizes="110vw"
+              quality={78}
+              priority={f.key === "mid"}
+              placeholder={p?.blur ? "blur" : "empty"}
+              blurDataURL={p?.blur}
+            />
+          </div>
+        );
+      })}
 
       {/* Флаг — полупрозрачные полосы поверх сцены */}
       <div className={styles.flag}>

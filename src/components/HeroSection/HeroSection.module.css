@@ -421,6 +421,45 @@
   transform: translateY(-50%) translateX(0) scale(1);
 }
 
+/* ─── ДО JS: фолбэк на scroll-timeline ─────────────────── */
+/*
+  Пока не пришёл JS (медленная сеть), рельса hero всё равно 400vh, и без
+  хореографии карта никогда не появится. В браузерах со scroll-timeline
+  заголовок виден сразу, а карта проявляется по скроллу средствами CSS;
+  как только GSAP создаёт свой таймлайн, .jsReady отключает фолбэк.
+*/
+@supports (animation-timeline: scroll()) {
+  .sticky:not(.jsReady) .letter,
+  .sticky:not(.jsReady) .titleBottom,
+  .sticky:not(.jsReady) .tagline,
+  .sticky:not(.jsReady) .scrollCue { opacity: 1; }
+
+  .sticky:not(.jsReady) .titleWrap {
+    animation: cssTitleOut linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 1200px;
+  }
+
+  .sticky:not(.jsReady) .mapWrap {
+    pointer-events: auto;
+    animation: cssMapIn linear both;
+    animation-timeline: scroll(root);
+    animation-range: 1150px 2400px;
+  }
+}
+
+@keyframes cssTitleOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-60px); }
+}
+
+@keyframes cssMapIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: none; }
+}
+
+.jsReady { /* маркер: хореографией управляет GSAP */ }
+
 /* ─── REDUCED MOTION ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .scrollCueLine { animation: none; }

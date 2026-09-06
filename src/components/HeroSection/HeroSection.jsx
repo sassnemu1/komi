@@ -184,8 +184,14 @@ export default function HeroSection() {
     gsap.set(mapWrap,                { opacity: 0, scale: 0.88, transformOrigin: "50% 50%" });
     if (mapAside.length) gsap.set(mapAside, { opacity: 0, x: -16 });
 
+    // CSS-фолбэк до JS отключаем: дальше хореографией управляет GSAP
+    sticky?.classList.add(styles.jsReady);
+
     const scrollY         = window.scrollY;
-    const shouldPlayIntro = scrollY < 100 && !reduced;
+    // Интро играем, только если JS пришёл быстро: после долгой загрузки
+    // заголовок уже виден (CSS-фолбэк), и заново его прятать — вспышка.
+    const lateHydration   = performance.now() > 2500;
+    const shouldPlayIntro = scrollY < 100 && !reduced && !lateHydration;
 
     const createScrollTL = () => {
       if (scrollTLRef.current) return;

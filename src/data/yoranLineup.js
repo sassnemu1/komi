@@ -13,7 +13,7 @@ export const MACHINES = [
   { step: 2, roman: "II",  name: "Ош",      type: "Квадроцикл ATV",         year: "2029–2030", element: "земля",      photo: "yoran-atv-w" },
   { step: 3, roman: "III", name: "Йиркап",  type: "Снегоход",               year: "2030",      element: "снег",       photo: "yoran-snow-w",
     lore: { id: "yirkap", gloss: "Охотник на волшебных лыжах, догнавший голубого оленя — предание Синдорского озера." },
-    eco: "Зимний сезон фуникулёра «Якша Skyview» планируется на снегоходах YÖRAN; снегоходы Taigarenda — ноябрь–апрель." },
+    eco: "Зимний сезон фуникулёра «Якша Skyview» планируется на снегоходах YÖRAN." },
   { step: 4, roman: "IV",  name: "Яг-Морт", type: "Болотоход-амфибия 6×6",  year: "2031–2032", element: "болото",     photo: "yoran-swamp-w",
     lore: { id: "yag-mort", gloss: "«Лесной (боровой) человек» — лесной великан с реки Куча." } },
   { step: 5, roman: "V",   name: "Пера",    type: "Мотоцикл эндуро",        year: "2032",      element: "бездорожье", photo: "yoran-moto-w",
@@ -29,7 +29,7 @@ export const MACHINE_BY_STEP = Object.fromEntries(MACHINES.map((m) => [m.step, m
 // Классы проката Taigarenda ↔ планируемая машина линейки (только сопоставление
 // с планом, не обещание парка).
 export const RENTAL_MAP = [
-  { label: "Снегоходы",            note: "ноябрь–апрель",  step: 3 },
+  { label: "Снегоходы",            note: "зимние маршруты", step: 3 },
   { label: "Вездеходы",            note: "болота и бездорожье", step: 4 },
   { label: "Внедорожники и ATV",   note: "тайга",          step: 2 },
 ];

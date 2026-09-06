@@ -10,7 +10,7 @@ import ScrollRestore from "@/components/ScrollRestore/ScrollRestore";
 const fontDisplay = Ponomar({ subsets: ["cyrillic", "latin"], weight: "400", variable: "--font-display-next", display: "swap", adjustFontFallback: false });
 const fontBold = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bold-next", display: "swap" });
 const fontTitle = Manrope({ subsets: ["cyrillic", "latin"], weight: ["700", "800"], variable: "--font-title-next", display: "swap" });
-const fontBody = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "700"], variable: "--font-body-next", display: "swap" });
+const fontBody = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-body-next", display: "swap" });
 
 const SITE = "https://komi.world";
 const MAP_URL = "https://map.komi.world";

@@ -142,6 +142,11 @@ function LandmarksDesktop() {
         end: `+=${PIN_DISTANCE}`,
         pin: true,
         pinSpacing: true,
+        // refreshPriority включает сортировку триггеров по позиции в
+        // документе: чанки секций гидрируются в произвольном порядке, а
+        // GSAP учитывает pin-spacer соседей только для триггеров выше по
+        // списку. Без этого пин ниже по странице «паркуется» на 2900px раньше.
+        refreshPriority: 1,
       });
 
       const N = STOPS.length;

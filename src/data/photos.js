@@ -10,9 +10,52 @@
 // словом «визуализация», а продуктовые фото завода — нет.
 
 export const PHOTOS = {
+  "forest-far": {
+    "own": true,
+    "render": true,
+    "decor": true,
+    "src": "/photos/forest-far.webp",
+    "blur": "data:image/webp;base64,UklGRuQAAABXRUJQVlA4WAoAAAAQAAAAFwAADwAAQUxQSGAAAAARb6C2kaQ2+Ln3D0REREDGy+Xim18RbGvblnE/CpiHUCydChCqwFKCJRJKtaAHerB04FXw/mvHXEBE/ycAP2+eimGbQGIBdtY5U2P4VarseT1GprZe+nJgLSJCpPeN5bVWUDggXgAAANADAJ0BKhgAEAA+0VqkTCglI6IwCAEAGgllAAPjAg35xtpK+BpWwAD+93JEO7I5KYTsrSV5+eIEedivO42XUp+f07qd1ITIN9It6Btvu2rfrSdyp//Ox5MyTKwAAAA=",
+    "alt": "",
+    "caption": "",
+    "author": "материалы заказчика",
+    "license": "иллюстрация",
+    "page": "",
+    "w": 1440,
+    "h": 960
+  },
+  "forest-mid": {
+    "own": true,
+    "render": true,
+    "decor": true,
+    "src": "/photos/forest-mid.webp",
+    "blur": "data:image/webp;base64,UklGRv4AAABXRUJQVlA4WAoAAAAQAAAAFwAADwAAQUxQSHoAAAARb6CgbSQUvwBmiIgAPf6MI+xehtNa257m+38WwHFwHYXmICFZJLL3ukR0bJdVE3S6ikt4p6FvENH/CaDCxUx9loFfeBqTb06aZf/r1SSv1UawTFBW4QEIeKz2/XyAj8WIaPBDvCkQGfsoIZS4Nn8geeGOrlEKDk+UC1ZQOCBeAAAA0AMAnQEqGAAQAD7RVqNLqCSjIbAIAQAaCWdg61NAE3sm+3L0uIGQAP7wt/JPI9irXtTfDb8dZHObOrtNsWLkc0Rz6n3Hr12UwxY5oMWh2o6KM9MpXLknrzwAlQAAAA==",
+    "alt": "",
+    "caption": "",
+    "author": "материалы заказчика",
+    "license": "иллюстрация",
+    "page": "",
+    "w": 1440,
+    "h": 960
+  },
+  "forest-near": {
+    "own": true,
+    "render": true,
+    "decor": true,
+    "src": "/photos/forest-near.webp",
+    "blur": "data:image/webp;base64,UklGRuoAAABXRUJQVlA4WAoAAAAQAAAAFwAADwAAQUxQSIYAAAARb6AgbQMWzsJfRARqy3Gq03Baa9ubpCcyoYPC4jjYDgomaJYFqmoKHBaHQrYNkt+mZwLyTvOXGSL6PwG2JChvRKovhddc+YbAM2rx2p94JvNcdypxr2myUjlrL79bnMPfSxss+5Mj6bI6P4BcFMY8BUAqjDcAZCvHlkaThAI53gqPAPwMNFZQOCA+AAAAMAMAnQEqGAAQAD7RVKNLsCSjIbAIAgAaCWUAAHrRTFoaAAD+8fXrmxGeKY3wWqCIsNjm+QCQYcenKLgAAAA=",
+    "alt": "",
+    "caption": "",
+    "author": "материалы заказчика",
+    "license": "иллюстрация",
+    "page": "",
+    "w": 1440,
+    "h": 960
+  },
   "veles-alive-cut3": {
     "own": true,
     "src": "/photos/veles-alive-cut3.webp",
+    "blur": "data:image/webp;base64,UklGRg4BAABXRUJQVlA4WAoAAAAQAAAAFwAADQAAQUxQSEsAAAARZ6CokSQ1t1+GYxJwEREg7+Mt8zq9Aja1tTf50gtVAmu8xBYecrJTlbTPFTN7RP/jPNV4nA7LmUDaiWxwMf/8/d6MUtVYqsN8JAAAVlA4IJwAAABQBACdASoYAA4APtFUo0uoJKMhsAgBABoJbACw7ywTmAiOFZvWgw/RProAAPhMtZez+s3mtkJsAHLV8WIxq/TcKefbOxvB07Dh5cMlItPufRr0Qi2s6iPPfk/EjL0hfPXv+k3e50STJzVTUYkAN80KGnuaM5iJ393a9cNv+BVhDFemW+H2jMPWsae/Fp3Q/muEwfFGCyhv+NAJAAA=",
     "alt": "Три банки безалкогольных мохито A-Live (вырезка на прозрачном фоне)",
     "caption": "Продукция · завод «Велес»",
     "author": "Завод «Велес»",
@@ -50,6 +93,7 @@ export const PHOTOS = {
   "veles-parma-cut": {
     "own": true,
     "src": "/photos/veles-parma-cut.webp",
+    "blur": "data:image/webp;base64,UklGRuQBAABXRUJQVlA4WAoAAAAQAAAAFwAAFAAAQUxQSJwAAAARb6CgbRsWF8LbjYjAsDL+lEcCnNq2lkcnzFClTsuJARKAEvjrAgbIAPc8NRkgA8x01QxUIyCi/8GRDVZ2yMbgxQ1PXhhM/6pP4dUDzz4YrOHNCy9+mBzDuw9eA7A4h88AvKfg7JqiukQ1hCc5drpmIln4kO9esp1J9rCUupfsV5IjKuXuJdt3+L84/ywV/9KXlGsYY6+ZjjHGRABWUDggIgEAAPAFAJ0BKhgAFQA+0WCpT6glI6IoCAEAGglsAJ0y4iq0JWfgOLlwMGekRWkPilmDCb0+D/e8+7oAAP67MZ1lWG4w8lC8hybSYBGsoXRL62kNxtnPnCB/8l2tFrqljTBZpnntJr2Kx7F1sF6BzUvsDlL4/QlgyDBe73NZ7nnQ9aBrKELPbivFDX5Z4c2O09Y9+Dw4kSv7lN2NN4Vw04S0tifevmqSdgpVWj1mEqW+4fDwYj+DQDAMAcIOa+Gf1FxhHepbGi/4CEPOIS/vP/0F+j6+IonKWBD+gR15eBb9slxWZfOYuQUXTR6vZeHf4yIn+MpphSOtA28n8v2wTxvpN1Nm0ZmHhcWeQZuLfgorWEa/td3w0u398R+fpSeZw99FEwAA",
     "alt": "Три бутылки медовухи ПАРМА — Пера, Войпель, Зарни Ань (вырезка на прозрачном фоне)",
     "caption": "Продукция · завод «Велес»",
     "author": "Завод «Велес»",
@@ -61,6 +105,7 @@ export const PHOTOS = {
   "veles-alive-cut": {
     "own": true,
     "src": "/photos/veles-alive-cut.webp",
+    "blur": "data:image/webp;base64,UklGRgYBAABXRUJQVlA4WAoAAAAQAAAAFwAABwAAQUxQSE8AAAARZ6C2jSQ1dxE8M8YcEQHyB1dwrjrkBJta25b8hkbgEObf0SC6ewBS2MTmNro1o0BE/2MSa58ubKd4C3rlNTU/7rSSD/87SZlPZ7ZUvAoBAFZQOCCQAAAAEAQAnQEqGAAIAD7RVqNLqCSjIbAIAQAaCWwAnTKEcAAeZlRtl/q69gAA/k7DMVRjk3MTs+4C/rICyRlPNNTMhdpCPYH+XtBifhmof5pHNe1CdKMyHbJD1a8DqYwCrvglyGBb0ogXlnsVO2P842R8BDftjTXmDZayUQVNfijz+Pfk3k2o8euWpAAWiyEh6MgA",
     "alt": "Пять банок безалкогольных мохито A-Live (вырезка на прозрачном фоне)",
     "caption": "Продукция · завод «Велес»",
     "author": "Завод «Велес»",

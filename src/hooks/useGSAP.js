@@ -1,33 +1,15 @@
-import { useEffect, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// GSAP подключён статически: раньше он приезжал отдельным чанком после
+// гидратации, и на медленной сети hero стоял без хореографии — рельса
+// 400vh прокручивалась без карты, а интро запускалось с задержкой. Теперь
+// модули в основном бандле и готовы к первому эффекту. Регистрация плагина —
+// только в браузере (на сервере эффекты не выполняются, но модуль импортируется).
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function useGSAP() {
-  const [gsap, setGsap] = useState(null);
-  const [ScrollTrigger, setScrollTrigger] = useState(null);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const init = async () => {
-      const gsapModule = await import("gsap");
-      const scrollModule = await import("gsap/ScrollTrigger");
-
-      const gsap = gsapModule.gsap;
-      const ScrollTrigger = scrollModule.ScrollTrigger;
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      if (!mounted) return;
-
-      setGsap(() => gsap);
-      setScrollTrigger(() => ScrollTrigger);
-    };
-
-    init();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
   return { gsap, ScrollTrigger };
 }
