@@ -24,22 +24,22 @@
   filter: saturate(0.82) contrast(1.06) brightness(0.92);
 }
 
-/* Лес — три ряда силуэтов, каждый со своим планом и плотностью */
-.trees {
+/* Лес — три иллюстрации с прозрачным фоном; cover от нижней кромки,
+   каждый слой в своей рамке по высоте сцены (3:2 при ширине 106 %) */
+.forest {
   left: -3%;
   width: 106%;
-  height: auto;
-  display: block;
   will-change: transform;
 }
 
-.treesFar  { top: 22%; height: 24%; }
-.treesMid  { top: 31%; height: 27%; }
-.treesNear { top: 34%; height: 34%; }
+.forest :global(img) {
+  object-fit: cover;
+  object-position: center bottom;
+}
 
-.treesFar  path { fill: rgba(5, 46, 26, 0.5); }
-.treesMid  path { fill: rgba(3, 36, 20, 0.7); }
-.treesNear path { fill: rgba(2, 24, 14, 0.86); }
+.forest_far  { top: 18%; bottom: 8%;  opacity: 0.92; }
+.forest_mid  { top: 2%;  bottom: -2%; }
+.forest_near { top: 0;   bottom: -6%; }
 
 /* Флаг — полупрозрачные полосы */
 .flag { inset: 0; }
@@ -54,29 +54,6 @@
 .bandBlue  { top: 0;        height: var(--b1); background: rgba(0, 57, 166, 0.62); }
 .bandGreen { top: var(--b1); height: 33.3%;   background: rgba(0, 155, 58, 0.58); }
 .bandWhite { top: var(--b2); bottom: 0;       background: rgba(255, 255, 255, 0.78); }
-
-/* Кромка снега — белая волна на границе леса и белой полосы */
-.ground {
-  left: -3%;
-  width: 106%;
-  top: 62.5%;
-  height: 8%;
-  will-change: transform;
-}
-
-.ground path { fill: rgba(255, 255, 255, 0.84); }
-
-/* Сугробы на белой полосе */
-.drifts {
-  left: 0;
-  width: 100%;
-  top: var(--b2);
-  bottom: 0;
-  height: auto;
-}
-
-.driftShade { fill: rgba(120, 150, 190, 0.16); }
-.driftLight { fill: rgba(255, 255, 255, 0.55); }
 
 /* Ночь — opacity ведёт scroll-таймлайн HeroSection */
 .night {
@@ -165,9 +142,9 @@
 
 @media (max-width: 767px) {
   .photo :global(img) { object-position: 60% 42%; }
-  .treesFar  { top: 20%; height: 26%; }
-  .treesMid  { top: 30%; height: 28%; }
-  .treesNear { top: 35%; height: 33%; }
+  .forest_far  { top: 22%; bottom: 14%; }
+  .forest_mid  { top: 6%;  bottom: 0; }
+  .forest_near { top: 4%;  bottom: -4%; }
   .aurora { filter: blur(18px); }
 }
 

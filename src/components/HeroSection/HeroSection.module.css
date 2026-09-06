@@ -223,10 +223,11 @@
 }
 
 .designText {
-  font-family: var(--font-bold);
-  font-size: clamp(100px, 12vw, 220px);
-  font-weight: 900;
-  letter-spacing: -0.08em;
+  font-family: var(--font-title);
+  font-size: clamp(76px, 9.6vw, 176px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
   background: white;
   -webkit-background-clip: text;
   background-clip: text;
@@ -455,7 +456,7 @@
     justify-content: center;
   }
 
-  .designText { font-size: clamp(84px, 18vw, 170px); }
+  .designText { font-size: clamp(64px, 15vw, 140px); }
 
   .titleWrap { margin-top: -12vh; }
 

@@ -3,6 +3,7 @@
 :root {
   --font-display: var(--font-display-next, "Ponomar"), Georgia, serif;
   --font-bold: var(--font-bold-next, "Bebas Neue"), Impact, sans-serif;
+  --font-title: var(--font-title-next, "Manrope"), "Helvetica Neue", Arial, sans-serif; /* строгий гротеск для «КОМИ.» */
   --font-body: var(--font-body-next, "DM Sans"), system-ui, sans-serif;
 
   --accent: #3864db;
