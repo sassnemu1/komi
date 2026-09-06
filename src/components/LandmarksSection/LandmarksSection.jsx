@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import useGSAP from "@/hooks/useGSAP";
 import styles from "./LandmarksSection.module.css";
 import { STOPS } from "@/data/landmarks";
@@ -42,8 +43,16 @@ function LandmarksStatic({ wide = false }) {
           <div
             className={`${styles.mobileCard} ${stop.image ? "" : styles.mobileCardNoImage}`}
             key={stop.id}
-            style={stop.image ? { backgroundImage: `url(${stop.image})` } : undefined}
           >
+            {stop.image && (
+              <Image
+                src={stop.image}
+                alt={stop.name}
+                fill
+                sizes="(max-width: 767px) 100vw, 60vw"
+                className={styles.bgImg}
+              />
+            )}
             {!stop.image && (
               <>
                 <div className={styles.ornament} aria-hidden="true" />
@@ -216,8 +225,18 @@ function LandmarksDesktop() {
             key={stop.id}
             ref={(el) => { bgRefs.current[i] = el; }}
             className={`${styles.bgLayer} ${stop.image ? "" : styles.bgLayerNoImage}`}
-            style={stop.image ? { backgroundImage: `url(${stop.image})` } : undefined}
           >
+            {stop.image && (
+              <Image
+                src={stop.image}
+                alt=""
+                fill
+                sizes="100vw"
+                priority={i === 0}
+                quality={76}
+                className={styles.bgImg}
+              />
+            )}
             {!stop.image && (
               <>
                 <div className={styles.ornament} aria-hidden="true" />

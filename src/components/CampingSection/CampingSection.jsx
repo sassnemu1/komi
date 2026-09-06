@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
+import { PHOTOS } from "@/data/photos";
 import SectionHead from "@/components/SectionHead/SectionHead";
 import useReveal from "@/hooks/useReveal";
 import styles from "./CampingSection.module.css";
@@ -17,6 +19,9 @@ export default function CampingSection() {
 
   return (
     <section id="camping" ref={sectionRef} className={styles.section}>
+      <div className={styles.bg} aria-hidden="true">
+        <Image src={PHOTOS["forest-lake"].src} alt="" fill sizes="100vw" quality={70} />
+      </div>
       <div className={styles.inner}>
         <SectionHead
           num="06"

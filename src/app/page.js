@@ -1,6 +1,6 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import SectionDivider from "@/components/SectionDivider/SectionDivider";
+import Interlude from "@/components/Interlude/Interlude";
 
 import HeroSection from "@/components/HeroSection/HeroSection";
 import MythologySection from "@/components/MythologySection/MythologySection";
@@ -15,6 +15,7 @@ import TaxiSection from "@/components/TaxiSection/TaxiSection";
 // Порядок глав. Якоря секции ставят сами:
 // #hero (#map — стадия карты) → #mythology → #landmarks → #stay →
 // #experiences → #camping → #made-in-komi → #transport → #taxi → #contacts
+// Между главами — фото-интерлюдии (Wikimedia Commons, авторы в подвале).
 export default function Home() {
   return (
     <>
@@ -24,18 +25,33 @@ export default function Home() {
         <HeroSection />
         <MythologySection />
 
-        <SectionDivider tone="dark" />
+        <Interlude
+          photo="gorka"
+          eyebrow="Усть-Цилемский район"
+          title="Усть-Цилемская Горка"
+          caption="Хороводное гулянье русских староверов Усть-Цильмы — живая традиция, внесённая в реестр нематериального культурного наследия."
+        />
 
         <LandmarksSection />
         <StayDineSection />
 
-        <SectionDivider tone="light" />
+        <Interlude
+          photo="tundra"
+          eyebrow="Заполярье"
+          title="Большеземельская тундра"
+          caption="Север республики — Воркута, Инта, Усинск: тундра, оленеводство и полярное сияние."
+        />
 
         <ExperiencesSection />
         <CampingSection />
         <MadeInKomiSection />
 
-        <SectionDivider tone="dark" />
+        <Interlude
+          photo="ski-valley"
+          eyebrow="Приполярный Урал"
+          title="Долина Манараги"
+          caption="Национальный парк «Югыд ва» зимой — там, куда не доедет обычная машина."
+        />
 
         <CarRental />
         <TaxiSection videoSrc="/video-komi-taxi.mp4" />

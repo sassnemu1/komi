@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { PHOTOS } from "@/data/photos";
 import styles from "./HeroSection.module.css";
 
 import useGSAP from "@/hooks/useGSAP.js";
@@ -263,7 +264,14 @@ export default function HeroSection() {
         {/* ── BACKGROUND ── */}
         <div className={styles.bgImageKomi}>
           <div className={styles.bgZoom} ref={bgImageRef}>
-            <Image src="/komi.png" alt="Флаг Республики Коми" fill priority sizes="100vw" />
+            <Image
+              src={PHOTOS["hero-manpupuner"].src}
+              alt={PHOTOS["hero-manpupuner"].alt}
+              fill
+              priority
+              sizes="100vw"
+              quality={78}
+            />
           </div>
           <div className={styles.bgOverlay} />
           <div className={styles.bgGlow}>

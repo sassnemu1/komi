@@ -520,3 +520,14 @@
   .bgLayer { animation: none; }
   .ctaBtn, .ctaBtn svg, .routeName { transition: none; }
 }
+
+/* ─── Фото через next/image (вместо background-image) ───────────── */
+.bgImg {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.mobileCardOverlay { z-index: 1; }
+.mobileCardNum,
+.mobileCardBody { position: relative; z-index: 2; }

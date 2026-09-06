@@ -1,10 +1,15 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import SectionHead from "@/components/SectionHead/SectionHead";
 import useReveal from "@/hooks/useReveal";
 import styles from "./ExperiencesSection.module.css";
 import { INFO_DATA } from "@/data/InfoData";
+import { PHOTOS } from "@/data/photos";
+
+// object-position для фото плитки, если оно задано в photos.js
+const posOf = (src) => Object.values(PHOTOS).find((p) => p.src === src)?.pos;
 
 const DATA = INFO_DATA.find((c) => c.id === "06");
 
@@ -18,10 +23,22 @@ function Tile({ work, area }) {
   const isProject = work.badge === "В проекте";
   return (
     <article
-      className={`${styles.tile} ${big ? styles.tileBig : ""}`}
+      className={`${styles.tile} ${big ? styles.tileBig : ""} ${work.image ? styles.tileHasImg : ""}`}
       style={{ gridArea: area, "--tile-bg": work.thumbBg ?? "transparent" }}
       data-reveal
     >
+      {work.image && (
+        <div className={styles.tileImg} aria-hidden="true">
+          <Image
+            src={work.image}
+            alt=""
+            fill
+            sizes={big ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw"}
+            quality={72}
+            style={posOf(work.image) ? { objectPosition: posOf(work.image) } : undefined}
+          />
+        </div>
+      )}
       <div className={styles.tileWash} aria-hidden="true" />
       {big && <div className={styles.tileOrnament} aria-hidden="true" />}
 

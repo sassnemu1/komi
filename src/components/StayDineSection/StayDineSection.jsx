@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
+import { PHOTOS } from "@/data/photos";
 import { MdHotel } from "react-icons/md";
 import { IoIosRestaurant } from "react-icons/io";
 import SectionHead from "@/components/SectionHead/SectionHead";
@@ -93,6 +95,17 @@ export default function StayDineSection() {
               Все объекты — бренды холдинга. Позиции с пометкой «в проекте» —
               фазы коридора Якша—Маньпупунёр.
             </p>
+            <figure className={styles.sidePhoto} data-reveal>
+              <Image
+                src={PHOTOS.syktyvkar.src}
+                alt={PHOTOS.syktyvkar.alt}
+                fill
+                sizes="(max-width: 900px) 100vw, 260px"
+                quality={72}
+                style={PHOTOS.syktyvkar.pos ? { objectPosition: PHOTOS.syktyvkar.pos } : undefined}
+              />
+              <figcaption className={styles.sideCaption}>Сыктывкар с высоты</figcaption>
+            </figure>
           </aside>
 
           <div className={styles.groups}>

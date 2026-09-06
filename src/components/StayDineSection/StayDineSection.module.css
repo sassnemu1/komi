@@ -60,6 +60,41 @@
   margin: 18px 0 0;
 }
 
+.sidePhoto {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  margin: 24px 0 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidePhoto :global(img) {
+  object-fit: cover;
+  filter: saturate(0.85) brightness(0.86);
+}
+
+.sidePhoto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7, 7, 10, 0.75), transparent 45%);
+  pointer-events: none;
+}
+
+.sideCaption {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
 /* ─── Группы ───────────────────────────────────────────────────── */
 .groups {
   display: flex;
@@ -223,6 +258,7 @@
   .side { position: static; flex-direction: row; flex-wrap: wrap; gap: 0 32px; }
   .counter { border-bottom: none; padding: 6px 0; }
   .sideNote { flex-basis: 100%; margin-top: 6px; }
+  .sidePhoto { flex-basis: 100%; aspect-ratio: 16 / 9; margin-top: 18px; }
 }
 
 @media (max-width: 640px) {

@@ -189,3 +189,13 @@
   .link, .noteLink { transition: none; }
   .link:hover { transform: none; }
 }
+
+/* ─── Подпись авторов фотографий ────────────────────────────────── */
+.credits {
+  flex-basis: 100%;
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 6px;
+}

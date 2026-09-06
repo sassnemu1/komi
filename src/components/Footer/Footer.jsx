@@ -1,4 +1,5 @@
 import styles from "./Footer.module.css";
+import { PHOTO_CREDITS } from "@/data/photos";
 
 const MAP_URL = process.env.NEXT_PUBLIC_MAP_URL || "https://map.komi.world";
 
@@ -119,6 +120,17 @@ export default function Footer() {
             <a href={MAP_URL} target="_blank" rel="noopener noreferrer" className={styles.noteLink}>
               map.komi.world
             </a>
+          </p>
+          <p className={styles.credits}>
+            Фотографии — Wikimedia Commons, свободные лицензии:{" "}
+            {PHOTO_CREDITS.map((c, i) => (
+              <span key={c.author}>
+                <a href={c.pages[0]} target="_blank" rel="noopener noreferrer" className={styles.noteLink}>
+                  {c.author}
+                </a>
+                {" "}({c.license}){i < PHOTO_CREDITS.length - 1 ? ", " : "."}
+              </span>
+            ))}
           </p>
         </div>
       </div>
