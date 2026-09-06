@@ -1,0 +1,191 @@
+/* ─── EXPERIENCES — бенто ──────────────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  background: #07070a;
+  padding: clamp(80px, 11vh, 128px) 0;
+}
+
+.inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    "a a b"
+    "a a c"
+    "d e e";
+  gap: 14px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  padding: 24px 26px;
+  border-radius: 16px;
+  background: #0e0e12;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  transition: border-color 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tile:hover { border-color: rgba(255, 255, 255, 0.18); transform: translateY(-3px); }
+
+.tileBig { min-height: 520px; padding: 32px 34px; }
+
+.tileWash {
+  position: absolute;
+  inset: 0;
+  background: var(--tile-bg);
+  opacity: 0.32;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.tile:hover .tileWash { opacity: 0.45; }
+
+.tileOrnament {
+  position: absolute;
+  right: -20px;
+  bottom: -10px;
+  width: 60%;
+  height: 46%;
+  background-color: rgba(255, 255, 255, 0.05);
+  -webkit-mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
+  mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
+  -webkit-mask-size: 140px 130px;
+  mask-size: 140px 130px;
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  pointer-events: none;
+}
+
+.tileTop,
+.tileBody,
+.tileFoot { position: relative; }
+
+.tileTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.tileEyebrow {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chip,
+.chipProject {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.chipProject {
+  color: #fff;
+  background: rgba(56, 100, 219, 0.2);
+  border-color: rgba(107, 158, 255, 0.45);
+}
+
+.tileTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.05;
+  color: #fff;
+  margin: 0 0 12px;
+}
+
+.tileBig .tileTitle { font-size: clamp(2.2rem, 3.6vw, 3.4rem); }
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  margin: 18px 0 16px;
+}
+
+.stat { display: flex; flex-direction: column; gap: 4px; }
+
+.statValue {
+  font-family: var(--font-bold);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  line-height: 0.9;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.statLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 200px;
+}
+
+.tileDesc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 460px;
+}
+
+.tileFoot {
+  margin-top: 24px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  display: flex;
+  gap: 6px;
+}
+
+/* ─── RESPONSIVE ───────────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "a a"
+      "b c"
+      "d e";
+  }
+  .tileBig { min-height: 420px; }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "a" "b" "c" "d" "e";
+    gap: 12px;
+  }
+  .tile { min-height: 0; padding: 22px; }
+  .tileBig { min-height: 0; padding: 26px 22px; }
+  .tileTop { margin-bottom: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile, .tileWash { transition: none; }
+  .tile:hover { transform: none; }
+}

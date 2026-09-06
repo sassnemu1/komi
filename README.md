@@ -12,7 +12,8 @@ YÖRAN, отелями и ресторанами, туристическим к�
 ## Стек
 
 Next.js 16 (App Router, Turbopack, React Compiler), React 19, CSS-модули, GSAP +
-ScrollTrigger (подгружается динамически через `src/hooks/useGSAP.js`), react-icons.
+ScrollTrigger (подгружается динамически через `src/hooks/useGSAP.js`; reveal-on-scroll
+нижних секций — `src/hooks/useReveal.js` по атрибуту `data-reveal`), react-icons.
 
 ```bash
 npm install
@@ -34,16 +35,20 @@ src/
     HeroSection/            hero 400vh: интро → по скроллу карта районов с легендой
     KomiMap/                SVG-карта: реальные флаги паттерном, hover/фокус/клик, легенда
     DistrictPanel/          панель района: флаг, факты с источником, предания → map.komi.world
-    MythologySection/       8 тем из корпуса, каждая ведёт на запись карты преданий
+    SectionHead/            общий редакторский заголовок нижних секций (номер главы, eyebrow, лид)
+    MythologySection/       оглавление: 8 глав списком + иллюстрация и текст активной, ссылки на карту преданий
     LandmarksSection/       запиненная секция: 4 точки (данные — data/landmarks.js)
-    StayDineSection/        отели и рестораны холдинга (без фото — типографические постеры)
-    Slider/                 горизонтальные слайдеры категорий + оверлей карточки
+    StayDineSection/        реестр: счётчики слева, отели и рестораны холдинга строками
+    ExperiencesSection/     бенто-сетка впечатлений, крупные цифры из work.stats
+    CampingSection/         «тропа»: три остановки на одной линии
+    MadeInKomiSection/      каталог: указатель брендов + досье активного (work.facts)
     CarRental/              canvas-секвенция 240 кадров /video/frame_NNN.webp
-    TaxiSection/            видео-фон; играет только когда секция в кадре
+    TaxiSection/            полоса с видео-фоном без пина; играет только когда секция в кадре
     SectionDivider/         полоса орнамента коми между крупными секциями
     Footer/                 холдинг, бренды, проекты, контакты
   data/
-    InfoData.js             контент карточек (форма: id, tag, title, desc, color, image, works[])
+    InfoData.js             контент разделов (форма: id, tag, title, desc, color, image, works[]);
+                            у works необязательные href/location/badge/stats/facts
     landmarks.js            STOPS для достопримечательностей
     districtFacts.js        центр, коми-название, площадь, население 19 районов — с источниками
     districtLore.js         СГЕНЕРИРОВАНО из корпуса map.komi.world (см. ниже)

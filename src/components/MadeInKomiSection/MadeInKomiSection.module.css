@@ -1,0 +1,262 @@
+/* ─── MADE IN KOMI — каталог с досье ─────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  background: #07070a;
+  padding: clamp(80px, 11vh, 128px) 0;
+}
+
+.inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.85fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+
+/* ─── Указатель ────────────────────────────────────────────────── */
+.index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto 24px;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 6px 20px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  color: rgba(255, 255, 255, 0.72);
+  transition: color 0.25s ease, padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.row:hover,
+.rowActive { color: #fff; padding-left: 10px; }
+
+.rowIdx {
+  font-family: var(--font-bold);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.25s ease;
+}
+
+.rowActive .rowIdx { color: var(--accent); }
+
+.rowName {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 2.8vw, 2.6rem);
+  line-height: 1;
+  color: inherit;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.rowCat {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  white-space: nowrap;
+}
+
+.rowArrow {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.25);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+}
+
+.rowActive .rowArrow { color: #fff; transform: translateX(4px); }
+
+.inline { display: none; }
+
+/* ─── Досье ────────────────────────────────────────────────────── */
+.panel {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+}
+
+.dossier {
+  position: relative;
+  padding: 30px 32px 28px;
+  border-radius: 18px;
+  background: #0e0e12;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  animation: dossierIn 0.4s ease both;
+}
+
+@keyframes dossierIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dossierWash {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-bg);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.dossierLetter {
+  position: absolute;
+  right: -6px;
+  top: -18px;
+  font-family: var(--font-display);
+  font-size: 210px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.dossierOrnament {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-mask-image: url("/brand/komi-ornament-strip-transparent.svg");
+  mask-image: url("/brand/komi-ornament-strip-transparent.svg");
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  pointer-events: none;
+}
+
+.dossierHead,
+.dossierName,
+.dossierDesc,
+.facts,
+.dossierFoot { position: relative; }
+
+.dossierHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.dossierIdx {
+  font-family: var(--font-bold);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.dossierCat {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.dossierName {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  line-height: 1;
+  color: #fff;
+  margin: 0 0 14px;
+}
+
+.dossierDesc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+}
+
+.facts {
+  margin: 22px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.factLabel {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  padding-top: 2px;
+}
+
+.factValue {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+}
+
+.dossierFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.chip {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.dossierLink {
+  margin-left: auto;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 3px;
+}
+
+/* ─── RESPONSIVE ───────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .panel { display: none; }
+  .inline { display: block; padding: 4px 0 18px; }
+  .row { grid-template-columns: 32px minmax(0, 1fr) 20px; gap: 12px; padding: 16px 0; }
+  .row:hover, .rowActive { padding-left: 0; }
+  .rowCat { display: none; }
+  .rowName { font-size: 1.6rem; }
+  .dossier { padding: 22px 20px 26px; }
+  .dossierLetter { font-size: 150px; }
+  .fact { grid-template-columns: 96px minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row, .rowIdx, .rowArrow { transition: none; }
+  .dossier { animation: none; }
+}

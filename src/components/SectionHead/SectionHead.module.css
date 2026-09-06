@@ -1,0 +1,102 @@
+/* ─── SECTION HEAD — общий редакторский заголовок ────────────────── */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 24px;
+  margin-bottom: clamp(44px, 6vw, 72px);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 720px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+  margin-bottom: 26px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.2vw, 4.6rem);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.line { display: block; }
+
+.lead {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 540px;
+  margin: 22px 0 0;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+  padding: 11px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.action:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.num {
+  font-family: var(--font-bold);
+  font-size: clamp(72px, 10vw, 148px);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.06);
+  user-select: none;
+  justify-self: end;
+}
+
+@media (max-width: 767px) {
+  .head { grid-template-columns: 1fr; gap: 8px; }
+  .num { order: -1; justify-self: start; font-size: 64px; color: rgba(255, 255, 255, 0.08); }
+  .eyebrow { margin-bottom: 18px; }
+  .lead { font-size: 0.92rem; }
+}

@@ -1,0 +1,137 @@
+/* ─── CAMPING — тропа ──────────────────────────────────────────── */
+.section {
+  position: relative;
+  width: 100%;
+  background: #0b1214;
+  padding: clamp(72px, 10vh, 112px) 0;
+  overflow: hidden;
+}
+
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 50% 40% at 20% 100%, rgba(26, 168, 97, 0.08), transparent 70%);
+}
+
+.inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px);
+}
+
+.trail {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 4vw, 56px);
+}
+
+/* Линия тропы под точками */
+.trail::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 7px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(26, 168, 97, 0.7), rgba(255, 255, 255, 0.12) 60%, transparent);
+}
+
+.stop {
+  position: relative;
+  padding-top: 34px;
+}
+
+.dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #0b1214;
+  border: 2px solid var(--green);
+  box-shadow: 0 0 0 4px rgba(26, 168, 97, 0.12);
+}
+
+.stopNum {
+  display: block;
+  font-family: var(--font-bold);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 10px;
+}
+
+.stopTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  line-height: 1.05;
+  color: #fff;
+  margin: 0;
+}
+
+.stopSub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 6px;
+}
+
+.stopDesc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.58);
+  margin: 14px 0 0;
+  max-width: 340px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.chip,
+.chipProject {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  white-space: nowrap;
+}
+
+.chipProject {
+  color: #fff;
+  background: rgba(26, 168, 97, 0.16);
+  border-color: rgba(26, 168, 97, 0.5);
+}
+
+@media (max-width: 800px) {
+  .trail { grid-template-columns: 1fr; gap: 32px; padding-left: 28px; }
+  .trail::before {
+    left: 7px;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(26, 168, 97, 0.7), rgba(255, 255, 255, 0.12) 70%, transparent);
+  }
+  .stop { padding-top: 0; }
+  .dot { left: -28px; top: 4px; }
+}
