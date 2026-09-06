@@ -294,6 +294,7 @@ export default function TransportSection() {
   // Пин гаража на десктопе: прогресс рельсы листает ступени
   useEffect(() => {
     if (!gsap || !ScrollTrigger || mode !== "desktop" || prefersReduced()) return;
+    if (window.innerHeight < 720) return; // низкое окно: гараж не пинится, ступени — табы
     const garage = garageRef.current;
     if (!garage) return;
     const headerH = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h"), 10) || 72;
@@ -385,7 +386,7 @@ export default function TransportSection() {
         </dl>
 
         {/* ── Гараж ── */}
-        <div className={`${styles.garage} ${styles[`mode_${mode}`]}`} ref={garageRef} data-garage>
+        <div className={styles.garage} ref={garageRef} data-garage data-mode={mode}>
           <div className={styles.garageMain}>
             {mode === "mobile" ? (
               <div className={styles.rail} ref={railRef}>

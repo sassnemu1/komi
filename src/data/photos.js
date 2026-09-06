@@ -10,6 +10,17 @@
 // словом «визуализация», а продуктовые фото завода — нет.
 
 export const PHOTOS = {
+  "veles-alive-cut3": {
+    "own": true,
+    "src": "/photos/veles-alive-cut3.webp",
+    "alt": "Три банки безалкогольных мохито A-Live (вырезка на прозрачном фоне)",
+    "caption": "Продукция · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/a-live.html",
+    "w": 1118,
+    "h": 640
+  },
   "cgi-komi-taxi": {
     "render": true,
     "own": true,

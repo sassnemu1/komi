@@ -1,4 +1,4 @@
-/* ─── MADE IN KOMI — витрина с полками и ящиком досье ────────────── */
+/* ─── MADE IN KOMI — витрина: доска-полка, предметы, таблички, ящик ── */
 .section {
   position: relative;
   width: 100%;
@@ -21,7 +21,7 @@
   white-space: nowrap;
 }
 
-/* ─── Стена и полки ────────────────────────────────────────────── */
+/* ─── Стена ────────────────────────────────────────────────────── */
 .shelves {
   position: relative;
   margin-top: calc(-1 * clamp(8px, 1.5vw, 20px));
@@ -32,7 +32,7 @@
   inset: -8% 0;
   pointer-events: none;
   background: url("/brand/texture-dark-stone.webp") center / 480px repeat;
-  opacity: 0.1;
+  opacity: 0.09;
   will-change: transform;
 }
 
@@ -40,7 +40,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(255, 255, 255, 0.035);
+  background-color: rgba(255, 255, 255, 0.03);
   -webkit-mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
   mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
   -webkit-mask-size: 140px auto;
@@ -48,7 +48,7 @@
 }
 
 .shelf { position: relative; }
-.shelf + .shelf { margin-top: clamp(40px, 5vw, 56px); }
+.shelf + .shelf { margin-top: clamp(48px, 6vw, 72px); }
 
 .shelfLabel {
   display: inline-flex;
@@ -59,140 +59,113 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.42);
-  margin-bottom: 18px;
+  margin-bottom: 26px;
 }
 
-.shelfLabel::before { content: ""; width: 28px; height: 1px; background: var(--accent); }
+.shelfLabel::before { content: ""; width: 28px; height: 1px; background: linear-gradient(90deg, var(--accent), var(--ice)); }
 
+/* ─── Ряд: предметы стоят на доске, таблички образуют доску ────── */
 .row {
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: 14px;
+  gap: 0;
   align-items: end;
 }
 
-.row1 .cell:nth-child(1) { grid-column: span 4; }
-.row1 .cell:nth-child(2) { grid-column: span 5; }
-.row1 .cell:nth-child(3) { grid-column: span 3; }
-.row2 .cell { grid-column: span 3; }
-.row3 .cell:nth-child(1) { grid-column: span 5; }
-.row3 .cellRail { grid-column: span 7; }
+.row1 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.row2 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 .cell { min-width: 0; display: flex; flex-direction: column; }
 
-/* Кромка полки: линия, орнамент и тень доски */
-.shelfEdge {
-  position: relative;
-  z-index: 3;
-  height: 52px;
-  margin-top: -1px;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 78%);
+/* Тень доски на стену под полкой */
+.plankShadow {
+  height: 56px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent 80%);
+  pointer-events: none;
 }
 
-.shelfEdge::before {
+/* ─── Предмет + табличка ───────────────────────────────────────── */
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+}
+
+.object {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 300px;
+  padding: 0 22px;
+  z-index: 2;
+}
+
+/* Табличка: сегменты образуют одну сплошную доску */
+.label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 62px;
+  padding: 12px 18px 12px 20px;
+  background: linear-gradient(180deg, #262c35 0%, #171b21 32%, #0f1216 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: background 0.3s ease;
+}
+
+.cell:first-child .label { border-radius: 4px 0 0 4px; }
+.cell:last-child .label { border-radius: 0 4px 4px 0; }
+
+.label::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  top: 2px;
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.07);
+  bottom: 0;
+  height: 7px;
+  background-color: rgba(255, 255, 255, 0.08);
   -webkit-mask-image: url("/brand/komi-ornament-strip-transparent.svg");
   mask-image: url("/brand/komi-ornament-strip-transparent.svg");
   -webkit-mask-repeat: repeat-x;
   mask-repeat: repeat-x;
   -webkit-mask-size: auto 100%;
   mask-size: auto 100%;
+  pointer-events: none;
 }
 
-/* ─── Плитки ───────────────────────────────────────────────────── */
-.tile {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 380px;
-  padding: 22px 24px 0;
-  text-align: left;
-  color: inherit;
-  background: #0e0e12;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: none;
-  border-radius: 16px 16px 0 0;
-  overflow: visible;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
-}
+.labelText { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 
-.tile:hover { transform: translateY(-3px); border-color: var(--frost); }
-.tileActive { border-color: rgba(56, 100, 219, 0.55); }
-.tile:hover .tileName, .tileActive .tileName { color: #fff; }
-
-.tileTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-right: 34px;
-}
-
-.tileEyebrow {
-  font-family: var(--font-body);
-  font-size: 9.5px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.render {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-body);
-  font-size: 8.5px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 4px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  color: rgba(255, 255, 255, 0.78);
-  background: rgba(7, 7, 10, 0.45);
-  white-space: nowrap;
-}
-
-.renderDark { background: rgba(0, 0, 0, 0.55); }
-.onStage { position: absolute; left: 12px; top: 12px; z-index: 3; }
-
-.tileHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 6px 14px;
-  margin: 14px 34px 0 0;
-}
-
-.tileName {
+.labelName {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+  font-size: clamp(1.15rem, 1.5vw, 1.4rem);
   line-height: 1;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.9);
   transition: color 0.25s ease;
 }
 
-.tileMeta {
+.labelMeta {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.42);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .plus {
-  position: absolute;
-  right: 18px;
-  top: 18px;
+  flex: 0 0 auto;
   width: 26px;
   height: 26px;
   display: grid;
@@ -203,166 +176,116 @@
   font-size: 16px;
   line-height: 1;
   color: rgba(255, 255, 255, 0.7);
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease, color 0.25s ease;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
+.tile:hover .labelName, .tileActive .labelName { color: #fff; }
+.tile:hover .plus { border-color: var(--frost); color: #fff; }
+.tileActive .label { background: linear-gradient(180deg, #2c3442 0%, #1a2130 32%, #10151d 100%); }
 .tileActive .plus { transform: rotate(45deg); background: var(--accent); border-color: var(--accent); color: #fff; }
 
-/* Вырезки: продукт стоит на полке, под ним отражение и контактная тень */
+/* Вырезки: продукт стоит на доске */
 .stand {
   position: relative;
   display: block;
-  margin-top: auto;
-  height: 250px;
-}
-
-.product {
-  position: absolute;
-  inset: 0;
-  display: block;
+  width: 100%;
+  height: 100%;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tile:hover .product { transform: translateY(-6px); }
+.tile:hover .stand { transform: translateY(-6px); }
 
+.product { position: absolute; inset: 0; display: block; }
 .contain { object-fit: contain; object-position: bottom center; }
-
-.reflect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  height: 34%;
-  overflow: hidden;
-  opacity: 0.18;
-  filter: blur(1px);
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.32), transparent 60%);
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.32), transparent 60%);
-  transform: scaleY(-1);
-  transform-origin: top;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.reflect :global(img) { object-position: bottom center; }
-.tile:hover .reflect { opacity: 0.3; }
 
 .contact {
   position: absolute;
-  left: 15%;
-  right: 15%;
-  bottom: -6px;
-  height: 18px;
+  left: 12%;
+  right: 12%;
+  bottom: -8px;
+  height: 20px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6), transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7), transparent 70%);
   pointer-events: none;
 }
 
-.tileActive .contact { background: radial-gradient(ellipse at center, rgba(56, 100, 219, 0.35), transparent 70%); }
+.tileActive .contact { background: radial-gradient(ellipse at center, rgba(56, 100, 219, 0.4), transparent 70%); }
 
-/* Открытки в рамке */
+/* Открытки в паспарту, с лёгким наклоном, стоят на доске */
 .frame {
   position: relative;
   display: block;
-  margin: 18px 0 14px;
-  width: 100%;
+  width: min(100%, 250px);
   aspect-ratio: 4 / 5;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4), 0 14px 26px rgba(0, 0, 0, 0.45);
-  overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 10px 10px 28px;
+  background: #f1eee6;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 18px 34px rgba(0, 0, 0, 0.55);
+  transform: rotate(var(--tilt)) translateY(-2px);
+  transform-origin: 50% 100%;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
 }
 
-.frameWide { aspect-ratio: 3 / 2; max-width: 480px; }
-.tile:hover .frame { transform: translateY(-6px); }
+.tile:hover .frame, .tileActive .frame {
+  transform: rotate(0deg) translateY(-8px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset, 0 26px 44px rgba(0, 0, 0, 0.6);
+}
 
 .frameMedia {
   position: absolute;
-  inset: -6% 0;
-  display: block;
-  will-change: transform;
+  inset: 10px 10px 28px;
+  overflow: hidden;
+  background: #111;
 }
 
-.frame :global(img) {
+.frameMedia :global(img) {
   object-fit: cover;
   transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tile:hover .frame :global(img) { transform: scale(1.03); }
+.tile:hover .frameMedia :global(img) { transform: scale(1.04); }
 
-/* Кроссфейд */
-.xf { position: absolute; inset: 0; }
-.xfLayer { position: absolute; inset: 0; pointer-events: none; }
-.xfCur { animation: xfIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.xfPrev { animation: xfOut 0.45s ease both; }
-@keyframes xfIn { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
-@keyframes xfOut { from { opacity: 1; } to { opacity: 0; } }
-
-/* ─── Рельс машин ──────────────────────────────────────────────── */
-.railTile {
-  display: flex;
-  flex-direction: column;
-  min-height: 380px;
-  padding: 22px 24px 18px;
-  background: #0e0e12;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: none;
-  border-radius: 16px 16px 0 0;
+.frameShadow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -10px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.65), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
-.railHead { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; }
-
-.railGrid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.railStep {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  width: 100%;
-  text-align: left;
-  color: inherit;
-}
-
-.railRoman { font-family: var(--font-bold); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); }
-
-.railThumb {
-  position: relative;
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 2;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: border-color 0.25s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.railThumb :global(img) { object-fit: cover; }
-.railStep:hover .railThumb, .railStep:focus-visible .railThumb { border-color: rgba(255, 255, 255, 0.4); transform: translateY(-2px); }
-
-.railName { font-family: var(--font-display); font-size: 14px; line-height: 1; color: #fff; }
-.railYear { font-family: var(--font-body); font-size: 9.5px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.5); }
-
-.railNote {
+.render {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-body);
-  font-size: 9.5px;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.42);
-  margin: 14px 0 0;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(7, 7, 10, 0.5);
+  white-space: nowrap;
 }
+
+.onStage { left: 12px; top: 12px; font-size: 8.5px; }
+
+/* L'ESSENCE — светлая карточка: кадр во всё паспарту, подпись на бумаге */
+.tileLight .frame { background: #f6f4ef; padding: 8px 8px 26px; }
+.tileLight .frameMedia { inset: 8px 8px 26px; background: #f6f4ef; }
 
 /* ─── Полоса завода ────────────────────────────────────────────── */
 .band {
   position: relative;
-  margin-top: 28px;
+  margin-top: 8px;
   aspect-ratio: 21 / 9;
   max-height: 400px;
   border-radius: 18px;
@@ -411,7 +334,7 @@
 /* ─── Ящик досье ───────────────────────────────────────────────── */
 .drawer {
   position: relative;
-  margin-top: 22px;
+  margin-top: 8px;
   background: #0e0e12;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
@@ -419,7 +342,6 @@
 }
 
 .drawerInline { margin-top: 12px; }
-
 .drawerWash { position: absolute; inset: 0; background: var(--brand-bg); opacity: 0.25; pointer-events: none; }
 
 .dossierLetter {
@@ -456,6 +378,9 @@
   right: 18px;
   top: 16px;
   z-index: 4;
+  background: rgba(7, 7, 10, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   font-family: var(--font-body);
   font-size: 10px;
   letter-spacing: 0.16em;
@@ -479,12 +404,7 @@
 
 .stageCol { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
 
-.stageStand {
-  position: relative;
-  height: 420px;
-  max-height: 60vh;
-}
-
+.stageStand { position: relative; height: 420px; max-height: 60vh; }
 .stageProduct { position: absolute; inset: 0 0 60px; }
 
 .stageReflect {
@@ -517,17 +437,10 @@
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
-.stageWide { aspect-ratio: 3 / 2; }
 .stageTall { aspect-ratio: 3 / 4; max-width: 320px; }
 .stagePostcard :global(img) { object-fit: cover; }
 
-.extra {
-  display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: 14px;
-  align-items: center;
-}
-
+.extra { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; align-items: center; }
 .extraImg { display: block; width: 120px; height: 150px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.12); }
 .extraImg :global(img) { width: 100%; height: 100%; object-fit: cover; }
 .extraEyebrow { display: block; font-family: var(--font-body); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); margin-bottom: 6px; }
@@ -536,7 +449,6 @@
 .maker { font-family: var(--font-body); font-size: 11.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.5); margin: 0; }
 .maker a { color: rgba(255, 255, 255, 0.85); border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
 
-/* Досье */
 .dossier { position: relative; min-width: 0; }
 .dossierHead { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; margin-right: 110px; }
 .dossierIdx { font-family: var(--font-bold); font-size: 13px; letter-spacing: 0.1em; color: var(--accent); }
@@ -548,38 +460,6 @@
 .fact { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
 .factLabel { font-family: var(--font-body); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.4); padding-top: 2px; }
 .factValue { font-family: var(--font-body); font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.85); margin: 0; }
-
-/* Ступени в досье YÖRAN */
-.lineup { margin-top: 20px; }
-.lineupTitle { display: block; font-family: var(--font-body); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); margin-bottom: 10px; }
-.steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-
-.step {
-  position: relative;
-  display: grid;
-  grid-template-columns: 34px 96px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 7px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  text-align: left;
-  color: inherit;
-  transition: background 0.25s ease;
-}
-
-.step::before { content: ""; position: absolute; left: -12px; top: 8px; bottom: 8px; width: 2px; background: var(--accent); opacity: 0; transition: opacity 0.25s ease; }
-.stepActive::before, .step:hover::before { opacity: 1; }
-.stepNum { font-family: var(--font-bold); font-size: 13px; letter-spacing: 0.08em; color: var(--accent); }
-.stepThumb { position: relative; display: block; width: 96px; height: 64px; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
-.stepThumb :global(img) { object-fit: cover; }
-.stepText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.stepName { font-family: var(--font-display); font-size: 1.1rem; line-height: 1; color: #fff; }
-.stepType { font-family: var(--font-body); font-size: 11px; color: rgba(255, 255, 255, 0.5); }
-.stepYear { font-family: var(--font-body); font-size: 10px; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.45); white-space: nowrap; }
-
-.lineupLore { font-family: var(--font-body); font-size: 12px; line-height: 1.55; color: rgba(255, 255, 255, 0.6); margin: 12px 0 0; }
-.lineupLore a { color: #fff; border-bottom: 1px solid rgba(255, 255, 255, 0.3); white-space: nowrap; }
 
 .dossierFoot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; }
 .dossierLinks { margin-left: auto; display: inline-flex; flex-wrap: wrap; gap: 8px 18px; }
@@ -627,47 +507,38 @@
 }
 
 .statLabel { font-family: var(--font-body); font-size: 11px; line-height: 1.45; letter-spacing: 0.06em; color: rgba(255, 255, 255, 0.5); max-width: 220px; }
-
 .legal { font-family: var(--font-body); font-size: 10px; line-height: 1.5; color: rgba(255, 255, 255, 0.38); max-width: 720px; margin: 28px 0 0; }
 
 /* ─── Узкие экраны ─────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .row { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; row-gap: 12px; align-items: stretch; }
-  .row1 .cell:nth-child(1), .row1 .cell:nth-child(3) { grid-column: span 1; }
-  .row1 .cell:nth-child(2) { grid-column: 1 / -1; }
-  .row2 .cell { grid-column: span 1; }
-  .row3 .cell:nth-child(1), .row3 .cellRail { grid-column: 1 / -1; }
-  .tile, .railTile { min-height: 240px; padding: 16px 16px 0; }
-  .stand { height: 170px; }
-  .row1 .cell:nth-child(2) .stand { height: 120px; }
-  .reflect { height: 24%; }
-  .plus { right: 12px; top: 12px; }
-  .railGrid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 6px; scrollbar-width: none; }
-  .railGrid::-webkit-scrollbar { display: none; }
-  .railGrid li { flex: 0 0 132px; scroll-snap-align: start; }
+  .row1, .row2 { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .row1 .cell:nth-child(3) { grid-column: 1 / -1; }
+  .object { height: 220px; padding: 0 12px; }
+  .label { min-height: 56px; padding: 10px 12px 10px 14px; }
+  .cell .label { border-radius: 3px; }
+  /* открытка 4:5 не выше зоны предмета: 220px × 0.78 ≈ 172px ширины */
+  .frame, .row1 .cell:nth-child(3) .frame { width: min(100%, 168px); padding: 7px 7px 20px; }
+  .frameMedia { inset: 7px 7px 20px; }
+  .tileLight .frame { padding: 6px 6px 18px; }
+  .tileLight .frameMedia { inset: 6px 6px 18px; }
   .band { aspect-ratio: auto; max-height: none; grid-template-columns: 1fr; padding: 22px 20px; gap: 16px; }
-  .bandStats { gap: 20px; }
   .drawerGrid { grid-template-columns: 1fr; gap: 24px; padding: 22px 20px 32px; }
   .stageStand { height: 260px; }
   .stagePostcard, .stageTall { max-width: none; }
   .dossierLetter { font-size: 150px; }
   .fact { grid-template-columns: 96px minmax(0, 1fr); }
-  .step { grid-template-columns: 30px 72px minmax(0, 1fr) auto; gap: 8px; }
-  .stepThumb { width: 72px; height: 48px; }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
   .statValue { font-size: 2.1rem; }
   .inlineDrawer { grid-column: 1 / -1; }
-  .cell { position: relative; }
 }
 
 @media (max-width: 640px) {
-  .tileEyebrow { display: none; }
-  .tileName { font-size: 1.4rem; }
+  .labelName { font-size: 1.05rem; }
+  .labelMeta { font-size: 8.5px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tile, .product, .reflect, .frame, .frame :global(img), .plus, .railThumb, .step, .close { transition: none; }
-  .tile:hover, .tile:hover .product, .tile:hover .frame { transform: none; }
-  .xfCur, .xfPrev { animation: none; }
-  .xfPrev { opacity: 0; }
+  .stand, .frame, .frameMedia :global(img), .plus, .label, .close { transition: none; }
+  .tile:hover .stand, .tile:hover .frame { transform: rotate(var(--tilt)); }
+  .tile:hover .frameMedia :global(img) { transform: none; }
 }
