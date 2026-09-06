@@ -2,6 +2,12 @@
 .section {
   position: relative;
   width: 100%;
+}
+
+/* Закрепляемая сцена — единственный ребёнок секции (см. LandmarksDesktop) */
+.pinned {
+  position: relative;
+  width: 100%;
   height: 100svh;
   background: #06100b;
   overflow: hidden;

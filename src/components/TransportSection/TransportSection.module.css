@@ -52,6 +52,7 @@
   align-items: start;
 }
 
+.garageWrap { min-width: 0; }
 .garageMain { min-width: 0; }
 .garageAside { min-width: 0; }
 

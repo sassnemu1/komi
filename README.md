@@ -187,10 +187,21 @@ blur-плейсхолдер (`blur`, JPEG 24 px в data-URI) — его гене
   `ScrollTrigger.refresh()`. Там же — страховка reveal: всё, что через 2,5 с
   скрыто, но уже в кадре, показывается. `useReveal` не прячет элементы, которые
   в момент инициализации уже видны, и срабатывает один раз (`once`).
-- Шрифты — `next/font/google` (Ponomar, Bebas Neue, DM Sans) в layout.js:
-  self-hosted, с preload, без блокирующего `@import`; токены `--font-*` в
-  globals.css ссылаются на переменные next/font. У Ponomar нет метрик для
-  fallback — `adjustFontFallback: false`.
+- Шрифты — next/font в layout.js: Bebas Neue, DM Sans и Manrope через
+  `next/font/google` (self-hosted на сборке, с preload, без блокирующего
+  `@import`), Ponomar — через `next/font/local` из `src/app/fonts/`
+  (сабсет кириллица+латиница, woff2, SIL OFL 1.1 — лицензия рядом с файлом):
+  у Google-варианта нет таблицы метрик в Next, и загрузчик писал
+  «Failed to find font override values» на каждой сборке. Токены `--font-*`
+  в globals.css ссылаются на переменные next/font.
+- Пины ScrollTrigger («Места», гараж YÖRAN) закрепляют узел, у родителя
+  которого нет других детей (`.pinned` внутри секции, `.garageWrap`):
+  pin-spacer меняет DOM вне React, и если закреплён прямой ребёнок `<main>`,
+  любая вставка соседа (смена мобильной/десктопной версии по ресайзу) падает
+  с `NotFoundError: insertBefore`. Оба пина несут `refreshPriority`: чанки
+  гидрируются в произвольном порядке, а GSAP учитывает pin-spacer соседей
+  только у триггеров выше по списку — без сортировки по позиции нижний пин
+  «парковался» на 2900px раньше.
 - Тяжёлые главы (Landmarks, MadeInKomi, Transport) подключены через
   `next/dynamic`: HTML по-прежнему серверный, а их JS — отдельными чанками.
 - Зима: `body::after` — иней по углам экрана (CSS, без JS); `SnowEdge` — снежные

@@ -113,6 +113,12 @@ function LandmarksStatic({ wide = false }) {
 // ─── Десктопная версия (pinned, scrub) ──────────────────────────
 function LandmarksDesktop() {
   const sectionRef = useRef(null);
+  // Пинится внутренняя обёртка, а не сама секция: ScrollTrigger оборачивает
+  // закреплённый узел в .pin-spacer, и если это прямой ребёнок <main>, React
+  // при следующей вставке/удалении соседей (смена мобильной/десктопной
+  // версии «Мифологии» или самих «Мест») падает с NotFoundError: insertBefore.
+  // У секции единственный ребёнок — обёртка, туда React ничего не вставляет.
+  const pinRef     = useRef(null);
   const bgRefs      = useRef([]);
   const lineRef     = useRef(null);
   const dotRefs     = useRef([]);
@@ -140,7 +146,7 @@ function LandmarksDesktop() {
         trigger: section,
         start: "top top",
         end: `+=${PIN_DISTANCE}`,
-        pin: true,
+        pin: pinRef.current,
         pinSpacing: true,
         // refreshPriority включает сортировку триггеров по позиции в
         // документе: чанки секций гидрируются в произвольном порядке, а
@@ -225,6 +231,7 @@ function LandmarksDesktop() {
 
   return (
     <section id="landmarks" ref={sectionRef} className={styles.section}>
+    <div className={styles.pinned} ref={pinRef}>
 
       {/* ── ФОНЫ ── */}
       <div className={styles.bgStack}>
@@ -356,6 +363,7 @@ function LandmarksDesktop() {
           </div>
         ))}
       </div>
+    </div>
     </section>
   );
 }

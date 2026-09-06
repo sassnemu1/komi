@@ -392,7 +392,10 @@ export default function TransportSection() {
           ))}
         </dl>
 
-        {/* ── Гараж ── */}
+        {/* ── Гараж. Обёртка нужна ScrollTrigger: пин заворачивает гараж в
+            .pin-spacer, и у его родителя не должно быть других детей, иначе
+            React при перестановке соседей падает (insertBefore/removeChild). */}
+        <div className={styles.garageWrap}>
         <div className={styles.garage} ref={garageRef} data-garage data-mode={mode}>
           <div className={styles.garageMain}>
             {mode === "mobile" ? (
@@ -462,6 +465,7 @@ export default function TransportSection() {
           <aside className={styles.garageAside}>
             <Passport m={m} />
           </aside>
+        </div>
         </div>
 
         {/* ── Сервисы ── */}

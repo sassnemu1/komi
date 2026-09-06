@@ -8,6 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // только в браузере (на сервере эффекты не выполняются, но модуль импортируется).
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+  // Только в dev: доступ к триггерам из консоли и тестовых проб
+  if (process.env.NODE_ENV !== "production") window.__gsapST = ScrollTrigger;
 }
 
 export default function useGSAP() {
