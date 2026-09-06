@@ -83,19 +83,6 @@ const STARS = (() => {
   }));
 })();
 
-// Снежинка для углов рамки: шесть лучей с веточками
-function Snowflake({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
-      {[0, 60, 120].map((a) => (
-        <g key={a} transform={`rotate(${a} 32 32)`}>
-          <path d="M32 4v56M32 12l-5-5M32 12l5-5M32 52l-5 5M32 52l5 5M32 22l-4-4M32 22l4-4M32 42l-4 4M32 42l4 4" />
-        </g>
-      ))}
-    </svg>
-  );
-}
-
 export default function HeroBackdrop({ photo = "taiga-fog" }) {
   const p = PHOTOS[photo];
 
@@ -146,14 +133,6 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
         <path className={styles.driftLight} d="M0,250 C220,226 380,272 560,246 C740,220 900,268 1100,242 C1260,222 1360,254 1440,240 L1440,300 L0,300 Z" />
       </svg>
 
-      {/* Сугроб на переднем плане */}
-      <svg className={styles.bank} data-depth="34" data-layer="trees" viewBox="0 0 1440 160" preserveAspectRatio="none">
-        <path d="M0,90 C180,50 320,120 520,84 C700,52 860,118 1040,86 C1220,56 1340,96 1440,74 L1440,160 L0,160 Z" />
-      </svg>
-
-      {/* Виньетка — темнее по краям, сцена глубже */}
-      <div className={styles.vignette} />
-
       {/* Ночь — поднимается по скроллу под карту */}
       <div className={styles.night} data-layer="night" />
 
@@ -175,17 +154,7 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
         <span className={`${styles.aurora} ${styles.aurora1}`} />
         <span className={`${styles.aurora} ${styles.aurora2}`} />
         <span className={`${styles.aurora} ${styles.aurora3}`} />
-        <span className={styles.moon} />
-        <span className={`${styles.wind} ${styles.wind1}`} />
-        <span className={`${styles.wind} ${styles.wind2}`} />
-        <span className={`${styles.wind} ${styles.wind3}`} />
       </div>
-
-      {/* Иней в углах рамки */}
-      <Snowflake className={`${styles.frost} ${styles.frostTL}`} />
-      <Snowflake className={`${styles.frost} ${styles.frostTR}`} />
-      <div className={`${styles.frostGlow} ${styles.frostBL}`} />
-      <div className={`${styles.frostGlow} ${styles.frostBR}`} />
 
     </div>
   );
