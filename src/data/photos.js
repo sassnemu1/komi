@@ -6,6 +6,17 @@
 // pos — object-position для кадров, где центр обрезает сюжет.
 
 export const PHOTOS = {
+  "taiga-fog": {
+    "pos": "center 42%",
+    "src": "/photos/taiga-fog.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAQABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAUGBP/EABcBAAMBAAAAAAAAAAAAAAAAAAACAwT/2gAMAwEAAhADEAAAAFlLLu4GEDE3/8QAIRAAAgEDBAMBAAAAAAAAAAAAAgMBAAQRBRIhQRMVRHH/2gAIAQEAAT8A0t4LeOS4ivb22+I2067ljpyZc57qwAFEUuQR/kUt2nx8hU8RewSBHixM91//xAAbEQACAQUAAAAAAAAAAAAAAAAAAgEDEhMyQv/aAAgBAgEBPwDNC9qVHW7c/8QAFREBAQAAAAAAAAAAAAAAAAAAEBH/2gAIAQMBAT8Ah//Z",
+    "alt": "Густой туман над лесным озером в тайге, Печоро-Илычский заповедник",
+    "author": "Г. Новинская",
+    "license": "CC BY-SA 4.0",
+    "page": "https://commons.wikimedia.org/wiki/File:%D0%93%D1%83%D1%81%D1%82%D0%BE%D0%B9_%D1%82%D1%83%D0%BC%D0%B0%D0%BD.jpg",
+    "w": 5184,
+    "h": 3456
+  },
   "manpupuner-aurora": {
     "pos": "62% center",
     "src": "/photos/manpupuner-aurora.jpg",
@@ -118,17 +129,6 @@ export const PHOTOS = {
     "page": "https://commons.wikimedia.org/wiki/File:Russia,_Komi,_Pechora_WMID6256736_719.jpg",
     "w": 2048,
     "h": 1365
-  },
-  "gorka": {
-    "pos": "center 22%",
-    "src": "/photos/gorka.jpg",
-    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAARABgDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAQFAQP/xAAXAQADAQAAAAAAAAAAAAAAAAAAAgMB/9oADAMBAAIQAxAAAACWXnnlNZSiuvEXWoB//8QAJRAAAgEDAwIHAAAAAAAAAAAAAQIDAAQhERIxBRMUMzRhc4GR/9oACAEBAAE/AJZI00LOGLK3K4qNYmfw740ZTuGCdw4qbp7du4kXapABRcimikupigJQLJnWu3OLpn2Y5IPtVvMskMinUFhoPyl4qT18fwNVv5f3X//EAB0RAAECBwAAAAAAAAAAAAAAAAIAAQMQERIhMWH/2gAIAQIBAT8AKGA1s1hOPJ//xAAbEQACAQUAAAAAAAAAAAAAAAABEgIAEBEiQf/aAAgBAwEBPwAIYALtSw7m/wD/2Q==",
-    "alt": "Участники праздника «Усть-Цилемская горка» в традиционных костюмах",
-    "author": "Г. Новинская",
-    "license": "CC BY-SA 4.0",
-    "page": "https://commons.wikimedia.org/wiki/File:%D0%A3%D1%81%D1%82%D1%8C-%D0%A6%D0%B8%D0%BB%D0%B5%D0%BC%D1%81%D0%BA%D0%B0%D1%8F_%D0%B3%D0%BE%D1%80%D0%BA%D0%B0.jpg",
-    "w": 8000,
-    "h": 5784
   },
   "tundra": {
     "src": "/photos/tundra.jpg",

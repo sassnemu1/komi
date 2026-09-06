@@ -27,14 +27,6 @@ export default function Home() {
         <HeroSection />
         <MythologySection />
 
-        <Interlude
-          photo="gorka"
-          depth={0.7}
-          focus="top"
-          eyebrow="Усть-Цилемский район"
-          title="Усть-Цилемская Горка"
-          caption="Хороводное гулянье русских староверов Усть-Цильмы — живая традиция, внесённая в реестр нематериального культурного наследия."
-        />
 
         <LandmarksSection />
         <StayDineSection />
