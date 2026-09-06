@@ -1,5 +1,6 @@
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
+import SiteSnow from "@/components/SiteSnow/SiteSnow";
 
 const SITE = "https://komi.world";
 const MAP_URL = "https://map.komi.world";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }) {
       <body>
         <SmoothScroll />
         {children}
+        <SiteSnow />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd(ORGANIZATION_LD) }}

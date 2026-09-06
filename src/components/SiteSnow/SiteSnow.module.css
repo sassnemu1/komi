@@ -1,0 +1,9 @@
+/* Снег поверх страницы: под шапкой (z-index 1000) и панелями, над секциями */
+.snow {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 30;
+  pointer-events: none;
+}

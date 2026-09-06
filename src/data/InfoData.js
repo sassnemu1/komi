@@ -24,7 +24,10 @@
 // Необязательные поля: site { label, href } — внешний сайт бренда;
 // lineup [{ step, name, type, year }] — ступени линейки (YÖRAN);
 // stats у раздела — строка крупных цифр под заголовком.
-// Фото у объектов холдинга нет — image: null, карточка рисуется через thumbBg.
+// Фото самих объектов холдинга нет. У отелей и ресторанов image — либо
+// снимок места (Commons, подпись caption из photos.js), либо визуализация из
+// меморандума холдинга (render: true, помечается на карточке). Где image null —
+// карточка рисуется через thumbBg.
 
 const MAP = "https://map.komi.world";
 const entry = (id) => `${MAP}/entry/${id}`;
@@ -167,7 +170,7 @@ export const INFO_DATA = [
         sub: "Сеть гостиниц · 7 объектов",
         desc: "Гостиничная сеть холдинга «Велес И К»: семь объектов.",
         year: "Сеть",
-        image: null,
+        image: "/photos/render-lobby.jpg",
         thumbBg: "linear-gradient(135deg,#060d1f,#2248a8)",
         badge: "Бренд холдинга",
       },
@@ -176,7 +179,7 @@ export const INFO_DATA = [
         sub: "Эко-отель",
         desc: "Эко-отель холдинга. Здесь же работает шоурум мебели «Корни Пармы».",
         year: "Эко-отель",
-        image: null,
+        image: "/photos/render-cabin.jpg",
         thumbBg: "linear-gradient(135deg,#0b1214,#1aa861)",
         badge: "Бренд холдинга",
       },
@@ -185,7 +188,7 @@ export const INFO_DATA = [
         sub: "Отель в Якше",
         desc: "Отель холдинга в посёлке Якша — отправной точке туристического коридора Якша—Маньпупунёр.",
         year: "Якша",
-        image: null,
+        image: "/photos/yaksha-house.jpg",
         thumbBg: "linear-gradient(135deg,#0d1a3d,#6b9eff)",
         location: "Якша",
         badge: "Бренд холдинга",
@@ -195,7 +198,7 @@ export const INFO_DATA = [
         sub: "Отель",
         desc: "Отель из гостиничного портфеля холдинга «Велес И К».",
         year: "Отель",
-        image: null,
+        image: "/photos/render-izba.jpg",
         thumbBg: "linear-gradient(135deg,#081428,#3a6bd1)",
         badge: "Бренд холдинга",
       },
@@ -204,7 +207,7 @@ export const INFO_DATA = [
         sub: "Глэмпинг · 16 домиков",
         desc: "16 домиков — первая фаза коридора Якша—Маньпупунёр («Фундамент Якши», 2026–27) вместе с лосефермой, тремя экотропами и кордоном Шежым.",
         year: "Фаза 1 · 2026–27",
-        image: null,
+        image: "/photos/render-dome.jpg",
         thumbBg: "linear-gradient(135deg,#0a1e3a,#5c8fe0)",
         location: "Якша",
         badge: "В проекте",
@@ -226,7 +229,7 @@ export const INFO_DATA = [
         sub: "Ресторан",
         desc: "Ресторан холдинга «Велес И К». «Вӧр» по-коми — лес.",
         year: "Ресторан",
-        image: null,
+        image: "/photos/yb-ethnopark.jpg",
         thumbBg: "linear-gradient(135deg,#2b1606,#c2701c)",
         badge: "Бренд холдинга",
       },
@@ -235,7 +238,7 @@ export const INFO_DATA = [
         sub: "Ресторан",
         desc: "Ресторан холдинга «Велес И К».",
         year: "Ресторан",
-        image: null,
+        image: "/photos/forest-snow.jpg",
         thumbBg: "linear-gradient(135deg,#1f1206,#e08a3a)",
         badge: "Бренд холдинга",
       },
@@ -244,7 +247,7 @@ export const INFO_DATA = [
         sub: "Ресторан",
         desc: "Ресторан холдинга «Велес И К».",
         year: "Ресторан",
-        image: null,
+        image: "/photos/pechora-city.jpg",
         thumbBg: "linear-gradient(135deg,#2a1808,#d98a3d)",
         badge: "Бренд холдинга",
       },
@@ -253,7 +256,7 @@ export const INFO_DATA = [
         sub: "Ресторан",
         desc: "Ресторан холдинга «Велес И К».",
         year: "Ресторан",
-        image: null,
+        image: "/photos/ukhta-aerial.jpg",
         thumbBg: "linear-gradient(135deg,#231405,#e0823a)",
         badge: "Бренд холдинга",
       },
@@ -262,7 +265,7 @@ export const INFO_DATA = [
         sub: "Ресторан",
         desc: "Ресторан холдинга «Велес И К».",
         year: "Ресторан",
-        image: null,
+        image: "/photos/taiga-fairy.jpg",
         thumbBg: "linear-gradient(135deg,#2b1606,#c2701c)",
         badge: "Бренд холдинга",
       },
@@ -271,7 +274,7 @@ export const INFO_DATA = [
         sub: "Ресторан на фуникулёре",
         desc: "Ресторан на фуникулёре «Якша Skyview» с террасой 360° — вторая фаза коридора Якша—Маньпупунёр (2028–30). В проекте.",
         year: "Фаза 2 · 2028–30",
-        image: null,
+        image: "/photos/render-gondola.jpg",
         thumbBg: "linear-gradient(135deg,#1f1206,#e08a3a)",
         location: "Якша",
         badge: "В проекте",

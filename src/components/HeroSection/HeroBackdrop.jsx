@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { PHOTOS } from "@/data/photos";
-import SnowCanvas from "./SnowCanvas";
 import styles from "./HeroBackdrop.module.css";
 
 // Сцена hero — «три полосы, три стихии». Снизу вверх:
@@ -14,7 +13,7 @@ import styles from "./HeroBackdrop.module.css";
 //   сугробы на белой полосе;
 //   ночь — тёмная пелена, которую GSAP поднимает по скроллу под карту;
 //   небо — звёзды и северное сияние (над ночью: на стадии карты остаются);
-//   снегопад на canvas.
+//   снегопад — общий слой сайта (components/SiteSnow), он ложится и сюда.
 // data-depth — амплитуда параллакса от курсора (px); data-layer — слои,
 // которыми управляют таймлайны HeroSection (trees, night, sky, band).
 // Силуэты и звёзды генерируются детерминированно (сидированный PRNG) —
@@ -157,7 +156,6 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
         <span className={`${styles.aurora} ${styles.aurora3}`} />
       </div>
 
-      <SnowCanvas className={styles.snow} snowLine={0.667} />
     </div>
   );
 }
