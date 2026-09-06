@@ -1,22 +1,108 @@
 .wrap {
   position: relative;
-  top: -330px;
-  left: 23%;
   width: 100%;
 }
 
 .svgHost {
-  position: absolute;
-  width: 50%;
+  position: relative;
+  width: 100%;
   height: auto;
   display: block;
 }
 
 .svgHost :global(svg) {
-  width: 50%;
+  width: 100%;
   height: auto;
   display: block;
   overflow: visible;
+}
+
+/* ─── РАЙОНЫ ─────────────────────────────────────────────── */
+/*
+  Районы без флага в покое получают тонкую заливку, чтобы карта
+  читалась целиком; районы с флагом — приглушённый флаг-паттерн
+  (inline-style fill из KomiMap.jsx, поэтому здесь управляем только
+  fill-opacity). Hover, фокус с клавиатуры и подсветка из легенды
+  (data-hovered) выглядят одинаково.
+*/
+.svgHost :global(path[data-district]) {
+  fill: rgba(255, 255, 255, 0.065);
+  fill-opacity: 1;
+  stroke: rgba(107, 158, 255, 0.85);
+  stroke-width: 0.75;
+  stroke-opacity: 0.22;
+  outline: none;
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    stroke-opacity 0.3s ease,
+    stroke-width 0.3s ease,
+    fill 0.3s ease,
+    fill-opacity 0.3s ease,
+    filter 0.3s ease,
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.svgHost :global(path[data-district][data-has-flag]) {
+  fill-opacity: 0.42;
+  stroke-opacity: 0.38;
+}
+
+.svgHost :global(path[data-district]:hover),
+.svgHost :global(path[data-district][data-hovered]),
+.svgHost :global(path[data-district]:focus-visible) {
+  stroke-opacity: 1;
+  fill: rgba(107, 158, 255, 0.38);
+  filter: drop-shadow(0 0 14px rgba(107, 158, 255, 0.9));
+  transform: scale(1.035);
+}
+
+.svgHost :global(path[data-district][data-has-flag]:hover),
+.svgHost :global(path[data-district][data-has-flag][data-hovered]),
+.svgHost :global(path[data-district][data-has-flag]:focus-visible) {
+  fill-opacity: 1;
+  stroke-opacity: 1;
+}
+
+/* Выбранный район: белая обводка, ярче заливка, мягкая тень */
+.svgHost :global(path[data-district][data-selected]) {
+  stroke: #fff;
+  stroke-width: 1;
+  stroke-opacity: 1;
+  fill: rgba(107, 158, 255, 0.5);
+  fill-opacity: 1;
+  filter: drop-shadow(0 0 18px rgba(107, 158, 255, 0.85));
+  transform: scale(1.02);
+}
+
+.svgHost :global(path[data-district][data-has-flag][data-selected]) {
+  fill-opacity: 1;
+}
+
+/* При выбранном районе остальные приглушаются */
+.svgHost[data-has-selection] :global(path[data-district]:not([data-selected])) {
+  opacity: 0.45;
+}
+
+.svgHost[data-has-selection] :global(path[data-district]:not([data-selected]):hover),
+.svgHost[data-has-selection] :global(path[data-district]:not([data-selected])[data-hovered]),
+.svgHost[data-has-selection] :global(path[data-district]:not([data-selected]):focus-visible) {
+  opacity: 0.9;
+}
+
+/* Номера районов (слой #layer5 — обведённые в кривые цифры Illustrator):
+   уменьшаем и приглушаем, чтобы не спорили с картой и легендой. */
+.svgHost :global(#layer5) {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.svgHost :global(#layer5 > g) {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.74);
 }
 
 /* ─── TOOLTIP / ТАБЛО ────────────────────────────────────────── */
@@ -70,4 +156,15 @@
   font-weight: 600;
   color: #fff;
   letter-spacing: 0.01em;
+}
+
+.tooltipCount {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svgHost :global(path[data-district]) { transition: none; }
+  .tooltip { animation: none; }
 }

@@ -10,6 +10,67 @@ import { INFO_DATA } from "@/data/InfoData";
 const HOTELS      = INFO_DATA.find((c) => c.id === "04");
 const RESTAURANTS = INFO_DATA.find((c) => c.id === "05");
 
+// Название карточки: если title совпадает с названием категории
+// («Отели», «Рестораны») — это шаблонная заглушка, показываем sub.
+function cardName(work, tag) {
+  const title = (work.title ?? "").trim();
+  if (!title || title === tag) return { name: work.sub, sub: null };
+  return { name: title, sub: work.sub };
+}
+
+const initialOf = (name = "") => name.replace(/^[«"'\s]+/, "").charAt(0);
+
+function Card({ work, tag }) {
+  const { name, sub } = cardName(work, tag);
+  const hasImage = Boolean(work.image);
+  const Tag = work.href ? "a" : "div";
+  const linkProps = work.href
+    ? { href: work.href, target: "_blank", rel: "noopener noreferrer" }
+    : {};
+
+  const style = hasImage
+    ? { backgroundImage: `url(${work.image})` }
+    : work.thumbBg
+      ? { background: work.thumbBg }
+      : undefined;
+
+  return (
+    <Tag
+      className={`${styles.row} ${hasImage ? "" : styles.rowPoster}`}
+      style={style}
+      {...linkProps}
+    >
+      {!hasImage && (
+        <>
+          <div className={styles.ornament} aria-hidden="true" />
+          <span className={styles.posterLetter} aria-hidden="true">
+            {initialOf(name)}
+          </span>
+        </>
+      )}
+      <div className={styles.rowOverlay} />
+      <div className={styles.rowBody}>
+        <div className={styles.rowMeta}>
+          {work.year && <span className={styles.rowTag}>{work.year}</span>}
+          {work.badge && <span className={styles.rowBadge}>{work.badge}</span>}
+        </div>
+        <h3 className={styles.rowTitle}>{name}</h3>
+        {sub && <span className={styles.rowSub}>{sub}</span>}
+        {work.location && (
+          <span className={styles.rowLocation}>
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <circle cx="5" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.2" />
+            </svg>
+            {work.location}
+          </span>
+        )}
+        {work.desc && <p className={styles.rowDesc}>{work.desc}</p>}
+        {work.href && <span className={styles.rowLink}>Перейти на сайт ↗</span>}
+      </div>
+    </Tag>
+  );
+}
+
 function Column({ data, Icon }) {
   return (
     <div className={styles.column}>
@@ -18,22 +79,11 @@ function Column({ data, Icon }) {
         <span className={styles.columnLabel}>{data.tag}</span>
       </div>
 
-      <p className={styles.columnLead}>{data.desc}</p>
+      {data.desc && <p className={styles.columnLead}>{data.desc}</p>}
 
       <div className={styles.grid}>
         {data.works.map((work, i) => (
-          <div
-            className={styles.row}
-            key={i}
-            style={{ backgroundImage: `url(${work.image})` }}
-          >
-            <div className={styles.rowOverlay} />
-            <div className={styles.rowBody}>
-              <span className={styles.rowTag}>{work.year}</span>
-              <h3 className={styles.rowTitle}>{work.sub}</h3>
-              <p className={styles.rowDesc}>{work.desc}</p>
-            </div>
-          </div>
+          <Card work={work} tag={data.tag} key={work.href ?? `${data.id}-${i}`} />
         ))}
       </div>
     </div>
@@ -53,6 +103,8 @@ export default function StayDineSection() {
     if (!gsap || !ScrollTrigger) return;
     const section = sectionRef.current;
     if (!section) return;
+    // prefers-reduced-motion: элементы уже в финальном состоянии — ничего не прячем
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
       const rows = section.querySelectorAll(`.${styles.row}`);
@@ -81,10 +133,10 @@ export default function StayDineSection() {
   if (!HOTELS || !RESTAURANTS) return null;
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section id="stay" ref={sectionRef} className={styles.section}>
       <header className={styles.header}>
         <span className={styles.eyebrow} ref={eyebrowRef}>
-          Республика Коми &nbsp;·&nbsp; Сервис
+          Республика Коми &nbsp;·&nbsp; Отели и рестораны
         </span>
         <div className={styles.titleLineWrap}>
           <div className={styles.titleLine} ref={lineRef} />
@@ -94,8 +146,7 @@ export default function StayDineSection() {
           <span>и куда сходить поесть</span>
         </h2>
         <p className={styles.lead} ref={leadRef}>
-          От деловых отелей в Сыктывкаре до таёжных эко-домиков и кафе
-          с традиционной кухней зырян — подборка проверенных мест.
+          Отели и рестораны холдинга «Велес И К» — от Сыктывкара до таёжной Якши.
         </p>
       </header>
 

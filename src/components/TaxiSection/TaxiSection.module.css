@@ -362,8 +362,20 @@
 @media (min-width: 768px) {
   .sectionMobile { display: none !important; }
   .section       { display: block !important; }
+
+  /* Статичная версия для prefers-reduced-motion на десктопе:
+     видео не запускается (play() не вызывается), виден первый кадр */
+  .sectionStatic { display: flex !important; }
+  .sectionStatic .mobileContent {
+    padding: 0 10vw 12vh;
+    max-width: 720px;
+    gap: 16px;
+  }
+  .sectionStatic .mobileTitle { font-size: clamp(3.8rem, 7vw, 7.5rem); }
+  .sectionStatic .mobileBody  { max-width: 420px; font-size: 0.98rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .video { display: none; }
+  .ctaBtn, .ctaBtn svg, .mobileCta { transition: none; }
+  .ctaBtn:hover { transform: none; }
 }

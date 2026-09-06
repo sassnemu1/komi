@@ -10,18 +10,20 @@ import DetailOverlay  from "./DetailOverlay/DetailOverlay";
 
 import "./ServicesSlider.css";
 
+const REDUCED_MQ = "(prefers-reduced-motion: reduce)";
+
 export default function ServicesSlider({
   sliderInfo,
   services: servicesProp,
   sectionId          = "services",
-  ctaLabel           = "View work",
-  statLabel          = "Projects",
+  ctaLabel           = "Подробнее",
+  statLabel          = "Позиций",
   secondaryStatLabel,
   secondaryStatValue,
-  worksCtaLabel      = "See all work",
-  worksCtaHref       = "/work",
-  showWorksCta       = true,
-  showStats          = true,
+  worksCtaLabel      = "Связаться с нами",
+  worksCtaHref       = "#contacts",
+  showWorksCta       = false,
+  showStats          = false,
 }) {
   const sectionRef    = useRef(null);
   const viewportRef   = useRef(null);
@@ -40,7 +42,9 @@ export default function ServicesSlider({
   const originRectRef   = useRef(null);
   const openRafRef      = useRef(null);
   const isMobileRef     = useRef(false);
+  const reducedRef      = useRef(false);
   const savedScrollYRef = useRef(0);
+  const afterCloseRef   = useRef(null);
 
   // ── Drag state ────────────────────────────────────────────────
   const boundsRef         = useRef({ min: 0, max: 0 });
@@ -55,51 +59,47 @@ export default function ServicesSlider({
   const { gsap, ScrollTrigger } = useGSAP();
 
   const services = servicesProp ?? [];
+  const categoryTag = services[0]?.tag ?? sliderInfo?.title;
 
   // ── Scroll lock ───────────────────────────────────────────────
+  // Только overflow:hidden на <html>. Прежний приём body{position:fixed}
+  // обнулял window.scrollY — ScrollTrigger воспринимал это как прыжок к
+  // началу страницы, разом снимал все пины (hero, достопримечательности,
+  // транспорт, такси) и пересчитывал триггеры; главный поток замирал на
+  // секунды, а открытие карточки ползло по кадру. Оверлей и так fixed и
+  // накрывает вьюпорт, прятать остальную страницу через visibility незачем.
   const lockBodyScroll = useCallback(() => {
+    const html = document.documentElement;
+    const scrollbar = window.innerWidth - html.clientWidth;
     savedScrollYRef.current = window.scrollY;
-
-    const section = sectionRef.current;
-    if (section) {
-      Array.from(document.body.children).forEach(el => {
-        if (!el.contains(section) && el !== section) {
-          el.dataset.hiddenByServices = el.style.visibility || "";
-          el.style.visibility = "hidden";
-        }
-      });
-    }
-
-    document.body.style.position = "fixed";
-    document.body.style.top      = `-${savedScrollYRef.current}px`;
-    document.body.style.left     = "0";
-    document.body.style.right    = "0";
-    document.body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    html.style.touchAction = "none";
+    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
   }, []);
 
   const unlockBodyScroll = useCallback(() => {
-    Array.from(document.body.children).forEach(el => {
-      if ("hiddenByServices" in el.dataset) {
-        el.style.visibility = el.dataset.hiddenByServices;
-        delete el.dataset.hiddenByServices;
-      }
-    });
-
-    document.body.style.position = "";
-    document.body.style.top      = "";
-    document.body.style.left     = "";
-    document.body.style.right    = "";
-    document.body.style.overflow = "";
-    window.scrollTo({ top: savedScrollYRef.current, behavior: "instant" });
+    const html = document.documentElement;
+    html.style.overflow = "";
+    html.style.touchAction = "";
+    document.body.style.paddingRight = "";
   }, []);
 
-  // ── Detect mobile ─────────────────────────────────────────────
+  // ── Detect mobile / reduced motion ────────────────────────────
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 768px)");
     isMobileRef.current = mq.matches;
     const onChange = (e) => { isMobileRef.current = e.matches; };
     mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+
+    const rq = window.matchMedia(REDUCED_MQ);
+    reducedRef.current = rq.matches;
+    const onReduced = (e) => { reducedRef.current = e.matches; };
+    rq.addEventListener("change", onReduced);
+
+    return () => {
+      mq.removeEventListener("change", onChange);
+      rq.removeEventListener("change", onReduced);
+    };
   }, []);
 
   // ── Measure ───────────────────────────────────────────────────
@@ -131,28 +131,13 @@ export default function ServicesSlider({
 
     if (!gsap || !trackRef.current) return;
     const target = clamp(-clamped * stepRef.current, boundsRef.current.min, boundsRef.current.max);
-    gsap.to(trackRef.current, { x: target, duration: 0.6, ease: "power3.out" });
+    gsap.to(trackRef.current, {
+      x: target,
+      duration: reducedRef.current ? 0 : 0.6,
+      ease: "power3.out",
+    });
   }, [gsap, services.length]);
 
-  // ── Keyboard navigation ───────────────────────────────────────
-  useEffect(() => {
-    const onKey = (e) => {
-      if (detailVisible) {
-        if (e.key === "Escape") closeDetail();
-        return;
-      }
-      if (document.activeElement && document.activeElement !== document.body) {
-        // Если фокус внутри другого поля — не перехватываем
-        const tag = document.activeElement.tagName;
-        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-      }
-      if (e.key === "ArrowRight") { e.preventDefault(); goTo(activeIndex + 1); }
-      if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(activeIndex - 1); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [goTo, activeIndex, detailVisible]);
 
   // ── Pointer drag ──────────────────────────────────────────────
   const onPointerDown = useCallback((e) => {
@@ -239,6 +224,13 @@ export default function ServicesSlider({
 
       measure();
 
+      if (window.matchMedia(REDUCED_MQ).matches) {
+        // Без анимаций: всё сразу в финальном состоянии
+        gsap.set([titleRef.current, counterRef.current, navRowRef.current], { opacity: 1, y: 0 });
+        gsap.set(cardRefs.current.filter(Boolean), { opacity: 1, y: 0, scale: 1 });
+        return;
+      }
+
       gsap.timeline({ scrollTrigger: { trigger: section, start: "top 80%" } })
         .fromTo(titleRef.current,
           { opacity: 0, y: 40 },
@@ -291,6 +283,7 @@ export default function ServicesSlider({
     const detail    = detailRef.current;
     const portfolio = portfolioRef.current;
     const closeBtn  = closeBtnRef.current;
+    const reduced   = reducedRef.current;
 
     if (isMobileRef.current) {
       gsap.set(detail,    { display: "flex", opacity: 0 });
@@ -305,9 +298,9 @@ export default function ServicesSlider({
       openRafRef.current = requestAnimationFrame(() => {
         openRafRef.current = requestAnimationFrame(() => {
           const validWorkItems = workItemRefs.current.filter(Boolean);
-          gsap.set(validWorkItems, { opacity: 0, y: 18 });
+          if (validWorkItems.length) gsap.set(validWorkItems, { opacity: 0, y: 18 });
 
-          gsap.timeline({
+          const tl = gsap.timeline({
             defaults:   { ease: "expo.out" },
             onComplete: () => { isAnimatingRef.current = false; },
           })
@@ -315,6 +308,7 @@ export default function ServicesSlider({
             .to(portfolio,      { opacity: 1, y: 0, duration: 0.5 }, 0.08)
             .to(closeBtn,       { opacity: 1,  duration: 0.3 }, 0.18)
             .to(validWorkItems, { opacity: 1, y: 0, stagger: 0.055, duration: 0.45 }, 0.22);
+          if (reduced) tl.progress(1);
         });
       });
       return;
@@ -350,9 +344,9 @@ export default function ServicesSlider({
     openRafRef.current = requestAnimationFrame(() => {
       openRafRef.current = requestAnimationFrame(() => {
         const validWorkItems = workItemRefs.current.filter(Boolean);
-        gsap.set(validWorkItems, { opacity: 0, x: -40 });
+        if (validWorkItems.length) gsap.set(validWorkItems, { opacity: 0, x: -40 });
 
-        gsap.timeline({
+        const tl = gsap.timeline({
           defaults:   { ease: "expo.out" },
           onComplete: () => { isAnimatingRef.current = false; },
         })
@@ -365,12 +359,13 @@ export default function ServicesSlider({
           .to(portfolio,      { opacity: 1, x: 0, duration: 0.6 }, 0.42)
           .to(closeBtn,       { opacity: 1, y: 0, duration: 0.38, ease: "power3.out" }, 0.48)
           .to(validWorkItems, { opacity: 1, x: 0, stagger: 0.06, duration: 0.52 }, 0.54);
+        if (reduced) tl.progress(1);
       });
     });
   }, [gsap, detailVisible, lockBodyScroll]);
 
   // ── Close detail ──────────────────────────────────────────────
-  const closeDetail = useCallback(() => {
+  const closeDetail = () => {
     if (!gsap || isAnimatingRef.current || !detailVisible) return;
     isAnimatingRef.current = true;
     cancelAnimationFrame(openRafRef.current);
@@ -379,20 +374,26 @@ export default function ServicesSlider({
     const portfolio      = portfolioRef.current;
     const closeBtn       = closeBtnRef.current;
     const validWorkItems = workItemRefs.current.filter(Boolean);
+    const reduced        = reducedRef.current;
+
+    const finish = () => {
+      gsap.set(detail, { display: "none" });
+      setDetailVisible(false);
+      setSelectedService(null);
+      isAnimatingRef.current = false;
+      originRectRef.current  = null;
+      unlockBodyScroll();
+      const after = afterCloseRef.current;
+      afterCloseRef.current = null;
+      if (after) after();
+    };
 
     if (isMobileRef.current) {
-      gsap.timeline({
-        onComplete: () => {
-          gsap.set(detail, { display: "none" });
-          setDetailVisible(false);
-          setSelectedService(null);
-          isAnimatingRef.current = false;
-          unlockBodyScroll();
-        },
-      })
+      const tl = gsap.timeline({ onComplete: finish })
         .to(validWorkItems, { opacity: 0, y: 12, stagger: 0.025, duration: 0.2,  ease: "power2.in" }, 0)
         .to(portfolio,      { opacity: 0, y: 18,                  duration: 0.22, ease: "power2.in" }, 0.04)
         .to(detail,         { opacity: 0,                          duration: 0.22 }, 0.14);
+      if (reduced) tl.progress(1);
       return;
     }
 
@@ -406,16 +407,9 @@ export default function ServicesSlider({
     const flipW       = origin ? origin.width  : 400;
     const flipH       = origin ? origin.height : 460;
 
-    gsap.timeline({
+    const tl = gsap.timeline({
       defaults:   { ease: "expo.inOut" },
-      onComplete: () => {
-        gsap.set(detail, { display: "none" });
-        setDetailVisible(false);
-        setSelectedService(null);
-        isAnimatingRef.current = false;
-        originRectRef.current  = null;
-        unlockBodyScroll();
-      },
+      onComplete: finish,
     })
       .to(validWorkItems, { opacity: 0, x: -30, stagger: 0.025, duration: 0.26, ease: "power2.in" }, 0)
       .to(closeBtn,       { opacity: 0, y: -16,                  duration: 0.2,  ease: "power2.in" }, 0)
@@ -423,14 +417,53 @@ export default function ServicesSlider({
       .to(detailCard,     { top: flipTop, left: flipLeft, width: flipW, height: flipH, borderRadius: 20, duration: 1.6, clearProps: "xPercent,yPercent" }, 0.06)
       .to(detail,         { opacity: 0,                           duration: 1.1,  ease: "power2.in" }, 0.48)
       .to(allCards,       { opacity: 1, scale: 1, y: 0, stagger: 0.04, duration: 0.55, ease: "power3.out" }, 0.42);
-  }, [gsap, detailVisible, unlockBodyScroll]);
+    if (reduced) tl.progress(1);
+  };
+
+  // Ссылка-якорь из оверлея: сначала закрываем и снимаем scroll-lock,
+  // потом скроллим к якорю (иначе scrollTo при разблокировке вернёт назад).
+  const onWorksCta = (href) => {
+    if (typeof href === "string" && href.startsWith("#")) {
+      afterCloseRef.current = () => {
+        const target = document.querySelector(href);
+        if (target) target.scrollIntoView({ behavior: reducedRef.current ? "auto" : "smooth" });
+        else window.location.hash = href;
+      };
+      closeDetail();
+      return true;
+    }
+    return false;
+  };
+
+  // ── Keyboard navigation ───────────────────────────────────────
+  // closeDetail берём через ref, чтобы не перевешивать слушатель на каждый рендер
+  const closeDetailRef = useRef(null);
+  useEffect(() => { closeDetailRef.current = closeDetail; });
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (detailVisible) {
+        if (e.key === "Escape") closeDetailRef.current?.();
+        return;
+      }
+      if (document.activeElement && document.activeElement !== document.body) {
+        // Если фокус внутри другого поля — не перехватываем
+        const tag = document.activeElement.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      }
+      if (e.key === "ArrowRight") { e.preventDefault(); goTo(activeIndex + 1); }
+      if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(activeIndex - 1); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [goTo, activeIndex, detailVisible]);
 
   // ── Cleanup ───────────────────────────────────────────────────
   useEffect(() => () => cancelAnimationFrame(openRafRef.current), []);
 
   useEffect(() => {
     return () => {
-      if (document.body.style.position === "fixed") {
+      if (document.documentElement.style.overflow === "hidden") {
         unlockBodyScroll();
       }
     };
@@ -444,6 +477,7 @@ export default function ServicesSlider({
         counterRef={counterRef}
         total={services.length}
         current={activeIndex + 1}
+        tag={categoryTag}
         title={sliderInfo?.title}
         desc={sliderInfo?.desc}
       />
@@ -476,6 +510,7 @@ export default function ServicesSlider({
         workItemRefs={workItemRefs}
         selectedService={selectedService}
         onClose={closeDetail}
+        onWorksCta={onWorksCta}
         statLabel={statLabel}
         secondaryStatLabel={secondaryStatLabel}
         secondaryStatValue={secondaryStatValue}

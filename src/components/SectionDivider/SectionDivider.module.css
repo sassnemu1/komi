@@ -1,0 +1,58 @@
+/* ─── SECTION DIVIDER ──────────────────────────────────────────── */
+.divider {
+  --divider-bg: #07070a;
+  position: relative;
+  width: 100%;
+  padding: 26px 0;
+  background: var(--divider-bg);
+  overflow: hidden;
+}
+
+.dark  { --divider-bg: #07070a; }
+.light { --divider-bg: #0b1214; }
+
+/* Сама полоса: орнамент через маску, цвет — background-color */
+.strip {
+  position: relative;
+  height: 28px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.10);
+
+  -webkit-mask-image: url("/brand/komi-ornament-strip-transparent.svg");
+  mask-image: url("/brand/komi-ornament-strip-transparent.svg");
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Плавное затухание по краям — градиент цвета подложки поверх полосы */
+.divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--divider-bg) 0%,
+    transparent 22%,
+    transparent 78%,
+    var(--divider-bg) 100%
+  );
+}
+
+@media (max-width: 767px) {
+  .divider { padding: 18px 0; }
+  .strip { height: 22px; }
+  .divider::after {
+    background: linear-gradient(
+      to right,
+      var(--divider-bg) 0%,
+      transparent 14%,
+      transparent 86%,
+      var(--divider-bg) 100%
+    );
+  }
+}

@@ -13,22 +13,46 @@ const CARDS = MYTH?.works ?? [];
 // В разработке подменяется через NEXT_PUBLIC_MAP_URL=http://localhost:8936
 const MAP_URL = process.env.NEXT_PUBLIC_MAP_URL || "https://map.komi.world";
 
-function splitTitle(title) {
+const LINK_LABEL = "Читать на карте преданий";
+
+function splitTitle(title = "") {
   const [main, sub] = title.split("\n");
   return { main: main?.trim(), sub: sub?.trim() };
+}
+
+// href записи: агент контента может положить прямую ссылку на map.komi.world,
+// иначе ведём на корень карты.
+const hrefOf = (card) => card.href || MAP_URL;
+const chipOf = (card) => card.genre || card.year;
+const chipStyle = (card) => (card.genreColor ? { "--chip": card.genreColor } : undefined);
+const initialOf = (name = "") => name.replace(/^[«"'\s]+/, "").charAt(0);
+
+function CardVisual({ card, alt, sizes, className }) {
+  if (card.image) {
+    return <Image src={card.image} alt={alt} fill sizes={sizes} className={className} />;
+  }
+  return (
+    <div
+      className={styles.poster}
+      style={card.thumbBg ? { background: card.thumbBg } : undefined}
+    >
+      <div className={styles.ornament} aria-hidden="true" />
+      <span className={styles.posterLetter} aria-hidden="true">{initialOf(alt)}</span>
+    </div>
+  );
 }
 
 // ─── Мобильная версия ───────────────────────────────────────────
 function MythologyMobile() {
   return (
-    <section className={styles.sectionMobile}>
+    <section id="mythology" className={styles.sectionMobile}>
       <header className={styles.mobileHeader}>
         <span className={styles.eyebrow}>Республика Коми &nbsp;·&nbsp; Эпос</span>
         <h2 className={styles.mobileTitle}>Мифология</h2>
         <p className={styles.mobileLead}>
           Пантеон богов, духи стихий и герои коми-зырянских сказаний.
         </p>
-        <a className={styles.mapLink} href={MAP_URL}>
+        <a className={styles.mapLink} href={MAP_URL} target="_blank" rel="noopener noreferrer">
           Открыть карту преданий →
         </a>
       </header>
@@ -37,19 +61,27 @@ function MythologyMobile() {
         {CARDS.map((card, i) => {
           const { main, sub } = splitTitle(card.title);
           return (
-            <div className={styles.mobileCard} key={i}>
+            <a
+              className={styles.mobileCard}
+              key={card.href ?? i}
+              href={hrefOf(card)}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={chipStyle(card)}
+            >
               <div className={styles.mobileCardImage}>
-                <Image src={card.image} alt={main} fill sizes="92vw" />
+                <CardVisual card={card} alt={main} sizes="92vw" />
                 <div className={styles.mobileCardOverlay} />
                 <span className={styles.mobileCardNum}>{String(i + 1).padStart(2, "0")}</span>
               </div>
               <div className={styles.mobileCardBody}>
-                <span className={styles.cardTag}>{card.year}</span>
+                {chipOf(card) && <span className={styles.cardTag}>{chipOf(card)}</span>}
                 <h3 className={styles.mobileCardTitle}>{main}</h3>
                 {sub && <span className={styles.cardSub}>{sub}</span>}
-                <p className={styles.mobileCardDesc}>{card.desc}</p>
+                {card.desc && <p className={styles.mobileCardDesc}>{card.desc}</p>}
+                <span className={styles.mobileCardLink}>{LINK_LABEL} ↗</span>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>
@@ -75,14 +107,18 @@ function MythologyDesktop() {
     if (!gsap || !ScrollTrigger) return;
     const section = sectionRef.current;
     if (!section) return;
+    // prefers-reduced-motion: элементы уже в финальном состоянии
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
+      const cols = colRefs.current.filter(Boolean);
+
       gsap.set(eyebrowRef.current, { opacity: 0, y: 12 });
       gsap.set(lineRef.current,    { scaleX: 0, transformOrigin: "left center" });
       gsap.set(titleRef.current.children, { yPercent: 110, opacity: 0 });
       gsap.set(leadRef.current,    { opacity: 0, y: 14 });
       gsap.set(mapLinkRef.current, { opacity: 0, y: 14 });
-      gsap.set(colRefs.current,    { opacity: 0, y: 28 });
+      gsap.set(cols,               { opacity: 0, y: 28 });
 
       gsap.timeline({
         scrollTrigger: { trigger: section, start: "top 80%" },
@@ -94,7 +130,7 @@ function MythologyDesktop() {
         }, "-=0.4")
         .to(leadRef.current, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.45")
         .to(mapLinkRef.current, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, "-=0.35")
-        .to(colRefs.current, {
+        .to(cols, {
           opacity: 1, y: 0, stagger: 0.05, duration: 0.6, ease: "power3.out",
         }, "-=0.3");
     }, sectionRef);
@@ -103,7 +139,7 @@ function MythologyDesktop() {
   }, [gsap, ScrollTrigger]);
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section id="mythology" ref={sectionRef} className={styles.section}>
       <div className={styles.vignette} />
 
       <header className={styles.header}>
@@ -118,9 +154,15 @@ function MythologyDesktop() {
         </h2>
         <p className={styles.lead} ref={leadRef}>
           Пантеон богов, духи стихий и герои коми-зырянских сказаний — наведите
-          курсор, чтобы открыть раздел.
+          курсор, чтобы открыть раздел, и перейдите к записи на карте преданий.
         </p>
-        <a className={styles.mapLink} href={MAP_URL} ref={mapLinkRef}>
+        <a
+          className={styles.mapLink}
+          href={MAP_URL}
+          ref={mapLinkRef}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Открыть карту преданий →
         </a>
       </header>
@@ -130,15 +172,22 @@ function MythologyDesktop() {
           const { main, sub } = splitTitle(card.title);
           const isActive = activeIndex === i;
           return (
-            <div
-              key={i}
+            <a
+              key={card.href ?? i}
+              href={hrefOf(card)}
+              target="_blank"
+              rel="noopener noreferrer"
               ref={(el) => { colRefs.current[i] = el; }}
               className={`${styles.column} ${isActive ? styles.columnActive : ""}`}
+              style={chipStyle(card)}
               onMouseEnter={() => setActiveIndex(i)}
               onMouseLeave={() => setActiveIndex(null)}
+              onFocus={() => setActiveIndex(i)}
+              onBlur={() => setActiveIndex(null)}
+              aria-label={`${main} — ${LINK_LABEL}`}
             >
               <div className={styles.columnImage}>
-                <Image src={card.image} alt={main} fill sizes="20vw" />
+                <CardVisual card={card} alt={main} sizes="20vw" />
                 <div className={styles.columnImageOverlay} />
               </div>
 
@@ -148,13 +197,20 @@ function MythologyDesktop() {
               </div>
 
               <div className={styles.columnCard}>
-                <span className={styles.cardTag}>{card.year}</span>
+                {chipOf(card) && <span className={styles.cardTag}>{chipOf(card)}</span>}
                 <h3 className={styles.cardTitle}>{main}</h3>
                 {sub && <span className={styles.cardSub}>{sub}</span>}
-                <p className={styles.cardDesc}>{card.desc}</p>
+                {card.desc && <p className={styles.cardDesc}>{card.desc}</p>}
+                <span className={styles.cardLink}>
+                  {LINK_LABEL}
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M3 9L9 3M4.5 3H9v4.5" stroke="currentColor"
+                      strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
                 <span className={styles.cardNum}>{String(i + 1).padStart(2, "0")}</span>
               </div>
-            </div>
+            </a>
           );
         })}
       </div>
@@ -168,10 +224,10 @@ export default function MythologySection() {
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mq.matches);
-    const h = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", h);
-    return () => mq.removeEventListener("change", h);
+    const compute = () => setIsMobile(mq.matches);
+    compute();
+    mq.addEventListener("change", compute);
+    return () => mq.removeEventListener("change", compute);
   }, []);
 
   if (!CARDS.length) return null;

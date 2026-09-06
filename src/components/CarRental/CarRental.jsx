@@ -13,28 +13,32 @@ const PRELOAD_BOOST    = 20;          // дополнительный радиу
 const frameUrl = (i) =>
   `/video/frame_${String(i).padStart(3, "0")}.webp`;
 
+const CTA_HREF = "#contacts";
+
 // ─── Кадры появления текста ─────────────────────────────────────────
 // Номер кадра (1…FRAME_COUNT), на котором должен появиться каждый
-// текстовый блок. Меняйте числа здесь, чтобы сдвинуть момент появления —
-// блок сам пересчитает нужную позицию скролла. Каждый блок виден до
-// кадра следующей константы (последний — до CTA, CTA — до конца, т.е.
-// до FRAME_COUNT), так что расстояние между соседними константами —
-// это и есть время на чтение конкретного блока.
+// текстовый блок. Каждый блок виден до кадра следующей константы
+// (последний — до CTA, CTA — до конца, т.е. до FRAME_COUNT).
 const FRAME_BLOCK_1 = 1;
 const FRAME_BLOCK_2 = 83;
 const FRAME_BLOCK_3 = 131;
 const FRAME_CTA     = 181; // до FRAME_COUNT (240) — 40 кадров на CTA
 
 // ─── Контент блоков ───────────────────────────────────────────────
+// Факты — только из README холдинга «Велес И К» и README коридора
+// Якша—Маньпупунёр: Taigarenda — сервис проката холдинга, часть
+// цифровой экосистемы komi.world; зимняя программа фуникулёра
+// «Якша Skyview» планируется на снегоходах YÖRAN. Цифр о парке,
+// сезоне и графике в источниках нет — их здесь и не приводим.
 const BLOCKS = [
   {
     id: "01",
     frame: FRAME_BLOCK_1,
-    eyebrow: "Аренда транспорта",
+    eyebrow: "Taigarenda · Аренда транспорта",
     headline: ["Куда не", "доедет"],
     accent: "обычная машина.",
-    body: "Снегоходы, вездеходы и полноприводные внедорожники — для маршрутов в самые удалённые уголки Республики Коми.",
-    stat: { value: "450+", label: "км тайги" },
+    body: "Taigarenda — сервис проката холдинга «Велес И К»: снегоходы, вездеходы и внедорожники для маршрутов по тайге Республики Коми.",
+    stat: { value: "Taigarenda", label: "сервис проката холдинга" },
   },
   {
     id: "02",
@@ -42,17 +46,17 @@ const BLOCKS = [
     eyebrow: "Зимние маршруты",
     headline: ["Тайга и", "замёрзшие реки —"],
     accent: "ваш путь.",
-    body: "Прокат снегоходов с инструктором или без. Сезон ноябрь–апрель. Групповые и индивидуальные маршруты.",
-    stat: { value: "6 мес", label: "зимний сезон" },
+    body: "Снегоходные маршруты по зимней тайге. Зимняя программа фуникулёра «Якша Skyview» в коридоре Якша—Маньпупунёр планируется на снегоходах YÖRAN.",
+    stat: { value: "YÖRAN", label: "арктическая техника холдинга" },
   },
   {
     id: "03",
     frame: FRAME_BLOCK_3,
-    eyebrow: "Межгородской трансфер",
-    headline: ["Сыктывкар,", "Ухта, Воркута —"],
-    accent: "без забот.",
-    body: "Трансферы с подачей в назначенное время. Круглосуточно, по предварительному заказу.",
-    stat: { value: "24/7", label: "доступность" },
+    eyebrow: "Экосистема komi.world",
+    headline: ["Техника", "и маршрут —"],
+    accent: "по запросу.",
+    body: "Taigarenda входит в цифровую экосистему komi.world. Условия проката, подача техники и маршруты — по запросу через контакты.",
+    stat: { value: "komi.world", label: "цифровая экосистема" },
   },
 ];
 
@@ -85,10 +89,13 @@ async function fetchBitmap(url) {
   return createImageBitmap(await res.blob());
 }
 
-// ─── Мобильная версия (статичная картинка) ───────────────────────
-function CarRentalMobile() {
+// ─── Статичная версия (мобайл и prefers-reduced-motion) ──────────
+function CarRentalStatic({ wide = false }) {
   return (
-    <section className={styles.sectionMobile}>
+    <section
+      id="transport"
+      className={`${styles.sectionMobile} ${wide ? styles.sectionStatic : ""}`}
+    >
       <img
         src={frameUrl(1)}
         alt="Аренда транспорта в Коми"
@@ -96,18 +103,18 @@ function CarRentalMobile() {
       />
       <div className={styles.mobileOverlay} />
       <div className={styles.mobileContent}>
-        <span className={styles.mobileEyebrow}>Аренда транспорта</span>
+        <span className={styles.mobileEyebrow}>Taigarenda · Аренда транспорта</span>
         <h2 className={styles.mobileTitle}>
           Куда не доедет<br />
           <span className={styles.mobileAccent}>обычная машина.</span>
         </h2>
         <p className={styles.mobileBody}>
-          Снегоходы, вездеходы, внедорожники — для маршрутов
-          в самые удалённые уголки Республики Коми.
+          Taigarenda — сервис проката холдинга «Велес И К»: снегоходы,
+          вездеходы и внедорожники для маршрутов по тайге Республики Коми.
         </p>
-        <a href="#info-09" className={styles.mobileCta}>
+        <a href={CTA_HREF} className={styles.mobileCta}>
           Арендовать транспорт
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M2.5 7h9M7.5 3l4 4-4 4" stroke="currentColor"
               strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
@@ -227,20 +234,11 @@ function CarRentalDesktop() {
   // ── Init ───────────────────────────────────────────────────────
   useEffect(() => {
     // pool ПЕРВЫМ — load() зависит от него. В StrictMode (dev) этот
-    // эффект выполняется дважды подряд (mount → cleanup → mount); ref
-    // переживает оба вызова, так что второй вызов просто переиспользует
-    // тот же пул, а не создаёт новый.
+    // эффект выполняется дважды подряд; ref переживает оба вызова.
     pool.current = pool.current ?? createPool(MAX_CONCURRENT);
     initCanvas();
 
-    // Первый кадр грузим напрямую и ставим ready по факту готовности —
-    // без опроса через requestAnimationFrame. RAF-поллинг ранее ломался
-    // в dev из-за StrictMode: эффект вызывается дважды, cleanup первого
-    // вызова отменял RAF, а второй вызов (из-за защитного флага) не
-    // планировал новый — цикл ожидания умирал навсегда, даже когда кадр
-    // уже лежал в кэше. Теперь каждый вызов сам отменяет свой результат
-    // через собственный `cancelled`, и переживающий (второй) вызов
-    // корректно ставит ready, как только его собственная загрузка готова.
+    // Первый кадр грузим напрямую и ставим ready по факту готовности.
     let cancelled = false;
     fetchBitmap(frameUrl(1))
       .then((bm) => {
@@ -258,7 +256,11 @@ function CarRentalDesktop() {
     // Остальные кадры — фоном, не блокируют первую отрисовку
     for (let i = 2; i <= Math.min(FRAME_COUNT, 20); i++) load(i, "normal");
 
-    const onResize = () => initCanvas();
+    const onResize = () => {
+      initCanvas();
+      const bm = cache.current.get(shownFrame.current);
+      if (bm) paint(bm);
+    };
     window.addEventListener("resize", onResize);
 
     return () => {
@@ -306,7 +308,6 @@ function CarRentalDesktop() {
       gsap.set(ctaRef.current,                       { opacity: 0, y: 22 });
 
       // Линия индикатора — растёт со скроллом
-      // Используем отдельный ST привязанный к той же секции
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
@@ -318,9 +319,8 @@ function CarRentalDesktop() {
       });
 
       // Текстовые блоки — появляются на конкретном кадре (block.frame)
-      // и автоматически уступают место следующему: диапазон блока — от
-      // его кадра до кадра следующего блока (или до CTA для последнего),
-      // toggleActions скрывает блок при выходе из диапазона в обе стороны.
+      // и уступают место следующему; toggleActions скрывает блок при
+      // выходе из диапазона в обе стороны.
       BLOCKS.forEach((block, i) => {
         const startPx  = (block.frame - 1) * SCROLL_PX;
         const nextFrame = BLOCKS[i + 1]?.frame ?? CTA_FRAME;
@@ -336,8 +336,7 @@ function CarRentalDesktop() {
             trigger: section,
             // Числом от начала пина, а не строкой "top+=Npx top" — для
             // запиненного элемента такая строка считается от позиции
-            // ПОСЛЕ окончания пина (т.е. со сдвигом на всю длину пина),
-            // а не от его начала, и блоки никогда не появлялись вовремя.
+            // ПОСЛЕ окончания пина, а не от его начала.
             start: () => pinST.start + startPx,
             end:   () => pinST.start + endPx,
             toggleActions: "play reverse play reverse",
@@ -368,13 +367,13 @@ function CarRentalDesktop() {
   }, [gsap, ScrollTrigger, ready, startTicker]);
 
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section id="transport" ref={sectionRef} className={styles.section}>
 
-      {/* Лоадер */}
+      {/* Лоадер — тонкая строка + линия, без спиннера */}
       {!ready && (
-        <div className={styles.loader}>
-          <div className={styles.loaderSpinner} />
-          <span>Загрузка...</span>
+        <div className={styles.loader} aria-live="polite">
+          <span className={styles.loaderText}>Загружаем кадры</span>
+          <span className={styles.loaderLine} aria-hidden="true" />
         </div>
       )}
 
@@ -397,7 +396,7 @@ function CarRentalDesktop() {
             key={i}
             className={styles.indicatorDot}
             ref={(el) => { dotRefs.current[i] = el; }}
-            style={{ top: `${(i / (BLOCKS.length - 1)) * 80 + 10}%` }}
+            style={{ top: `${BLOCKS.length > 1 ? (i / (BLOCKS.length - 1)) * 80 + 10 : 50}%` }}
           />
         ))}
       </aside>
@@ -452,21 +451,16 @@ function CarRentalDesktop() {
         {/* CTA */}
         <div className={styles.ctaWrap} ref={ctaRef}>
           <div className={styles.lineClip}>
-            <h2
-              className={styles.hLine}
-              
-            >
-                Xnj nj nj nj n j
-            </h2>
+            <h2 className={`${styles.hLine} ${styles.ctaTitle}`}>Тайга ждёт.</h2>
           </div>
-          <a href="#info-09" className={styles.ctaBtn}>
+          <a href={CTA_HREF} className={styles.ctaBtn}>
             Арендовать транспорт
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
               <path d="M3 7.5h9M8.5 3.5l4 4-4 4" stroke="currentColor"
                 strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <p className={styles.ctaSub}>Заказ по телефону или онлайн · 24 / 7</p>
+          <p className={styles.ctaSub}>Заказ через контакты komi.world</p>
         </div>
       </div>
 
@@ -474,18 +468,26 @@ function CarRentalDesktop() {
   );
 }
 
-// ─── Root — выбирает mobile / desktop ────────────────────────────
+// ─── Root — mobile / static (reduced motion) / desktop ───────────
 export default function CarRental() {
-  const [isMobile, setIsMobile] = useState(null);
+  const [mode, setMode] = useState(null);
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mq.matches);
-    const h = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", h);
-    return () => mq.removeEventListener("change", h);
+    const mqMobile  = window.matchMedia("(max-width: 767px)");
+    const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compute = () =>
+      setMode(mqMobile.matches ? "mobile" : mqReduced.matches ? "static" : "desktop");
+    compute();
+    mqMobile.addEventListener("change", compute);
+    mqReduced.addEventListener("change", compute);
+    return () => {
+      mqMobile.removeEventListener("change", compute);
+      mqReduced.removeEventListener("change", compute);
+    };
   }, []);
 
-  if (isMobile === null) return null;          // избегаем hydration mismatch
-  return isMobile ? <CarRentalMobile /> : <CarRentalDesktop />;
+  if (mode === null) return null;               // избегаем hydration mismatch
+  if (mode === "mobile") return <CarRentalStatic />;
+  if (mode === "static") return <CarRentalStatic wide />;
+  return <CarRentalDesktop />;
 }

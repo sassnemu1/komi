@@ -1,14 +1,28 @@
 /* ─── BASE ────────────────────────────────────────────── */
 /*
-  Hero занимает 200vh — это "рельса" для scroll-триггера.
+  Hero занимает 400vh — это "рельса" для scroll-триггера.
   Внутри него .sticky прилипает к top:0 и держит весь контент
-  на экране, пока пользователь прокручивает через hero.
+  на экране, пока пользователь прокручивает через hero:
+  0–33% текст уходит, 33–66% появляется карта районов с легендой,
+  66–100% карта висит.
 */
 .hero {
   position: relative;
   width: 100%;
-  height: 400vh;           /* 100vh sticky + 200vh рельса (текст→карта→пауза) */
+  height: 400vh;
   z-index: 1;
+  background: #07070a;
+}
+
+/* Якорь #map — ссылки «Карта районов» скроллят на hero + 55% высоты
+   (это делает Header / боковые точки), сам якорь пустой. */
+.mapAnchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 /* ─── STICKY SHELL ────────────────────────────────────── */
@@ -24,7 +38,7 @@
   justify-content: center;
 
   overflow: hidden;
-  background: var(--bg);
+  background: #07070a;
 }
 
 /* ─── BG GHOST TEXT ───────────────────────────────────── */
@@ -54,16 +68,22 @@
 }
 
 /* ─── BG IMAGE ────────────────────────────────────────── */
+/*
+  Фон — флаг Коми, но приглушённый: меньше насыщенности и яркости,
+  сильная виньетка сверху/снизу, зерно, «северные сияния» и очень
+  тонкая диагональная полоса орнамента внизу.
+*/
 .bgImageKomi {
   position: absolute;
   inset: 0;
   z-index: 0;
   overflow: hidden;
+  background: #07070a;
 }
 
 .bgImageKomi :global(img) {
   object-fit: cover;
-  filter: saturate(1.08) contrast(1.04);
+  filter: saturate(0.85) brightness(0.8) contrast(1.02);
 }
 
 .bgZoom {
@@ -80,8 +100,8 @@
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 90% 70% at 50% 38%, rgba(4,8,20,0.05), rgba(4,8,20,0.42) 72%, rgba(2,4,10,0.72) 100%),
-    linear-gradient(to bottom, rgba(2,6,16,0.55) 0%, rgba(3,8,20,0.18) 22%, rgba(4,10,24,0.1) 50%, rgba(3,8,20,0.55) 78%, rgba(3,6,14,0.96) 100%);
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(4,8,20,0.06), rgba(4,8,20,0.5) 72%, rgba(2,4,10,0.85) 100%),
+    linear-gradient(to bottom, rgba(3,6,14,0.82) 0%, rgba(3,8,20,0.36) 22%, rgba(4,10,24,0.14) 50%, rgba(3,8,20,0.62) 76%, rgba(7,7,10,1) 100%);
 }
 
 .bgGlow {
@@ -144,6 +164,29 @@
   background-size: 160px 160px;
 }
 
+/* Тонкая диагональная полоса орнамента коми внизу hero.
+   Орнамент — маской (mask-image), цвет задаёт background-color. */
+.bgOrnament {
+  position: absolute;
+  left: -6%;
+  right: -6%;
+  bottom: 7%;
+  height: 72px;
+  z-index: 2;
+  pointer-events: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  -webkit-mask-image: url("/brand/komi-ornament-strip-transparent.svg");
+  mask-image: url("/brand/komi-ornament-strip-transparent.svg");
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-position: center;
+  mask-position: center;
+  transform: rotate(-2.5deg);
+  transform-origin: center;
+}
+
 .bgFrame {
   position: absolute;
   inset: 18px;
@@ -153,26 +196,61 @@
   border-radius: 18px;
 }
 
-/* ─── MAP WRAP ────────────────────────────────────────── */
+/* ─── MAP WRAP: [легенда 260px] [карта] ────────────────── */
 /*
-  Карта позиционируется в правой половине hero поверх фона.
-  GSAP управляет opacity / scale / y через inline style.
+  Сетка на весь sticky: слева легенда, справа карта, вписанная в
+  100svh. GSAP управляет opacity / scale через inline style.
+  pointer-events включаются только на стадии карты (.mapActive),
+  чтобы невидимая карта не перехватывала клики над заголовком.
 */
 .mapWrap {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -52%);
-  width: clamp(640px, 92vw, 1440px);
+  inset: 0;
   z-index: 12;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 48px;
+  align-items: center;
+  padding: 96px 104px 72px 104px;
   pointer-events: none;
   will-change: transform, opacity;
   opacity: 0;
-  /* flex-колонка: SVG сверху, mapTitle снизу в потоке */
+}
+
+.mapActive .mapWrap { pointer-events: auto; }
+
+.mapActive .socialLeft,
+.mapActive .socialRight { pointer-events: none; }
+
+.legend {
+  align-self: center;
+  max-height: calc(100svh - 168px);
+  min-height: 0;
+}
+
+.mapCol {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 14px;
+  min-width: 0;
+  height: 100%;
+}
+
+.mapFit {
+  width: min(100%, calc((100svh - 168px) * 0.97));
+  min-width: 0;
+}
+
+.mapHint {
+  display: none;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .mapSvg {
@@ -180,188 +258,9 @@
   height: auto;
   display: block;
   overflow: visible;
-  flex-shrink: 0;
-  pointer-events: auto; /* карта интерактивна, даже когда mapWrap none */
-
-  --map-stroke: rgba(107, 158, 255, 0.65);
-
   filter:
     drop-shadow(0 0 40px rgba(56, 100, 219, 0.45))
     drop-shadow(0 0 10px rgba(107, 158, 255, 0.25));
-}
-
-.mapSvg path[data-district] {
-  fill: rgba(107, 158, 255, 0);
-  stroke-opacity: 0.16;
-  transform-box: fill-box;
-  transform-origin: center;
-  transition:
-    stroke-opacity 0.3s ease,
-    fill 0.3s ease,
-    fill-opacity 0.3s ease,
-    filter 0.3s ease,
-    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.mapSvg path[data-district]:hover {
-  stroke-opacity: 1;
-  fill: rgba(107, 158, 255, 0.38);
-  filter: drop-shadow(0 0 14px rgba(107, 158, 255, 0.9));
-  transform: scale(1.035);
-  cursor: pointer;
-}
-
-/*
-  Районы с настоящим флагом: флаг залит паттерном через inline-style
-  (KomiMap.jsx), поэтому fill из :hover выше их не перекрашивает.
-  В покое флаг приглушён до полупрозрачного намёка — чтобы не спорить
-  с «призрачной» эстетикой карты, — а при наведении расцветает.
-*/
-.mapSvg path[data-district][data-has-flag] {
-  fill-opacity: 0.42;
-  stroke-opacity: 0.38;
-}
-
-.mapSvg path[data-district][data-has-flag]:hover {
-  fill-opacity: 1;
-  stroke-opacity: 1;
-}
-
-/* ─── MAP TITLE ───────────────────────────────────────────── */
-/*
-  В потоке (не absolute) — сразу под SVG внутри flex-колонки mapWrap.
-  GSAP анимирует только opacity и yPercent (не трогает transform mapWrap).
-  Начальное состояние opacity:0 — GSAP перезапишет при скролле.
-*/
-.mapTitle {
-  position: absolute;
-  left: 100;
-  top: -350px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  pointer-events: none;
-  white-space: nowrap;
-  opacity: 0;           /* GSAP: 0 → 1 */
-  flex-shrink: 0;
-}
-
-.mapTitleTag {
-  font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 3px 12px;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-}
-
-.mapTitleName {
-  position: relative;
-  font-family: var(--font-bold);
-  font-size: clamp(2rem, 3.2vw, 3.4rem);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  color: #fff;
-  filter: drop-shadow(0 2px 24px rgba(56, 100, 219, 0.5));
-}
-.mapTitleName::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: #fff;
-}
-.mapTitleSub {
-  font-family: var(--font-bold);
-  font-size: clamp(2.2rem, 3.5vw, 3.6rem);
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  color: #fff;
-  filter: drop-shadow(0 2px 24px rgba(56, 100, 219, 0.5));
-}
-
-/* ─── NAV ─────────────────────────────────────────────── */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-
-  padding: 26px 52px;
-  z-index: 100;
-  /* opacity: 1; */
-}
-
-.navLogo {
-  justify-self: start;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logoMark {
-  position: relative;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: var(--accent);
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.logoMark img { object-fit: cover; }
-
-.logoText {
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: var(--text-secondary);
-  letter-spacing: 0.04em;
-}
-
-.navLinks {
-  justify-self: left;
-  display: flex;
-  gap: 31px;
-  list-style: none;
-}
-
-.navLinks a {
-  color: white;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-
-.navLinks a:hover { color: rgba(255,255,255,0.5); }
-
-.contactBtn {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 1px solid rgba(29, 78, 216, 0.15);
-  color: var(--accent);
-  font-size: 13px;
-  font-family: var(--font-body);
-  transition: 0.3s ease;
-}
-
-.contactBtn:hover {
-  background: var(--accent);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(29, 78, 216, 0.18);
 }
 
 /* ─── TITLE ───────────────────────────────────────────── */
@@ -373,6 +272,7 @@
   align-items: center;
   text-align: center;
   will-change: transform;
+  pointer-events: none;
 }
 
 .titlePerspective {
@@ -385,9 +285,11 @@
   line-height: 1;
   font-family: var(--font-display);
   font-size: clamp(72px, 8vw, 150px);
+  font-weight: 400;
   color: white;
   letter-spacing: 0.01em;
   text-shadow: 0 8px 40px rgba(0, 0, 0, 0.45);
+  margin: 0;
 }
 
 .letter {
@@ -402,7 +304,7 @@
   align-items: center;
   gap: 14px;
   line-height: 0.88;
-  
+
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -429,6 +331,7 @@
   text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.24em;
+  line-height: 1.9;
   opacity: 0;
 }
 
@@ -447,34 +350,6 @@
 .socialLeft  { left: 52px; }
 .socialRight { right: 52px; }
 
-.socialLeft a,
-.socialRight a {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 25%;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  border: .1px solid #333;
-  color: #333;
-  font-size: 22px;
-  transition:
-    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    background 0.35s,
-    color 0.35s,
-    box-shadow 0.35s;
-}
-
-.socialLeft a:hover,
-.socialRight a:hover {
-  transform: translateY(-4px) scale(1.08);
-  background: #333;
-  color: white;
-  box-shadow: 0 10px 30px rgba(29, 78, 216, 0.18);
-}
-
 /* ─── SCROLL CUE ──────────────────────────────────────── */
 .scrollCue {
   position: absolute;
@@ -492,13 +367,8 @@
   align-items: flex-start;
   justify-content: center;
   padding-top: 8px;
-
-  transition: border-color 0.3s ease, transform 0.3s ease;
-}
-
-.scrollCue:hover {
-  border-color: rgba(255, 255, 255, 0.8);
-  transform: translateX(-50%) translateY(2px);
+  pointer-events: none;
+  opacity: 0;
 }
 
 .scrollCueLine {
@@ -515,7 +385,7 @@
   100% { opacity: 0; transform: translateY(14px); }
 }
 
-/* ─── TOOLTIPS ────────────────────────────────────────── */
+/* ─── ТОЧКИ-ИКОНКИ + TOOLTIPS ─────────────────────────── */
 .dot { position: relative; }
 
 .dot a {
@@ -536,6 +406,15 @@
     background 0.35s,
     color 0.35s,
     box-shadow 0.35s;
+}
+
+.dot a:hover,
+.dot a:focus-visible {
+  transform: translateY(-4px) scale(1.08);
+  background: #333;
+  color: white;
+  box-shadow: 0 10px 30px rgba(29, 78, 216, 0.18);
+  outline: none;
 }
 
 .tooltip {
@@ -594,28 +473,42 @@
   border-left-color: rgba(12, 14, 22, 0.92);
 }
 
-.dot:hover .tooltip {
+.dot:hover .tooltip,
+.dot:focus-within .tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateY(-50%) translateX(0) scale(1);
 }
 
+/* ─── REDUCED MOTION ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .bgGlow span { animation: none; }
+  .scrollCueLine { animation: none; }
+  .dot a, .tooltip { transition: none; }
+  .dot a:hover { transform: none; }
+}
+
 /* ─── RESPONSIVE ──────────────────────────────────────── */
-@media (max-width: 900px) {
-  .nav { padding: 28px 28px; }
-  .navLinks { display: none; }
-  .navContact { display: none; }
+@media (max-width: 1200px) {
+  .mapWrap {
+    grid-template-columns: 232px minmax(0, 1fr);
+    gap: 32px;
+    padding: 88px 96px 64px 96px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .mapWrap {
+    grid-template-columns: 208px minmax(0, 1fr);
+    gap: 24px;
+    padding: 84px 84px 56px 84px;
+  }
 }
 
 @media (max-width: 768px) {
   .hero { height: 260vh; } /* мобайл: меньше, но три акта сохраняются */
 
   .sticky { min-height: 100svh; padding-bottom: 90px; }
-
-  .nav { padding: 18px 20px; }
-  .logoText { display: none; }
-
-  /* titleWrap уже по центру */
 
   .titleTop {
     font-size: clamp(62px, 12vw, 124px);
@@ -634,16 +527,25 @@
 
   .bgText { display: none; }
 
-  /* Карта на мобайле — по центру экрана */
+  /* Карта на мобайле — по центру экрана, 94vw, без легенды */
   .mapWrap {
-    right: auto;
-    left: 50%;
-    top: 50%;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    width: clamp(340px, 94vw, 560px);
-    opacity: 0; /* GSAP раскроет */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 72px 3vw 110px;
   }
+
+  .legend { display: none; }
+
+  .mapCol { height: auto; gap: 18px; width: 100%; }
+
+  .mapFit { width: min(94vw, calc((100svh - 220px) * 0.97)); }
+
+  .mapHint { display: block; }
+
+  .bgOrnament { height: 44px; bottom: 12%; }
 
   .scrollCue { display: none; }
 
@@ -659,8 +561,7 @@
   .socialLeft  { left: 16px; }
   .socialRight { right: 16px; }
 
-  .socialLeft a,
-  .socialRight a {
+  .dot a {
     width: 42px;
     height: 42px;
     font-size: 18px;
@@ -690,7 +591,8 @@
     border-top-color: rgba(12, 14, 22, 0.92);
   }
 
-  .dot:hover .tooltip {
+  .dot:hover .tooltip,
+  .dot:focus-within .tooltip {
     transform: translateX(-50%) translateY(0) scale(1);
   }
 
@@ -698,6 +600,7 @@
   .bgGlow span { filter: blur(40px); }
 }
 
-@media (max-width: 600px) {
-  /* дополнительные правки для узких экранов */
+@media (max-width: 400px) {
+  .socialLeft, .socialRight { gap: 6px; }
+  .dot a { width: 36px; height: 36px; font-size: 16px; }
 }

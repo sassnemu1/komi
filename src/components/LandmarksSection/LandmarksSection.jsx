@@ -3,112 +3,102 @@
 import { useEffect, useRef, useState } from "react";
 import useGSAP from "@/hooks/useGSAP";
 import styles from "./LandmarksSection.module.css";
+import { STOPS } from "@/data/landmarks";
 
-// ─── Точки маршрута ─────────────────────────────────────────────
-const POS_STEP     = 720; // px скролла на одну точку
-const PIN_DISTANCE = 2900; // общая длина скролла пина секции
+// ─── Хореография ────────────────────────────────────────────────
+// Длина пина считается от числа точек: на каждую — POS_STEP px скролла
+// плюс небольшой «хвост», чтобы последняя точка успела дочитаться.
+const POS_STEP     = 720;
+const PIN_TAIL     = 20;
+const PIN_DISTANCE = POS_STEP * Math.max(1, STOPS.length) + PIN_TAIL;
 
-const STOPS = [
-  {
-    id: "01",
-    name: "Маньпупунёр",
-    location: "Печоро-Илычский заповедник",
-    badge: "Объект ЮНЕСКО",
-    stat: { value: "42 м", label: "высота столбов" },
-    desc: "Семь каменных исполинов на вершине безлесого плато — одно из самых узнаваемых природных чудес России. По легенде коми — окаменевшие великаны.",
-    quote: "«Семь братьев-великанов, превращённых в камень, чтобы не тронуть священную землю» — легенда манси и коми",
-    image: "https://avatars.mds.yandex.net/get-vertis-journal/4465444/1_1.jpg_1742117587126/orig",
-  },
-  {
-    id: "02",
-    name: "Парк «Югыд ва»",
-    location: "Северный Урал",
-    badge: "Объект ЮНЕСКО",
-    stat: { value: "1,89 млн га", label: "площадь парка" },
-    desc: "Самый большой в Европе массив первичных бореальных лесов — нетронутая тайга, горные хребты и десятки рек ледникового происхождения.",
-    quote: "«Югыд ва» переводится с коми как «светлая вода»",
-    image: "https://avatars.mds.yandex.net/get-altay/19720204/2a0000019d5dfc37cb62cd45c0eb569211c9/XXXL",
-  },
-  {
-    id: "03",
-    name: "Река Печора",
-    location: "От Урала до Баренцева моря",
-    badge: "Главная артерия региона",
-    stat: { value: "1 809 км", label: "длина реки" },
-    desc: "Одна из крупнейших рек Европы, берущая начало на Северном Урале. Веками связывала охотничьи угодья, торговые пути и сёла коми.",
-    quote: "Печора впадает в Баренцево море, образуя обширную дельту",
-    image: "https://geoglob.ru/wp-content/uploads/2023/01/reka-pechora.webp",
-  },
-  {
-    id: "04",
-    name: "Хальмер-Ю",
-    location: "За Полярным кругом",
-    badge: "Город-призрак",
-    stat: { value: "1993", label: "год эвакуации" },
-    desc: "Шахтёрский посёлок, покинутый после закрытия угольной шахты. Сегодня — пустые дома среди тундры и полигон для авиаучений.",
-    quote: "Название переводится как «мёртвая река» — с ненецкого «хальмер»",
-    image: "https://nashural.ru/assets/uploads/halmer-yu08.jpg",
-  },
-];
+const mapHrefFor = (stop) =>
+  `https://yandex.ru/maps/?text=${encodeURIComponent(`${stop.name} Республика Коми`)}`;
 
-// ─── Мобильная версия ───────────────────────────────────────────
-function LandmarksMobile() {
+const total = () => String(STOPS.length).padStart(2, "0");
+
+// Позиция точки на вертикальном маршруте, % — для любого N ≥ 1
+const routeTop = (i) =>
+  STOPS.length > 1 ? (i / (STOPS.length - 1)) * 100 : 50;
+
+// ─── Статичная версия (мобайл и prefers-reduced-motion) ─────────
+function LandmarksStatic({ wide = false }) {
   return (
-    <section className={styles.sectionMobile}>
+    <section
+      id="landmarks"
+      className={`${styles.sectionMobile} ${wide ? styles.sectionStatic : ""}`}
+    >
       <header className={styles.mobileHeader}>
         <span className={styles.eyebrow}>Республика Коми &nbsp;·&nbsp; Достопримечательности</span>
         <h2 className={styles.mobileTitle}>Куда поехать</h2>
         <p className={styles.mobileLead}>
-          Четыре точки, без которых нельзя представить Коми — от каменных
-          исполинов до заброшенного посёлка за Полярным кругом.
+          Места, без которых нельзя представить Коми, — от Северного Урала
+          до Полярного круга.
         </p>
       </header>
 
       <div className={styles.mobileList}>
-        {STOPS.map((stop) => {
-          const mapHref = `https://yandex.ru/maps/?text=${encodeURIComponent(`${stop.name} Республика Коми`)}`;
-          return (
-            <div
-              className={styles.mobileCard}
-              key={stop.id}
-              style={{ backgroundImage: `url(${stop.image})` }}
-            >
-              <div className={styles.mobileCardOverlay} />
-              <span className={styles.mobileCardNum}>{stop.id}</span>
-              <div className={styles.mobileCardBody}>
-                <span className={styles.badge}>{stop.badge}</span>
-                <h3 className={styles.mobileCardTitle}>{stop.name}</h3>
-                <span className={styles.location}>{stop.location}</span>
-                <p className={styles.mobileCardDesc}>{stop.desc}</p>
-                <div className={styles.row}>
+        {STOPS.map((stop) => (
+          <div
+            className={`${styles.mobileCard} ${stop.image ? "" : styles.mobileCardNoImage}`}
+            key={stop.id}
+            style={stop.image ? { backgroundImage: `url(${stop.image})` } : undefined}
+          >
+            {!stop.image && (
+              <>
+                <div className={styles.ornament} aria-hidden="true" />
+                <span className={styles.posterLetter} aria-hidden="true">
+                  {stop.name.replace(/^[«"']/, "").charAt(0)}
+                </span>
+              </>
+            )}
+            <div className={styles.mobileCardOverlay} />
+            <span className={styles.mobileCardNum}>{stop.id}</span>
+            <div className={styles.mobileCardBody}>
+              {stop.badge && <span className={styles.badge}>{stop.badge}</span>}
+              <h3 className={styles.mobileCardTitle}>{stop.name}</h3>
+              {stop.location && <span className={styles.location}>{stop.location}</span>}
+              {stop.desc && <p className={styles.mobileCardDesc}>{stop.desc}</p>}
+              <div className={styles.row}>
+                {stop.stat && (
                   <div className={styles.stat}>
                     <span className={styles.statValue}>{stop.stat.value}</span>
                     <span className={styles.statLabel}>{stop.stat.label}</span>
                   </div>
+                )}
+                <a
+                  className={styles.ctaBtn}
+                  href={mapHrefFor(stop)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Маршрут
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M2.5 7h9M7.5 3l4 4-4 4" stroke="currentColor"
+                      strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
+                {stop.href && (
                   <a
-                    className={styles.ctaBtn}
-                    href={mapHref}
+                    className={styles.loreLink}
+                    href={stop.href}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Маршрут
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M2.5 7h9M7.5 3l4 4-4 4" stroke="currentColor"
-                        strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                    Предание на карте ↗
                   </a>
-                </div>
-                <p className={styles.quote}>{stop.quote}</p>
+                )}
               </div>
+              {stop.quote && <p className={styles.quote}>{stop.quote}</p>}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </section>
   );
 }
 
-// ─── Десктопная версия ──────────────────────────────────────────
+// ─── Десктопная версия (pinned, scrub) ──────────────────────────
 function LandmarksDesktop() {
   const sectionRef = useRef(null);
   const bgRefs      = useRef([]);
@@ -121,6 +111,7 @@ function LandmarksDesktop() {
   const descRefs    = useRef([]);
   const statRefs    = useRef([]);
   const ctaRefs     = useRef([]);
+  const loreRefs    = useRef([]);
   const quoteRefs   = useRef([]);
 
   const [active, setActive] = useState(0);
@@ -152,7 +143,7 @@ function LandmarksDesktop() {
       const ENTER_LEN = 320;
       // Кроссфейд фоновых фото — отдельная, ПЕРЕКРЫВАЮЩАЯСЯ функция:
       // в момент перехода старое и новое фото в сумме дают ~100% яркости,
-      // без провала в чёрный фон между ними (это и читалось как «моргание»).
+      // без провала в чёрный фон между ними.
       const BG_FADE = 220;
 
       const clamp01 = (v) => Math.max(0, Math.min(1, v));
@@ -173,7 +164,7 @@ function LandmarksDesktop() {
           const segStart = i * POS_STEP;
           const segEnd   = (i + 1) * POS_STEP;
 
-          // ── Фон: плавный перекрывающийся кроссфейд (без провала в чёрное) ──
+          // ── Фон: плавный перекрывающийся кроссфейд ──
           let bgPresence = 1;
           if (i > 0)     bgPresence = Math.min(bgPresence, clamp01((totalPx - (segStart - BG_FADE)) / (BG_FADE * 2)));
           if (i < N - 1) bgPresence = Math.min(bgPresence, clamp01(((segEnd + BG_FADE) - totalPx) / (BG_FADE * 2)));
@@ -182,7 +173,6 @@ function LandmarksDesktop() {
           const enterP = i === 0 ? 1 : clamp01((totalPx - segStart) / ENTER_LEN);
           const exitP  = i === N - 1 ? 0 : clamp01((totalPx - (segEnd - EXIT_LEN)) / EXIT_LEN);
           const presence = enterP * (1 - exitP);
-          // Направление смещения: уход — вверх, вход — снизу.
           const nameOffset = exitP > 0 ? -exitP * 110 : (1 - enterP) * 110;
           const yOffset     = exitP > 0 ? -exitP * 14  : (1 - enterP) * 14;
 
@@ -193,13 +183,13 @@ function LandmarksDesktop() {
           const rest = [
             numRefs.current[i], badgeRefs.current[i], locRefs.current[i],
             descRefs.current[i], statRefs.current[i], ctaRefs.current[i],
-          ];
-          gsap.set(rest.filter(Boolean), { y: yOffset, opacity: presence });
-          gsap.set(quoteRefs.current[i], { opacity: presence });
+            loreRefs.current[i],
+          ].filter(Boolean);
+          gsap.set(rest, { y: yOffset, opacity: presence });
+          if (quoteRefs.current[i]) gsap.set(quoteRefs.current[i], { opacity: presence });
         }
       };
 
-      // Начальное состояние — до первого скролла (progress = 0)
       applyProgress(0);
 
       ScrollTrigger.create({
@@ -214,8 +204,10 @@ function LandmarksDesktop() {
     return () => ctx.revert();
   }, [gsap, ScrollTrigger]);
 
+  const routeHeight = Math.max(220, (STOPS.length - 1) * 64);
+
   return (
-    <section ref={sectionRef} className={styles.section}>
+    <section id="landmarks" ref={sectionRef} className={styles.section}>
 
       {/* ── ФОНЫ ── */}
       <div className={styles.bgStack}>
@@ -223,9 +215,18 @@ function LandmarksDesktop() {
           <div
             key={stop.id}
             ref={(el) => { bgRefs.current[i] = el; }}
-            className={styles.bgLayer}
-            style={{ backgroundImage: `url(${stop.image})` }}
-          />
+            className={`${styles.bgLayer} ${stop.image ? "" : styles.bgLayerNoImage}`}
+            style={stop.image ? { backgroundImage: `url(${stop.image})` } : undefined}
+          >
+            {!stop.image && (
+              <>
+                <div className={styles.ornament} aria-hidden="true" />
+                <span className={styles.posterLetter} aria-hidden="true">
+                  {stop.name.replace(/^[«"']/, "").charAt(0)}
+                </span>
+              </>
+            )}
+          </div>
         ))}
         <div className={styles.overlay} />
       </div>
@@ -236,13 +237,13 @@ function LandmarksDesktop() {
       </span>
 
       {/* ── МАРШРУТ (ИНДИКАТОР) ── */}
-      <aside className={styles.route}>
+      <aside className={styles.route} style={{ height: routeHeight }}>
         <div className={styles.routeTrack} ref={lineRef} />
         {STOPS.map((stop, i) => (
           <div
             key={stop.id}
             className={`${styles.routeStop} ${active === i ? styles.routeStopActive : ""}`}
-            style={{ top: `${(i / (STOPS.length - 1)) * 100}%` }}
+            style={{ top: `${routeTop(i)}%` }}
           >
             <span className={styles.routeName}>{stop.name}</span>
             <span className={styles.routeDot} ref={(el) => { dotRefs.current[i] = el; }} />
@@ -252,60 +253,79 @@ function LandmarksDesktop() {
 
       {/* ── ТЕКСТ ── */}
       <div className={styles.textLayer}>
-        {STOPS.map((stop, i) => {
-          const mapHref = `https://yandex.ru/maps/?text=${encodeURIComponent(`${stop.name} Республика Коми`)}`;
-          return (
-            <div className={styles.block} key={stop.id}>
-              <div className={styles.meta}>
-                <span className={styles.blockNum} ref={(el) => { numRefs.current[i] = el; }}>
-                  {stop.id} / {STOPS.length.toString().padStart(2, "0")}
-                </span>
+        {STOPS.map((stop, i) => (
+          <div className={styles.block} key={stop.id}>
+            <div className={styles.meta}>
+              <span className={styles.blockNum} ref={(el) => { numRefs.current[i] = el; }}>
+                {stop.id} / {total()}
+              </span>
+              {stop.badge && (
                 <span className={styles.badge} ref={(el) => { badgeRefs.current[i] = el; }}>
                   {stop.badge}
                 </span>
-              </div>
+              )}
+            </div>
 
-              <div className={styles.nameClip}>
-                <h2 className={styles.name} ref={(el) => { nameRefs.current[i] = el; }}>
-                  {stop.name}
-                </h2>
-              </div>
+            <div className={styles.nameClip}>
+              <h2 className={styles.name} ref={(el) => { nameRefs.current[i] = el; }}>
+                {stop.name}
+              </h2>
+            </div>
 
+            {stop.location && (
               <span className={styles.location} ref={(el) => { locRefs.current[i] = el; }}>
                 {stop.location}
               </span>
+            )}
 
+            {stop.desc && (
               <p className={styles.desc} ref={(el) => { descRefs.current[i] = el; }}>
                 {stop.desc}
               </p>
+            )}
 
-              <div className={styles.row}>
+            <div className={styles.row}>
+              {stop.stat && (
                 <div className={styles.stat} ref={(el) => { statRefs.current[i] = el; }}>
                   <span className={styles.statValue}>{stop.stat.value}</span>
                   <span className={styles.statLabel}>{stop.stat.label}</span>
                 </div>
+              )}
 
+              <a
+                className={styles.ctaBtn}
+                ref={(el) => { ctaRefs.current[i] = el; }}
+                href={mapHrefFor(stop)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Маршрут до точки
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2.5 7h9M7.5 3l4 4-4 4" stroke="currentColor"
+                    strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+
+              {stop.href && (
                 <a
-                  className={styles.ctaBtn}
-                  ref={(el) => { ctaRefs.current[i] = el; }}
-                  href={mapHref}
+                  className={styles.loreLink}
+                  ref={(el) => { loreRefs.current[i] = el; }}
+                  href={stop.href}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Маршрут до точки
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M2.5 7h9M7.5 3l4 4-4 4" stroke="currentColor"
-                      strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  Предание на карте ↗
                 </a>
-              </div>
+              )}
+            </div>
 
+            {stop.quote && (
               <p className={styles.quote} ref={(el) => { quoteRefs.current[i] = el; }}>
                 {stop.quote}
               </p>
-            </div>
-          );
-        })}
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -313,16 +333,25 @@ function LandmarksDesktop() {
 
 // ─── Root ────────────────────────────────────────────────────────
 export default function LandmarksSection() {
-  const [isMobile, setIsMobile] = useState(null);
+  const [mode, setMode] = useState(null); // "mobile" | "static" | "desktop"
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    setIsMobile(mq.matches);
-    const h = (e) => setIsMobile(e.matches);
-    mq.addEventListener("change", h);
-    return () => mq.removeEventListener("change", h);
+    const mqMobile  = window.matchMedia("(max-width: 767px)");
+    const mqReduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compute = () =>
+      setMode(mqMobile.matches ? "mobile" : mqReduced.matches ? "static" : "desktop");
+    compute();
+    mqMobile.addEventListener("change", compute);
+    mqReduced.addEventListener("change", compute);
+    return () => {
+      mqMobile.removeEventListener("change", compute);
+      mqReduced.removeEventListener("change", compute);
+    };
   }, []);
 
-  if (isMobile === null) return null;
-  return isMobile ? <LandmarksMobile /> : <LandmarksDesktop />;
+  if (!STOPS.length) return null;
+  if (mode === null) return null;
+  if (mode === "mobile") return <LandmarksStatic />;
+  if (mode === "static") return <LandmarksStatic wide />;
+  return <LandmarksDesktop />;
 }

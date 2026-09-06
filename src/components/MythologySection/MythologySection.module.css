@@ -86,11 +86,14 @@
 
 .column {
   position: relative;
+  display: block;
   flex: 1;
   min-width: 0;
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
+  color: inherit;
+  text-decoration: none;
   background: #0e0e12;
   border: 1px solid rgba(255, 255, 255, 0.07);
   transition: flex-grow 0.55s cubic-bezier(0.22, 1, 0.36, 1);
@@ -99,6 +102,48 @@
 .columnActive {
   flex-grow: 4.4;
   border-color: rgba(255, 255, 255, 0.16);
+}
+
+.column:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Карточка без картинки: градиент + орнамент + буква ──────── */
+.poster {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0b1214 0%, #0e0e12 100%);
+}
+
+.ornament {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.08);
+  -webkit-mask-image: url(/brand/komi-ornament-tile-currentcolor.svg);
+  mask-image: url(/brand/komi-ornament-tile-currentcolor.svg);
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  pointer-events: none;
+}
+
+.posterLetter {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: 200px;
+  line-height: 1;
+  color: #fff;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
 }
 
 .columnImage {
@@ -182,9 +227,9 @@
   font-size: 9px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--accent);
-  border: 1px solid rgba(56, 100, 219, 0.4);
-  background: rgba(56, 100, 219, 0.1);
+  color: var(--chip, var(--accent));
+  border: 1px solid color-mix(in srgb, var(--chip, var(--accent)) 40%, transparent);
+  background: color-mix(in srgb, var(--chip, var(--accent)) 10%, transparent);
   padding: 4px 10px;
   border-radius: 999px;
   margin-bottom: 12px;
@@ -215,6 +260,31 @@
   margin: 10px 0 0;
   max-width: 260px;
 }
+
+.cardLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.4s ease 0.18s, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.18s, color 0.3s ease;
+}
+
+.cardLink svg { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+
+.columnActive .cardLink {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.column:hover .cardLink { color: #fff; }
+.column:hover .cardLink svg { transform: translate(2px, -2px); }
 
 .cardNum {
   position: absolute;
@@ -265,10 +335,24 @@
 }
 
 .mobileCard {
+  display: block;
   border-radius: 14px;
   overflow: hidden;
   background: #0e0e12;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  color: inherit;
+  text-decoration: none;
+}
+
+.mobileCardImage .posterLetter { font-size: 150px; top: 46%; }
+
+.mobileCardLink {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .mobileCardImage {
@@ -352,4 +436,10 @@
 .mapLink:hover {
   background: rgba(255,255,255,.1);
   border-color: rgba(255,255,255,.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .column, .columnImage, .columnIdle, .columnCard, .cardLink, .cardLink svg, .mapLink {
+    transition: none;
+  }
 }

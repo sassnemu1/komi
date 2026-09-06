@@ -2,7 +2,7 @@
 .services {
   position: relative;
   width: 100%;
-  background: #0d0d0d;
+  background: #0b1214; /* «полярная ночь» — чередуется с #07070a соседних секций */
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -25,6 +25,30 @@
   gap: 12px;
 }
 
+.services__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.services__eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 18px;
+}
+
+.services__title-line {
+  display: block;
+  width: 64px;
+  height: 1px;
+  background: var(--accent);
+  margin-bottom: 16px;
+}
+
 .services__title h2 {
   font-family: var(--font-display);
   font-size: clamp(3rem, 6vw, 5.5rem);
@@ -36,11 +60,11 @@
 
 .services__title-sub {
   font-family: var(--font-body);
-  font-size: clamp(11px, 1.1vw, 13px);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(107, 158, 255, 0.5);
-  padding: 4px 0;
+  font-size: clamp(0.88rem, 1.05vw, 0.96rem);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.4);
+  max-width: 460px;
+  padding: 8px 0 0;
 }
 
 /* ─── COUNTER ────────────────────────────────────────────────── */
@@ -174,11 +198,11 @@
 }
 .services__track-outer::before {
   left: 0;
-  background: linear-gradient(to right, #0d0d0d 0%, transparent 100%);
+  background: linear-gradient(to right, #0b1214 0%, transparent 100%);
 }
 .services__track-outer::after {
   right: 0;
-  background: linear-gradient(to left, #0d0d0d 0%, transparent 100%);
+  background: linear-gradient(to left, #0b1214 0%, transparent 100%);
 }
 
 .services__track {
@@ -396,6 +420,113 @@
 
 .serviceCard:hover .serviceCard__cta { opacity: 1; transform: translateY(0); }
 
+/* ─── КАРТОЧКИ БЕЗ КАРТИНКИ: орнамент + буква; чипы ──────────── */
+.card__ornament {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.08);
+  -webkit-mask-image: url(/brand/komi-ornament-tile-currentcolor.svg);
+  mask-image: url(/brand/komi-ornament-tile-currentcolor.svg);
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card__poster-letter {
+  position: absolute;
+  right: 6px;
+  top: -10px;
+  font-family: var(--font-display);
+  font-size: 150px;
+  line-height: 1;
+  color: #fff;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.card__badge,
+.card__location {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card__badge {
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.card__location {
+  color: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(7, 7, 10, 0.5);
+  text-transform: none;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+
+.card__location::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1aa861;
+  flex-shrink: 0;
+}
+
+.serviceCard__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.serviceCard--poster .serviceCard__bg-num { color: rgba(255, 255, 255, 0.05); }
+
+/* В ServiceCard нижний градиент почти непрозрачный — орнамент ставим сверху */
+.serviceCard .card__ornament { top: 0; bottom: auto; height: 44px; }
+
+.detail__portfolio-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.detail__site-link {
+  align-self: flex-start;
+  margin-top: 6px;
+}
+
+.detail__work-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.detail__work-card--poster .detail__work-card-img {
+  background: linear-gradient(135deg, #0b1214 0%, #0e0e12 100%);
+}
+
 /* ─── BACKGROUND IMAGES ──────────────────────────────────────── */
 .serviceCard__bg-img {
   position: absolute;
@@ -461,9 +592,11 @@
   inset: 0;
   z-index: 100;
   display: none;
-  background: rgba(4, 4, 14, 0.96);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
+  /* Без backdrop-filter: полноэкранное размытие поверх canvas, видео и
+     SVG-паттернов флагов заставляло рендерер пересчитывать весь backdrop на
+     каждом кадре — открытие карточки замирало на секунды. Непрозрачный фон
+     даёт тот же визуальный результат без этой цены. */
+  background: rgba(4, 4, 14, 0.985);
   overflow: hidden;
 }
 
@@ -481,6 +614,7 @@
   pointer-events: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(56, 100, 219, 0.25) transparent;
+  overscroll-behavior: contain;
   padding-right: calc(50% + 3vw);
 }
 
@@ -868,9 +1002,12 @@
   }
 
   .services__title-sub {
-    font-size: 11px;
-    letter-spacing: 0.12em;
+    font-size: 0.86rem;
+    padding-top: 4px;
   }
+
+  .services__eyebrow { margin-bottom: 14px; }
+  .card__poster-letter { font-size: 110px; }
 
   /* track-outer: убираем fade-псевдоэлементы — на мобайле не нужны */
   .services__track-outer::before,
@@ -960,4 +1097,28 @@
   }
 
   .detail__card { display: none !important; }
+}
+
+/* ─── REDUCED MOTION ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .services__counter,
+  .services__nav-row { opacity: 1; }
+
+  .serviceCard,
+  .serviceCard__bg-img,
+  .serviceCard__line,
+  .serviceCard__cta,
+  .serviceCard__tag,
+  .services__progress-fill,
+  .services__arrow,
+  .detail__close,
+  .detail__work-card,
+  .detail__work-card-img-inner,
+  .detail__work-card-arrow,
+  .detail__all-btn { transition: none; }
+
+  .serviceCard:hover { transform: translateY(var(--card-parallax)); }
+  .serviceCard:hover .serviceCard__bg-img { transform: none; }
+  .serviceCard__cta { opacity: 1; transform: none; }
+  .serviceCard__line { transform: scaleX(1); }
 }
