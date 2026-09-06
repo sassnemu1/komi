@@ -41,12 +41,24 @@ function getHero() {
   return document.getElementById("hero") || document.querySelector("main > section");
 }
 
+// Программный скролл: через Lenis, если плавный скролл включён
+// (components/SmoothScroll), иначе нативно.
+function scrollWindowTo(top, behavior) {
+  const smooth = behavior ? behavior === "smooth" : !prefersReducedMotion();
+  const lenis = window.__lenis;
+  if (lenis) {
+    lenis.scrollTo(top, smooth ? { duration: 1.4 } : { immediate: true });
+    return;
+  }
+  window.scrollTo({ top, behavior: smooth ? "smooth" : "auto" });
+}
+
 // Стадия карты в hero: конец его скролл-рельсы (~55 % высоты).
 function scrollToMapStage(behavior) {
   const hero = getHero();
   if (!hero) return false;
   const top = hero.offsetTop + hero.offsetHeight * 0.55;
-  window.scrollTo({ top, behavior: behavior ?? (prefersReducedMotion() ? "auto" : "smooth") });
+  scrollWindowTo(top, behavior);
   return true;
 }
 
@@ -187,6 +199,7 @@ export default function Header() {
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    window.__lenis?.stop();
 
     const onKey = (e) => { if (e.key === "Escape") closeMenu(); };
     window.addEventListener("keydown", onKey);
@@ -202,6 +215,7 @@ export default function Header() {
       window.removeEventListener("keydown", onKey);
       mq.removeEventListener("change", onWide);
       document.body.style.overflow = prevOverflow;
+      window.__lenis?.start();
     };
   }, [menuOpen, closeMenu]);
 
@@ -215,7 +229,7 @@ export default function Header() {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
     onNavClick();
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    scrollWindowTo(0);
     if (history.replaceState) history.replaceState(null, "", window.location.pathname);
   };
 
@@ -280,6 +294,7 @@ export default function Header() {
       <div
         id="site-menu"
         className={styles.menu}
+        data-lenis-prevent
         role="dialog"
         aria-modal="true"
         aria-label="Меню"

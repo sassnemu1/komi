@@ -271,6 +271,8 @@ export default function HeroSection() {
               priority
               sizes="100vw"
               quality={78}
+              placeholder="blur"
+              blurDataURL={PHOTOS["hero-manpupuner"].blur}
             />
           </div>
           <div className={styles.bgOverlay} />

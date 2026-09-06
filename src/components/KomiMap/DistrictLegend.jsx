@@ -22,7 +22,7 @@ export default function DistrictLegend({ selected, hovered, onHover, onSelect, c
         <p className={styles.hint}>Нажмите на район</p>
       </header>
 
-      <ul className={styles.list} onMouseLeave={() => onHover?.(null)}>
+      <ul className={styles.list} data-lenis-prevent onMouseLeave={() => onHover?.(null)}>
         {ITEMS.map((d) => {
           const isSelected = d.pathId === selected;
           const isHovered = d.pathId === hovered;

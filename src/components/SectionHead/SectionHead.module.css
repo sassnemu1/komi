@@ -17,7 +17,10 @@
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;        /* на узком экране вторая часть уходит строкой ниже, */
+  row-gap: 6px;           /* а не ломается на два столбца */
+  gap: 6px 10px;
+  white-space: nowrap;
   font-family: var(--font-body);
   font-size: 10px;
   letter-spacing: 0.3em;
@@ -97,6 +100,6 @@
 @media (max-width: 767px) {
   .head { grid-template-columns: 1fr; gap: 8px; }
   .num { order: -1; justify-self: start; font-size: 64px; color: rgba(255, 255, 255, 0.08); }
-  .eyebrow { margin-bottom: 18px; }
+  .eyebrow { margin-bottom: 18px; letter-spacing: 0.22em; }
   .lead { font-size: 0.92rem; }
 }

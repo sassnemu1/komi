@@ -4,12 +4,10 @@ import { useRef } from "react";
 import Image from "next/image";
 import SectionHead from "@/components/SectionHead/SectionHead";
 import useReveal from "@/hooks/useReveal";
+import useParallax from "@/hooks/useParallax";
 import styles from "./ExperiencesSection.module.css";
 import { INFO_DATA } from "@/data/InfoData";
-import { PHOTOS } from "@/data/photos";
-
-// object-position для фото плитки, если оно задано в photos.js
-const posOf = (src) => Object.values(PHOTOS).find((p) => p.src === src)?.pos;
+import { photoBySrc } from "@/data/photos";
 
 const DATA = INFO_DATA.find((c) => c.id === "06");
 
@@ -21,21 +19,25 @@ function Tile({ work, area }) {
   const big = area === "a";
   const stats = work.stats ?? [];
   const isProject = work.badge === "В проекте";
+  const photo = work.image ? photoBySrc(work.image) : null; // pos + blur из photos.js
   return (
     <article
       className={`${styles.tile} ${big ? styles.tileBig : ""} ${work.image ? styles.tileHasImg : ""}`}
       style={{ gridArea: area, "--tile-bg": work.thumbBg ?? "transparent" }}
       data-reveal
+      data-parallax-scope
     >
       {work.image && (
-        <div className={styles.tileImg} aria-hidden="true">
+        <div className={styles.tileImg} aria-hidden="true" data-parallax={big ? "7" : "5"}>
           <Image
             src={work.image}
             alt=""
             fill
             sizes={big ? "(max-width: 640px) 100vw, 66vw" : "(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw"}
             quality={72}
-            style={posOf(work.image) ? { objectPosition: posOf(work.image) } : undefined}
+            placeholder={photo?.blur ? "blur" : "empty"}
+            blurDataURL={photo?.blur}
+            style={photo?.pos ? { objectPosition: photo.pos } : undefined}
           />
         </div>
       )}
@@ -75,6 +77,7 @@ function Tile({ work, area }) {
 export default function ExperiencesSection() {
   const sectionRef = useRef(null);
   useReveal(sectionRef, { stagger: 0.08 });
+  useParallax(sectionRef);
 
   if (!DATA) return null;
 

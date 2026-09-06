@@ -409,11 +409,11 @@ function CarRentalDesktop() {
             className={styles.block}
             ref={(el) => { blockRefs.current[i] = el; }}
           >
-            <div className={styles.meta}>
+            {/* Номер и eyebrow прячем вместе — иначе номера трёх блоков
+                висят на экране одновременно до появления текста */}
+            <div className={styles.meta} ref={(el) => { eyebrowRefs.current[i] = el; }}>
               <span className={styles.blockNum}>{block.id}</span>
-              <span className={styles.eyebrow} ref={(el) => { eyebrowRefs.current[i] = el; }}>
-                {block.eyebrow}
-              </span>
+              <span className={styles.eyebrow}>{block.eyebrow}</span>
             </div>
 
             <div className={styles.headlineWrap}>

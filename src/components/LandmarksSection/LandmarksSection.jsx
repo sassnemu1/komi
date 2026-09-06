@@ -5,6 +5,7 @@ import Image from "next/image";
 import useGSAP from "@/hooks/useGSAP";
 import styles from "./LandmarksSection.module.css";
 import { STOPS } from "@/data/landmarks";
+import { photoBySrc } from "@/data/photos";
 
 // ─── Хореография ────────────────────────────────────────────────
 // Длина пина считается от числа точек: на каждую — POS_STEP px скролла
@@ -50,6 +51,8 @@ function LandmarksStatic({ wide = false }) {
                 alt={stop.name}
                 fill
                 sizes="(max-width: 767px) 100vw, 60vw"
+                placeholder={photoBySrc(stop.image)?.blur ? "blur" : "empty"}
+                blurDataURL={photoBySrc(stop.image)?.blur}
                 className={styles.bgImg}
               />
             )}
@@ -234,6 +237,8 @@ function LandmarksDesktop() {
                 sizes="100vw"
                 priority={i === 0}
                 quality={76}
+                placeholder={photoBySrc(stop.image)?.blur ? "blur" : "empty"}
+                blurDataURL={photoBySrc(stop.image)?.blur}
                 className={styles.bgImg}
               />
             )}

@@ -40,10 +40,12 @@
 
 .tileBig { min-height: 520px; padding: 32px 34px; }
 
+/* Слой фото выше плитки — запас под параллакс ±5–7 % (useParallax) */
 .tileImg {
   position: absolute;
-  inset: 0;
+  inset: -10% 0;
   pointer-events: none;
+  will-change: transform;
 }
 
 .tileImg :global(img) {
@@ -209,7 +211,8 @@
   }
   .tile { min-height: 0; padding: 22px; }
   .tileBig { min-height: 0; padding: 26px 22px; }
-  .tileTop { margin-bottom: 18px; }
+  .tileTop { margin-bottom: 18px; flex-wrap: wrap; }
+  .tileEyebrow { flex: 1 1 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -70,6 +70,13 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Слой фото выше рамки — запас под параллакс ±8 % (useParallax) */
+.sidePhotoMedia {
+  position: absolute;
+  inset: -12% 0;
+  will-change: transform;
+}
+
 .sidePhoto :global(img) {
   object-fit: cover;
   filter: saturate(0.85) brightness(0.86);

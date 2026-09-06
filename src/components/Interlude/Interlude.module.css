@@ -2,21 +2,26 @@
 .interlude {
   position: relative;
   width: 100%;
-  height: clamp(440px, 66vh, 760px);
+  height: clamp(520px, 78vh, 880px);
   overflow: hidden;
   background: #07070a;
+  /* изолируем слой — тяжёлые transform не тянут за собой страницу */
+  contain: paint;
 }
 
+/* Слой фото выше секции на 26 % с каждой стороны: запас под параллакс
+   (±15 % своей высоты) и наезд. Transform ставит GSAP. */
 .media {
   position: absolute;
-  inset: -12% 0;
+  inset: -26% 0;
   will-change: transform;
+  transform-origin: 50% 50%;
 }
 
 .media :global(img) {
   object-fit: cover;
   object-position: center;
-  filter: brightness(0.78) saturate(0.98);
+  filter: brightness(0.8) saturate(1);
 }
 
 .shade {
@@ -24,19 +29,20 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(to top, rgba(7, 7, 10, 0.92) 0%, rgba(7, 7, 10, 0.35) 38%, rgba(7, 7, 10, 0.08) 70%, rgba(7, 7, 10, 0.5) 100%),
-    linear-gradient(100deg, rgba(7, 7, 10, 0.45) 0%, transparent 55%);
+    linear-gradient(to top, rgba(7, 7, 10, 0.94) 0%, rgba(7, 7, 10, 0.4) 34%, rgba(7, 7, 10, 0.06) 62%, rgba(7, 7, 10, 0.55) 100%),
+    linear-gradient(100deg, rgba(7, 7, 10, 0.5) 0%, transparent 55%);
 }
 
 .text {
   position: absolute;
   left: clamp(20px, 5vw, 48px);
   right: clamp(20px, 5vw, 48px);
-  bottom: clamp(32px, 6vh, 64px);
-  max-width: 760px;
+  bottom: clamp(36px, 7vh, 72px);
+  max-width: 820px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  will-change: transform, opacity;
 }
 
 .eyebrow {
@@ -47,8 +53,8 @@
   font-size: 10px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.62);
+  margin-bottom: 18px;
 }
 
 .eyebrow::before {
@@ -61,20 +67,20 @@
 
 .title {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 4.4rem);
-  line-height: 0.96;
+  font-size: clamp(2.5rem, 6vw, 5.4rem);
+  line-height: 0.94;
   color: #fff;
   margin: 0;
-  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 8px 36px rgba(0, 0, 0, 0.5);
 }
 
 .caption {
   font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.05vw, 1rem);
+  font-size: clamp(0.92rem, 1.05vw, 1.02rem);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.72);
-  margin: 14px 0 0;
-  max-width: 520px;
+  color: rgba(255, 255, 255, 0.74);
+  margin: 16px 0 0;
+  max-width: 540px;
 }
 
 .credit {
@@ -89,6 +95,14 @@
 }
 
 @media (max-width: 767px) {
-  .interlude { height: clamp(360px, 56vh, 520px); }
+  .interlude { height: clamp(420px, 64vh, 640px); }
+  .text { bottom: clamp(28px, 6vh, 48px); }
   .credit { display: none; }
+
+  /* focus="top": запас снизу, чтобы в окне оставался верх снимка */
+  .mediaTop { inset: -6% 0 -30%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media, .text { will-change: auto; }
 }

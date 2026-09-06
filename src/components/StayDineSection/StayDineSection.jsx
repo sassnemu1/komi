@@ -7,6 +7,7 @@ import { MdHotel } from "react-icons/md";
 import { IoIosRestaurant } from "react-icons/io";
 import SectionHead from "@/components/SectionHead/SectionHead";
 import useReveal from "@/hooks/useReveal";
+import useParallax from "@/hooks/useParallax";
 import styles from "./StayDineSection.module.css";
 import { INFO_DATA } from "@/data/InfoData";
 
@@ -68,6 +69,7 @@ function Group({ data, Icon }) {
 export default function StayDineSection() {
   const sectionRef = useRef(null);
   useReveal(sectionRef, { stagger: 0.05 });
+  useParallax(sectionRef);
 
   if (!HOTELS || !RESTAURANTS) return null;
 
@@ -95,15 +97,19 @@ export default function StayDineSection() {
               Все объекты — бренды холдинга. Позиции с пометкой «в проекте» —
               фазы коридора Якша—Маньпупунёр.
             </p>
-            <figure className={styles.sidePhoto} data-reveal>
-              <Image
-                src={PHOTOS["pechora-city"].src}
-                alt={PHOTOS["pechora-city"].alt}
-                fill
-                sizes="(max-width: 900px) 100vw, 260px"
-                quality={72}
-                style={PHOTOS["pechora-city"].pos ? { objectPosition: PHOTOS["pechora-city"].pos } : undefined}
-              />
+            <figure className={styles.sidePhoto} data-reveal data-parallax-scope>
+              <div className={styles.sidePhotoMedia} data-parallax="8">
+                <Image
+                  src={PHOTOS["pechora-city"].src}
+                  alt={PHOTOS["pechora-city"].alt}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 260px"
+                  quality={72}
+                  placeholder="blur"
+                  blurDataURL={PHOTOS["pechora-city"].blur}
+                  style={PHOTOS["pechora-city"].pos ? { objectPosition: PHOTOS["pechora-city"].pos } : undefined}
+                />
+              </div>
               <figcaption className={styles.sideCaption}>Печора с высоты</figcaption>
             </figure>
           </aside>

@@ -150,7 +150,7 @@ export default function DistrictPanel({ pathId, onClose }) {
           ×
         </button>
 
-        <div className={styles.body}>
+        <div className={styles.body} data-lenis-prevent>
           {/* ── Шапка ── */}
           <header className={styles.head}>
             {info.flag && (

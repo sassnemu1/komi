@@ -10,9 +10,10 @@
 /* Фото лесного озера (Печоро-Илычский заповедник) — тёмной подложкой */
 .bg {
   position: absolute;
-  inset: 0;
+  inset: -14% 0; /* запас под параллакс ±10 % (useParallax) */
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
 }
 
 .bg :global(img) {

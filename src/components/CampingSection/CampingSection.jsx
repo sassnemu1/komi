@@ -5,6 +5,7 @@ import Image from "next/image";
 import { PHOTOS } from "@/data/photos";
 import SectionHead from "@/components/SectionHead/SectionHead";
 import useReveal from "@/hooks/useReveal";
+import useParallax from "@/hooks/useParallax";
 import styles from "./CampingSection.module.css";
 import { INFO_DATA } from "@/data/InfoData";
 
@@ -14,13 +15,22 @@ const DATA = INFO_DATA.find((c) => c.id === "07");
 export default function CampingSection() {
   const sectionRef = useRef(null);
   useReveal(sectionRef, { stagger: 0.1 });
+  useParallax(sectionRef);
 
   if (!DATA) return null;
 
   return (
     <section id="camping" ref={sectionRef} className={styles.section}>
-      <div className={styles.bg} aria-hidden="true">
-        <Image src={PHOTOS["forest-lake"].src} alt="" fill sizes="100vw" quality={70} />
+      <div className={styles.bg} aria-hidden="true" data-parallax="10">
+        <Image
+          src={PHOTOS["forest-lake"].src}
+          alt=""
+          fill
+          sizes="100vw"
+          quality={70}
+          placeholder="blur"
+          blurDataURL={PHOTOS["forest-lake"].blur}
+        />
       </div>
       <div className={styles.inner}>
         <SectionHead

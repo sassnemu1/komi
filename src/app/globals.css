@@ -76,6 +76,13 @@ img, svg, video { display: block; max-width: 100%; }
 /* Якоря под фиксированной шапкой */
 [id] { scroll-margin-top: var(--header-h); }
 
+/* ─── LENIS (плавный скролл, components/SmoothScroll) ───────────── */
+html.lenis, html.lenis body { height: auto; }
+html.lenis-smooth { scroll-behavior: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
 /* ─── REDUCED MOTION ─────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

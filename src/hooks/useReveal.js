@@ -24,6 +24,9 @@ export default function useReveal(sectionRef, { selector = "[data-reveal]", star
         duration: 0.75,
         ease: "power3.out",
         stagger,
+        // После появления снимаем inline-transform, чтобы CSS-ховеры
+        // элементов (translateY плиток и т.п.) снова работали.
+        clearProps: "transform",
         scrollTrigger: { trigger: root, start },
       });
     }, root);

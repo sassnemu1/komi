@@ -1,4 +1,5 @@
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 
 const SITE = "https://komi.world";
 const MAP_URL = "https://map.komi.world";
@@ -72,6 +73,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ru">
       <body>
+        <SmoothScroll />
         {children}
         <script
           type="application/ld+json"
