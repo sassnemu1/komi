@@ -97,14 +97,14 @@ export default function StayDineSection() {
             </p>
             <figure className={styles.sidePhoto} data-reveal>
               <Image
-                src={PHOTOS.syktyvkar.src}
-                alt={PHOTOS.syktyvkar.alt}
+                src={PHOTOS["pechora-city"].src}
+                alt={PHOTOS["pechora-city"].alt}
                 fill
                 sizes="(max-width: 900px) 100vw, 260px"
                 quality={72}
-                style={PHOTOS.syktyvkar.pos ? { objectPosition: PHOTOS.syktyvkar.pos } : undefined}
+                style={PHOTOS["pechora-city"].pos ? { objectPosition: PHOTOS["pechora-city"].pos } : undefined}
               />
-              <figcaption className={styles.sideCaption}>Сыктывкар с высоты</figcaption>
+              <figcaption className={styles.sideCaption}>Печора с высоты</figcaption>
             </figure>
           </aside>
 

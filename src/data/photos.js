@@ -108,15 +108,15 @@ export const PHOTOS = {
     "w": 5114,
     "h": 3408
   },
-  "syktyvkar": {
+  "pechora-city": {
     "pos": "center 45%",
-    "src": "/photos/syktyvkar.jpg",
-    "alt": "Сыктывкар с высоты зимой",
-    "author": "msdte",
-    "license": "CC BY 3.0",
-    "page": "https://commons.wikimedia.org/wiki/File:Syktyvkar,_Komi_Republic,_Russia_-_panoramio_(41).jpg",
-    "w": 3648,
-    "h": 2736
+    "src": "/photos/pechora-city.jpg",
+    "alt": "Город Печора с высоты зимой",
+    "author": "k0k00rt",
+    "license": "CC BY-SA 3.0",
+    "page": "https://commons.wikimedia.org/wiki/File:Russia,_Komi,_Pechora_WMID6256736_719.jpg",
+    "w": 2048,
+    "h": 1365
   },
   "gorka": {
     "pos": "center 22%",
