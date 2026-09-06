@@ -33,7 +33,15 @@
   content: "";
   width: 28px;
   height: 1px;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--ice));
+}
+
+.flake {
+  width: 12px;
+  height: 12px;
+  color: var(--ice);
+  opacity: 0.8;
+  flex: 0 0 auto;
 }
 
 .dot {

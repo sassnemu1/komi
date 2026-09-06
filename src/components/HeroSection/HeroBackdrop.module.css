@@ -21,7 +21,7 @@
 .photo :global(img) {
   object-fit: cover;
   object-position: center 42%;
-  filter: saturate(0.82) contrast(1.06) brightness(0.92);
+  filter: saturate(0.8) contrast(1.08) brightness(0.76);
 }
 
 /* Лес — три ряда силуэтов, каждый со своим планом и плотностью */
@@ -51,9 +51,9 @@
   display: block;
 }
 
-.bandBlue  { top: 0;        height: var(--b1); background: rgba(0, 57, 166, 0.62); }
-.bandGreen { top: var(--b1); height: 33.3%;   background: rgba(0, 155, 58, 0.58); }
-.bandWhite { top: var(--b2); bottom: 0;       background: rgba(255, 255, 255, 0.78); }
+.bandBlue  { top: 0;        height: var(--b1); background: rgba(0, 48, 148, 0.68); }
+.bandGreen { top: var(--b1); height: 33.3%;   background: rgba(0, 128, 50, 0.62); }
+.bandWhite { top: var(--b2); bottom: 0;       background: rgba(238, 244, 255, 0.76); }
 
 /* Кромка снега — белая волна на границе леса и белой полосы */
 .ground {
@@ -77,6 +77,94 @@
 
 .driftShade { fill: rgba(120, 150, 190, 0.16); }
 .driftLight { fill: rgba(255, 255, 255, 0.55); }
+
+/* Стадо на кромке снега */
+.herd {
+  left: 7%;
+  width: 44%;
+  top: 60.5%;
+  height: 6.5%;
+  color: rgba(8, 16, 40, 0.88);
+  will-change: transform;
+}
+
+/* Передний сугроб — самый быстрый слой параллакса */
+.bank {
+  left: -4%;
+  width: 108%;
+  bottom: -2%;
+  height: 13%;
+  will-change: transform;
+  filter: drop-shadow(0 -6px 14px rgba(120, 150, 190, 0.25));
+}
+
+.bank path { fill: rgba(250, 252, 255, 0.96); }
+
+/* Виньетка */
+.vignette {
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 42%, transparent 52%, rgba(4, 8, 22, 0.42) 100%);
+  pointer-events: none;
+}
+
+/* Луна */
+.moon {
+  position: absolute;
+  top: 17%;
+  right: 17%;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 40%, #fff9ea 0 38%, rgba(255, 249, 234, 0.55) 52%, transparent 68%);
+  box-shadow: 0 0 40px 12px rgba(200, 220, 255, 0.22), 0 0 90px 30px rgba(120, 160, 255, 0.12);
+  opacity: 0.9;
+}
+
+/* Ветер — редкие мягкие штрихи через небо */
+.wind {
+  position: absolute;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  filter: blur(1.2px);
+  transform: rotate(-7deg);
+  opacity: 0;
+  animation: wind 12s linear infinite;
+}
+
+.wind1 { top: 30%; left: -10%; width: 34%; animation-delay: 0s; }
+.wind2 { top: 58%; left: -10%; width: 26%; animation-delay: 4.5s; animation-duration: 15s; }
+.wind3 { top: 76%; left: -10%; width: 42%; animation-delay: 8s; animation-duration: 18s; }
+
+@keyframes wind {
+  0%   { transform: translateX(0) rotate(-7deg); opacity: 0; }
+  12%  { opacity: 0.7; }
+  60%  { opacity: 0.5; }
+  100% { transform: translateX(340%) rotate(-7deg); opacity: 0; }
+}
+
+/* Иней в углах */
+.frost {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  color: rgba(255, 255, 255, 0.34);
+  pointer-events: none;
+}
+
+.frostTL { left: 26px; top: 26px; }
+.frostTR { right: 26px; top: 26px; transform: rotate(30deg); }
+
+.frostGlow {
+  position: absolute;
+  width: 34%;
+  height: 34%;
+  pointer-events: none;
+  background: radial-gradient(circle at 0% 100%, rgba(255, 255, 255, 0.28), transparent 70%);
+}
+
+.frostBL { left: 0; bottom: 0; }
+.frostBR { right: 0; bottom: 0; transform: scaleX(-1); }
 
 /* Ночь — opacity ведёт scroll-таймлайн HeroSection */
 .night {
@@ -165,6 +253,11 @@
 
 @media (max-width: 767px) {
   .photo :global(img) { object-position: 60% 42%; }
+  .herd { left: 4%; width: 70%; top: 61.5%; height: 5%; }
+  .moon { width: 40px; height: 40px; right: 12%; top: 11%; }
+  .frost { width: 44px; height: 44px; }
+  .frostTL { left: 16px; top: 16px; }
+  .frostTR { right: 16px; top: 16px; }
   .treesFar  { top: 20%; height: 26%; }
   .treesMid  { top: 30%; height: 28%; }
   .treesNear { top: 35%; height: 33%; }
@@ -172,5 +265,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .twinkle, .aurora { animation: none; }
+  .twinkle, .aurora, .wind { animation: none; }
+  .wind { opacity: 0.35; transform: translateX(120%) rotate(-7deg); }
 }

@@ -1,22 +1,26 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Interlude from "@/components/Interlude/Interlude";
+import SnowEdge from "@/components/SnowEdge/SnowEdge";
 
+import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import MythologySection from "@/components/MythologySection/MythologySection";
-import LandmarksSection from "@/components/LandmarksSection/LandmarksSection";
 import StayDineSection from "@/components/StayDineSection/StayDineSection";
 import ExperiencesSection from "@/components/ExperiencesSection/ExperiencesSection";
 import CampingSection from "@/components/CampingSection/CampingSection";
-import MadeInKomiSection from "@/components/MadeInKomiSection/MadeInKomiSection";
-import CarRental from "@/components/CarRental/CarRental";
-import TaxiSection from "@/components/TaxiSection/TaxiSection";
 import HoldingSection from "@/components/HoldingSection/HoldingSection";
+
+// Тяжёлые главы ниже сгиба — отдельными чанками: HTML рендерится на сервере
+// как обычно, а их JS не задерживает первый интерактив hero и карты.
+const LandmarksSection = dynamic(() => import("@/components/LandmarksSection/LandmarksSection"));
+const MadeInKomiSection = dynamic(() => import("@/components/MadeInKomiSection/MadeInKomiSection"));
+const TransportSection = dynamic(() => import("@/components/TransportSection/TransportSection"));
 
 // Порядок глав. Якоря секции ставят сами:
 // #hero (#map — стадия карты) → #mythology → #landmarks → #stay →
-// #experiences → #camping → #made-in-komi → #transport → #taxi → #holding →
-// #contacts
+// #experiences → #camping → #made-in-komi → #transport (внутри — #rental и
+// #taxi) → #holding → #contacts
 // Между главами — фото-интерлюдии (Wikimedia Commons, авторы в подвале).
 export default function Home() {
   return (
@@ -29,6 +33,7 @@ export default function Home() {
 
 
         <LandmarksSection />
+        <SnowEdge />
         <StayDineSection />
 
         <Interlude
@@ -39,7 +44,9 @@ export default function Home() {
         />
 
         <ExperiencesSection />
+        <SnowEdge />
         <CampingSection />
+        <SnowEdge />
         <MadeInKomiSection />
 
         <Interlude
@@ -49,8 +56,8 @@ export default function Home() {
           caption="Национальный парк «Югыд ва» зимой — там, куда не доедет обычная машина."
         />
 
-        <CarRental />
-        <TaxiSection videoSrc="/video-komi-taxi.mp4" />
+        <TransportSection />
+        <SnowEdge />
         <HoldingSection />
       </main>
 

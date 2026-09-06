@@ -1,6 +1,15 @@
 import "./globals.css";
+import { Bebas_Neue, DM_Sans, Ponomar } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import SiteSnow from "@/components/SiteSnow/SiteSnow";
+import ScrollRestore from "@/components/ScrollRestore/ScrollRestore";
+
+// Шрифты — self-hosted через next/font: без блокирующего @import Google Fonts,
+// с preload и без скачков раскладки. Имена CSS-переменных совпадают с токенами
+// в globals.css.
+const fontDisplay = Ponomar({ subsets: ["cyrillic", "latin"], weight: "400", variable: "--font-display-next", display: "swap", adjustFontFallback: false });
+const fontBold = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bold-next", display: "swap" });
+const fontBody = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500", "700"], variable: "--font-body-next", display: "swap" });
 
 const SITE = "https://komi.world";
 const MAP_URL = "https://map.komi.world";
@@ -72,9 +81,10 @@ function jsonLd(data) {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={`${fontDisplay.variable} ${fontBold.variable} ${fontBody.variable}`}>
       <body>
         <SmoothScroll />
+        <ScrollRestore />
         {children}
         <SiteSnow />
         <script

@@ -71,7 +71,7 @@
   line-height: 0.94;
   color: #fff;
   margin: 0;
-  text-shadow: 0 8px 36px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 24px rgba(170, 200, 255, 0.3), 0 8px 36px rgba(0, 0, 0, 0.5);
 }
 
 .caption {

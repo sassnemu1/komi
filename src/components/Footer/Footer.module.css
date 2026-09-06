@@ -9,6 +9,22 @@
 
 /* Еле заметная фактура орнамента: маска на псевдоэлементе,
    т.к. currentColor в background-image не работает */
+/* Сугроб по верхней кромке подвала */
+.footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 70px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 30% 100% at 10% 0%, rgba(220, 232, 255, 0.1), transparent 70%),
+    radial-gradient(ellipse 36% 100% at 55% 0%, rgba(220, 232, 255, 0.08), transparent 70%),
+    radial-gradient(ellipse 30% 100% at 92% 0%, rgba(220, 232, 255, 0.1), transparent 70%);
+}
+
 .texture {
   position: absolute;
   inset: 0;

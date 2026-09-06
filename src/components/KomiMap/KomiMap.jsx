@@ -101,10 +101,14 @@ export default function KomiMap({ className, selected, hovered, onSelect, onHove
           );
           paths.set(id, path);
 
-          // Настоящий флаг района — заливаем форму района им самим
-          // через SVG-pattern, "cover"-кадрированием по bbox фигуры.
-          if (info.flag) {
-            path.setAttribute("data-has-flag", "true");
+          // Официальный символ района — заливаем форму района через
+          // SVG-pattern по bbox фигуры. Флаг — «cover»-кадрированием (он
+          // прямоугольный и тянется на всю фигуру); герб — щитом по центру на
+          // тонированной подложке (герб резать нельзя, он должен читаться целиком).
+          const symbol = info.flag ? "flag" : info.arms ? "arms" : null;
+          if (symbol) {
+            path.setAttribute("data-has-flag", "true"); // общие стили для обоих видов символов
+            path.setAttribute("data-symbol", symbol);
             const bbox = path.getBBox();
             const patternId = `flag-pattern-${id}`;
 
@@ -117,12 +121,27 @@ export default function KomiMap({ className, selected, hovered, onSelect, onHove
             pattern.setAttribute("height", bbox.height);
 
             const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
-            image.setAttribute("href", info.flag);
-            image.setAttribute("x", "0");
-            image.setAttribute("y", "0");
-            image.setAttribute("width", bbox.width);
-            image.setAttribute("height", bbox.height);
-            image.setAttribute("preserveAspectRatio", "xMidYMid slice");
+            if (symbol === "flag") {
+              image.setAttribute("href", info.flag);
+              image.setAttribute("x", "0");
+              image.setAttribute("y", "0");
+              image.setAttribute("width", bbox.width);
+              image.setAttribute("height", bbox.height);
+              image.setAttribute("preserveAspectRatio", "xMidYMid slice");
+            } else {
+              const base = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+              base.setAttribute("width", bbox.width);
+              base.setAttribute("height", bbox.height);
+              base.setAttribute("fill", "rgba(56, 100, 219, 0.22)");
+              pattern.appendChild(base);
+              const side = Math.min(bbox.width, bbox.height) * 0.8;
+              image.setAttribute("href", info.arms);
+              image.setAttribute("x", (bbox.width - side) / 2);
+              image.setAttribute("y", (bbox.height - side) / 2);
+              image.setAttribute("width", side);
+              image.setAttribute("height", side);
+              image.setAttribute("preserveAspectRatio", "xMidYMid meet");
+            }
 
             pattern.appendChild(image);
             defs.appendChild(pattern);

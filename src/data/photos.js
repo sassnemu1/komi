@@ -4,11 +4,430 @@
 // next/image. Авторы перечислены в подвале (Footer) из этого же файла.
 // Собрано 2026-09-06 через API Commons; page — страница файла с лицензией;
 // pos — object-position для кадров, где центр обрезает сюжет; caption — подпись
-// места на карточке. Записи с render: true — визуализации из меморандума
-// УК «Велес И К» (собственные материалы холдинга, не фотографии): на карточках
-// помечаются словом «визуализация», в подвал как фото не попадают.
+// места на карточке. own: true — собственные материалы холдинга (сайты YÖRAN и
+// завода «Велес», меморандум): в подвал как фото Commons не попадают; из них
+// render: true — визуализации и дизайн-концепты, на карточках они помечаются
+// словом «визуализация», а продуктовые фото завода — нет.
 
 export const PHOTOS = {
+  "cgi-komi-taxi": {
+    "render": true,
+    "own": true,
+    "src": "/photos/cgi-komi-taxi.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAMBAgQF/8QAFQEBAQAAAAAAAAAAAAAAAAAAAQT/2gAMAwEAAhADEAAAAOK3K2mapAP/xAAeEAACAwACAwEAAAAAAAAAAAABAgADESEiBFFxgf/aAAgBAQABPwBfHB0Cv9goqAUvvYR1qA4QRLm68kfDBcobsmr62PYrYAuT/8QAFREBAQAAAAAAAAAAAAAAAAAAECH/2gAIAQIBAT8Ah//EABYRAQEBAAAAAAAAAAAAAAAAAAABIv/aAAgBAwEBPwDSP//Z",
+    "alt": "Стилизованная рельефная карта Коми с маршрутами такси, визуализация",
+    "caption": "Визуализация",
+    "author": "УК «Велес И К»",
+    "license": "визуализация холдинга",
+    "page": "",
+    "w": 1180,
+    "h": 720
+  },
+  "cgi-komi-map": {
+    "render": true,
+    "own": true,
+    "src": "/photos/cgi-komi-map.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIBAwQG/8QAFgEBAQEAAAAAAAAAAAAAAAAABAAB/9oADAMBAAIQAxAAAADnNNLpMhJb/8QAIRABAAEDAgcAAAAAAAAAAAAAAQIAAxIEEQUTITFBYYH/2gAIAQEAAT8AdHA7XN/lQ4aSgz3kgU6K15lIrmHRx90am4CZNZ5Nf//EABkRAAEFAAAAAAAAAAAAAAAAAAABAhESUf/aAAgBAgEBPwBKENw//8QAGREAAQUAAAAAAAAAAAAAAAAAAAESIkFR/9oACAEDAQE/AFfRLT//2Q==",
+    "alt": "Рельефная карта Республики Коми с маяком и светящимися маршрутами, визуализация",
+    "caption": "Визуализация",
+    "author": "УК «Велес И К»",
+    "license": "визуализация холдинга",
+    "page": "",
+    "w": 1180,
+    "h": 720
+  },
+  "veles-parma-cut": {
+    "own": true,
+    "src": "/photos/veles-parma-cut.webp",
+    "alt": "Три бутылки медовухи ПАРМА — Пера, Войпель, Зарни Ань (вырезка на прозрачном фоне)",
+    "caption": "Продукция · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/parma.html",
+    "w": 867,
+    "h": 760
+  },
+  "veles-alive-cut": {
+    "own": true,
+    "src": "/photos/veles-alive-cut.webp",
+    "alt": "Пять банок безалкогольных мохито A-Live (вырезка на прозрачном фоне)",
+    "caption": "Продукция · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/a-live.html",
+    "w": 1927,
+    "h": 640
+  },
+  "render-table": {
+    "render": true,
+    "own": true,
+    "src": "/photos/render-table.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUBBAb/xAAWAQEBAQAAAAAAAAAAAAAAAAAEAAH/2gAMAwEAAhADEAAAAGmduqTogbm3/8QAIBAAAgIDAAIDAQAAAAAAAAAAAQIDBAARIRJCBRMxUf/aAAgBAQABPwBLFqdWP1CPY9zi1YpLMqiZMmoSKZG/e+vc+QvtXi8g5bzOgpylZkjXaDTL/MNt2TaEAt0HXecz/8QAGBEBAQADAAAAAAAAAAAAAAAAAQACAxL/2gAIAQIBAT8A2PIMZN//xAAXEQEBAQEAAAAAAAAAAAAAAAABAAMS/9oACAEDAQE/AMzpkL//2Q==",
+    "alt": "Визуализация стола-«реки» из реликтовой древесины с эпоксидной смолой из презентации «Корни Пармы»",
+    "caption": "Визуализация · презентация бренда",
+    "author": "УК «Велес И К»",
+    "license": "визуализация из презентации",
+    "page": "",
+    "w": 922,
+    "h": 567
+  },
+  "render-loaf": {
+    "render": true,
+    "own": true,
+    "src": "/photos/render-loaf.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAkABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAwb/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAADmnn62OrRyA05ZxepQi6XOeANPgB//xAAlEAACAQIGAgIDAAAAAAAAAAABAgMAEQQFEiEiQTFRExQjgaH/2gAIAQEAAT8AMeMisjQNv63rLoJ0nLPC6oUe5IoYqCQ4V4pI5ApBIDqD4r5pmh4SGMdj+2r4JJUbVYKVtb2D2DUmVSw3ujlQdjprFOzzOUik680pnBUaBoRQG3G1DMsww7adFwWAAK19zDG6SI6D0eQqAQspMRUju1Sq2pRGRYtuTTRRyLyUUiCN4ok4iVwrEeaQ/gLAAXdl/S1//8QAGhEAAwADAQAAAAAAAAAAAAAAAAEREBIxQf/aAAgBAgEBPwCqwVXppX04PH//xAAaEQABBQEAAAAAAAAAAAAAAAAAARASITFB/9oACAEDAQE/AOC2SrDX/9k=",
+    "alt": "Визуализация нарезанного хлеба из презентации пекарни «Нянь Мунам»",
+    "caption": "Визуализация · презентация бренда",
+    "author": "УК «Велес И К»",
+    "license": "визуализация из презентации",
+    "page": "",
+    "w": 1068,
+    "h": 1600
+  },
+  "yoran-jetski": {
+    "src": "/photos/yoran-jetski.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGgAAAQUBAAAAAAAAAAAAAAAAAAECAwQFBv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAADlLVR1myYpKJE0mIg//8QAIRAAAQMEAwADAAAAAAAAAAAAAQACEQMEEiETMVFhgaH/2gAIAQEAAT8AY2lwmQMydbCta3GNhuPyFdXINNrKbGAkSce0ynqSCR5BRuOhidagphd3OI9RY9rfr1cZgnXSId+IvJaRkVkVm6Ilf//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8AH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8AH//Z",
+    "alt": "YÖRAN «Вакуль» — гидроцикл, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-jetski-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-jetski-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAQABgDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUCBAb/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAADIM1kkYlEH/8QAHxAAAgICAQUAAAAAAAAAAAAAAQIAIQMREgQUMVJh/9oACAEBAAE/AEBLVMOYYitlR7TqM3cuxRmoeWMRwpvcObkOOooJtiFUX9M//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwA//9k=",
+    "alt": "YÖRAN «Вакуль» — гидроцикл, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 473,
+    "render": true
+  },
+  "yoran-atv": {
+    "src": "/photos/yoran-atv.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAECBgX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAAy3R50WaAzgOWpZGH/8QAIhAAAQQCAQQDAAAAAAAAAAAAAQACAxESIQQTIjFBUXKB/9oACAEBAAE/AGdIQ+BnfyuLyIY23LG1zfrsKTncYNxjia0OGjQJUXb3dMu1YtOklOz+36Qy24ORD8BYd4VaGirFIl4AdltdZ+ON6TXFoNe1/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwAf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPwAf/9k=",
+    "alt": "YÖRAN «Ош» — квадроцикл ATV, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-atv-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-atv-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAASABgDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAYCAf/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAACUppXVlGmxnQdEv//EACUQAAEDAgMJAAAAAAAAAAAAAAEAAgMSMQURIQQiIzIzQVFx4f/aAAgBAQABPwDZ3ESDI5KHEod1j2cTw36p8Qra+Mmki4aAmOpNkZKuUa9ySmyOu7VNuEdAU/pRe1//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AB//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AB//2Q==",
+    "alt": "YÖRAN «Ош» — квадроцикл ATV, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 534,
+    "render": true
+  },
+  "yoran-snow": {
+    "src": "/photos/yoran-snow.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQDBv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAADlLYqbLUio2CNWQ//EACIQAAICAgEEAwEAAAAAAAAAAAECABEDIRIEEzFRIkFCYf/aAAgBAQABPwBExdk2PnetidKUTGWZTqZuqxcFUKBYmJQKuj/LEzcmQsCFXwFG6mHpXendgK9ztsE/NAbNysiKD9VC+Q+4WBHk3OZqr1OZrzP/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAECAQE/AB//xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AB//2Q==",
+    "alt": "YÖRAN «Йиркап» — снегоход, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-snow-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-snow-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAQABgDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUCBAb/xAAVAQEBAAAAAAAAAAAAAAAAAAABAP/aAAwDAQACEAMQAAAAyTlPNGBWG//EAB4QAAEEAgMBAAAAAAAAAAAAAAEAAgMRBCEiMkFx/9oACAEBAAE/AIu40hkCIxhrCCfbpZGWHuLfSNG7URN8e3ieZRIDx+DYUONI57JCzV2v/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwA//9k=",
+    "alt": "YÖRAN «Йиркап» — снегоход, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 473,
+    "render": true
+  },
+  "yoran-swamp": {
+    "src": "/photos/yoran-swamp.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGQAAAwEBAQAAAAAAAAAAAAAAAAMEAgEG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAPK3RrS8jDGV8pgsP//EAB4QAAEFAQEAAwAAAAAAAAAAAAEAAgMRIRIxE3KR/9oACAEBAAE/AI2x/FVAvvNTXwsDe4LzaKfJC8niBoH2Kja8RlzfaxGSQU0n06mWCHE+JrHlgOfurg1dJwxXl2bXRXWL/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwAf/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAwEBPwAf/9k=",
+    "alt": "YÖRAN «Яг-Морт» — болотоход-амфибия 6×6, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-swamp-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-swamp-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAOABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAQFAgb/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAADlKMnSPi4P/8QAIBABAAICAQQDAAAAAAAAAAAAAQIRAAMxBBIUMkFCkf/aAAgBAQABPwDQsZWNZ5vVa/u/hht2SUNs7fjlchbIrO6UmbKl5cgJO79XP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8AP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8AP//Z",
+    "alt": "YÖRAN «Яг-Морт» — болотоход-амфибия 6×6, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 438,
+    "render": true
+  },
+  "yoran-moto": {
+    "src": "/photos/yoran-moto.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAMEAQIG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAOVugZZWQgswuVpoH//EAB4QAAICAwEAAwAAAAAAAAAAAAERAiEAAxIiBEFR/9oACAEBAAE/ANY1DVYHbq8j8mMYAjTAX+Wc27+/cgH9CIWatbToYozQZSrEpBmm898CilkYy5JAKV4eky7GGUuB6NZ0Us7NZ//EABYRAAMAAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPwAr/8QAFhEAAwAAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/ACP/2Q==",
+    "alt": "YÖRAN «Пера» — мотоцикл эндуро, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-moto-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-moto-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAASABgDASIAAhEBAxEB/8QAGQABAAMBAQAAAAAAAAAAAAAAAAMEBQIG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAPKaOXJZaVRFaI4C/wD/xAAfEAACAgIBBQAAAAAAAAAAAAABAgADESExBDJBUYH/2gAIAQEAAT8Aosat8rzB1twZwlhj2gD20rJBOIVKAEHREBZmUFonMyRSN+DF7m+z/8QAFhEAAwAAAAAAAAAAAAAAAAAAABAR/9oACAECAQE/ACv/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/AB//2Q==",
+    "alt": "YÖRAN «Пера» — мотоцикл эндуро, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 559,
+    "render": true
+  },
+  "yoran-drone": {
+    "src": "/photos/yoran-drone.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGQAAAwADAAAAAAAAAAAAAAAAAAEFAwQG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH/2gAMAwEAAhADEAAAAOXqRs6VSWGsNAIX/8QAIhAAAgICAgEFAQAAAAAAAAAAAQIDEQAhBBJRExQiMWGS/9oACAEBAAE/AIREI9gd7FbGDlrHEXSMBh4+iMTle5VnEASv5xQgUH5HErqW3WGR/T2N3o/mdJAo0cIYNRBypKxpJGUFmuh4w8iQmybOGVjR1n//xAAWEQADAAAAAAAAAAAAAAAAAAAAEBH/2gAIAQIBAT8AK//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8AH//Z",
+    "alt": "YÖRAN «Кырныш» — грузовой дрон, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-drone-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-drone-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAATABgDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAUEAwb/xAAWAQEBAQAAAAAAAAAAAAAAAAABAAL/2gAMAwEAAhADEAAAAPMVYepKrEqb0CDL/8QAJBAAAgEDAwMFAAAAAAAAAAAAAQIAAxESBBMiBSFxFDJBQlH/2gAIAQEAAT8A0jKtTkLiDq3p3ZMc0+tzBX3huIt2Y8chxWUyQe0fDi1UX/I+odKSAMuBF1USn7x5j92t8XjAWXxP/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwAf/8QAFREBAQAAAAAAAAAAAAAAAAAAEAH/2gAIAQMBAT8AIf/Z",
+    "alt": "YÖRAN «Кырныш» — грузовой дрон, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 562,
+    "render": true
+  },
+  "yoran-evtol": {
+    "src": "/photos/yoran-evtol.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIFAwb/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAA5SjL0TpCKLPZUs1FD//EACQQAAICAQMCBwAAAAAAAAAAAAECABEDBBIhBSITMTJBQlGh/9oACAEBAAE/AMS4/DYt6vjyJpdSmMd+NWExdU0lEDBO3YO39irvVAJjZMIpm3J7qODcCmhf1ArKLryhV2BY3CTVwsTC7Ecmf//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQIBAT8AH//EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8AH//Z",
+    "alt": "YÖRAN «Войпель» — аэротакси eVTOL, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 620,
+    "h": 775,
+    "render": true
+  },
+  "yoran-evtol-w": {
+    "pos": "center 40%",
+    "src": "/photos/yoran-evtol-w.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAOABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAADIUprCVRUP/8QAHhAAAQQDAAMAAAAAAAAAAAAAAgABAxEEEhMFMTL/2gAIAQEAAT8AB6JNnyRNqJkh8hm89jMqL0o/pRQsb3aGsdj6t0F2ql//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwBX/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwA//9k=",
+    "alt": "YÖRAN «Войпель» — аэротакси eVTOL, визуализация с сайта YÖRAN",
+    "caption": "Визуализация · YÖRAN",
+    "author": "YÖRAN Sever Technologies",
+    "license": "визуализация с сайта YÖRAN",
+    "page": "https://yoran-web.vercel.app/",
+    "own": true,
+    "w": 720,
+    "h": 426,
+    "render": true
+  },
+  "veles-parma-line": {
+    "src": "/photos/veles-parma-line.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAVABgDASIAAhEBAxEB/8QAGQABAAIDAAAAAAAAAAAAAAAAAAQFAQMG/8QAFgEBAQEAAAAAAAAAAAAAAAAAAQIA/9oADAMBAAIQAxAAAADkk/fNVK1FV8gxkG//xAAlEAACAQMDAgcAAAAAAAAAAAABAgMABBEkMXIhkRIiI0FCUXH/2gAIAQEAAT8AcaOPnnvTDRJzzUY0cvIHtTeawc/UajtQQGwlJ9rYVZxq9p12EMlGcmF4sfDf8qC59F42TIMYTemnFuqpEpA8DL1Oa//EAB0RAAIBBAMAAAAAAAAAAAAAAAABAgMREkEhMXH/2gAIAQIBAT8ASk9bFLmXo+imljc//8QAHhEAAgEEAwEAAAAAAAAAAAAAAQIAESExQRJRYXH/2gAIAQMBAT8A5J3qmNxloE9WLQsthmOST8sJ/9k=",
+    "alt": "Три бутылки медовухи ПАРМА — Пера, Войпель, Зарни Ань",
+    "caption": "Продукция · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/parma.html",
+    "own": true,
+    "w": 867,
+    "h": 760
+  },
+  "veles-lessence-line": {
+    "pos": "center 45%",
+    "src": "/photos/veles-lessence-line.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAANABgDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAUDBAb/xAAWAQEBAQAAAAAAAAAAAAAAAAABAgP/2gAMAwEAAhADEAAAANOlarY0qkgP/8QAIhAAAgEDAgcAAAAAAAAAAAAAAQIDAAQRIUIFEjEyQYHB/9oACAEBAAE/AL2URwEnywFT4RSSGxkDQZ6/KtwDcHRhyHByK4m5S3AG5wKuZysRIXuYJUNy0s8wK7lX0tf/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAIAQIBAT8ArX//xAAXEQEBAQEAAAAAAAAAAAAAAAABABEh/9oACAEDAQE/AA4WGF//2Q==",
+    "alt": "Линейка сидров и медовухи L'ESSENCE",
+    "caption": "Продукция · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/l-essence.html",
+    "own": true,
+    "w": 1200,
+    "h": 674
+  },
+  "veles-alive-cans": {
+    "src": "/photos/veles-alive-cans.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAIABgDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAQC/8QAFgEBAQEAAAAAAAAAAAAAAAAAAgME/9oADAMBAAIQAxAAAACCQzV2GP/EAB8QAAEDAwUAAAAAAAAAAAAAAAIAASEDBBEFFCU0wf/aAAgBAQABPwASDd13wPW9VuYcY0QaqkBW+pvgZqwv/8QAGhEAAQUBAAAAAAAAAAAAAAAAAAMRMkJxwf/aAAgBAgEBPwBpYI23h//EABoRAAICAwAAAAAAAAAAAAAAAAECADEhMnH/2gAIAQMBAT8A1DKKyIaXk//Z",
+    "alt": "Банки безалкогольных мохито A-Live",
+    "caption": "Продукция · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/a-live.html",
+    "own": true,
+    "w": 1927,
+    "h": 640,
+    "pos": "center center"
+  },
+  "veles-bottling-line": {
+    "src": "/photos/veles-bottling-line.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAASABgDASIAAhEBAxEB/8QAGQABAAIDAAAAAAAAAAAAAAAAAAIEAwUG/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAID/9oADAMBAAIQAxAAAADUK0M7tqKp7DEEwf/EACUQAAEDBAECBwAAAAAAAAAAAAEAAhEDBDFCEiEjExQkQVGSsf/aAAgBAQABPwDD5Fc5O3yg2qd+c5MwU7xgGNlwHuSUS6XQDk6gfqa97p6x1KBqOIAcZJXlrcl3Yp5OoTbW1DR6elk6BU7W25t7FP6hf//EABgRAAMBAQAAAAAAAAAAAAAAAAEQQQIS/9oACAECAQE/AOtGIVf/xAAXEQEBAQEAAAAAAAAAAAAAAAABEBJB/9oACAEDAQE/AMh2M//Z",
+    "alt": "Линия розлива завода «Велес» в Химках",
+    "caption": "Линия розлива · завод «Велес»",
+    "author": "Завод «Велес»",
+    "license": "фото с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/zavod.html",
+    "own": true,
+    "w": 1100,
+    "h": 809
+  },
+  "veles-zhar-ptitsa": {
+    "src": "/photos/veles-zhar-ptitsa.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAeABgDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAQCAwUG/8QAFQEBAQAAAAAAAAAAAAAAAAAAAgP/2gAMAwEAAhADEAAAAOVcjqSpgDJWbdNVAToqM//EACUQAAICAgAEBwEAAAAAAAAAAAECAAMEERIxUVIFEyEjQWJxcv/aAAgBAQABPwBV2RMfF83Dy8gjhFYHAep6QrK69qx6AyyxKPBMdebWI2hHTSqfqJjFTW4PYYxNuLXQ9tXtbCNs8j8TIKhUA7RKGAVv5MVjwsSfXUubYH4J/8QAGhEBAQACAwAAAAAAAAAAAAAAAQIDEBIhYf/aAAgBAgEBPwDLdTwJO2tVKp5r/8QAGREBAAMBAQAAAAAAAAAAAAAAAQIQEQMx/9oACAEDAQE/AOcR1fAqLm1//9k=",
+    "alt": "Бутылка энергетика ЖАР-ПТИЦА из коллекции «Легенды России» — дизайн-концепт",
+    "caption": "Дизайн-концепт · «Легенды России»",
+    "author": "Завод «Велес»",
+    "license": "дизайн-концепт с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/legendy.html",
+    "own": true,
+    "w": 720,
+    "h": 900,
+    "render": true
+  },
+  "veles-legend-khan-altai": {
+    "src": "/photos/veles-legend-khan-altai.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAANABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EABYBAQEBAAAAAAAAAAAAAAAAAAIDBP/aAAwDAQACEAMQAAAA2ElpTPaaUAr/xAAdEAEAAgICAwAAAAAAAAAAAAABAgMAEQQhEyKR/9oACAEBAAE/ACQmcmiMuV6iPiy6MoKJlc+gN4WTs5DPo1Fjl1bZvafM/8QAFhEBAQEAAAAAAAAAAAAAAAAAAhAx/9oACAECAQE/AEsn/8QAFxEBAAMAAAAAAAAAAAAAAAAAAgEQMf/aAAgBAwEBPwAnZr//2Q==",
+    "alt": "ХАН-АЛТАЙ — дизайн-концепт бренда коллекции «Легенды России»",
+    "caption": "Дизайн-концепт · «Легенды России»",
+    "author": "Завод «Велес»",
+    "license": "дизайн-концепт с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/legendy.html",
+    "own": true,
+    "w": 1000,
+    "h": 558,
+    "render": true
+  },
+  "veles-legend-zhar-ptitsa": {
+    "src": "/photos/veles-legend-zhar-ptitsa.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAANABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFBv/EABYBAQEBAAAAAAAAAAAAAAAAAAMBAv/aAAwDAQACEAMQAAAA1EtkFYg4Zv8A/8QAHxAAAQQCAgMAAAAAAAAAAAAAAgEDBBEAEhNBIUKB/9oACAEBAAE/AMksurLYt8tDJbb9arJTPCddZCfKS0hrSY8DqyWi5E1HrXJ+ieTHb7Wf/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwA//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwA//9k=",
+    "alt": "ЖАР-ПТИЦА — дизайн-концепт бренда коллекции «Легенды России»",
+    "caption": "Дизайн-концепт · «Легенды России»",
+    "author": "Завод «Велес»",
+    "license": "дизайн-концепт с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/legendy.html",
+    "own": true,
+    "w": 1000,
+    "h": 558,
+    "render": true
+  },
+  "veles-legend-zhiva": {
+    "src": "/photos/veles-legend-zhiva.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAANABgDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABAAF/8QAFgEBAQEAAAAAAAAAAAAAAAAABAAB/9oADAMBAAIQAxAAAADaC4h0CkVn/8QAIRAAAQMEAQUAAAAAAAAAAAAAAgABAwQREhMyQUJScZH/2gAIAQEAAT8Aoe9ThIVcBkI63LC2T/VUjrKyjONhLVFg/u6MZnljcpB8uK1hKAlLk5dXZ7L/xAAVEQEBAAAAAAAAAAAAAAAAAAAQQf/aAAgBAgEBPwCH/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAExAhH/2gAIAQMBAT8AxXDjP//Z",
+    "alt": "ЖИВА — дизайн-концепт бренда коллекции «Легенды России»",
+    "caption": "Дизайн-концепт · «Легенды России»",
+    "author": "Завод «Велес»",
+    "license": "дизайн-концепт с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/legendy.html",
+    "own": true,
+    "w": 1000,
+    "h": 558,
+    "render": true
+  },
+  "veles-legend-malakhitnitsa": {
+    "src": "/photos/veles-legend-malakhitnitsa.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAANABgDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMCBAb/xAAWAQEBAQAAAAAAAAAAAAAAAAABAwT/2gAMAwEAAhADEAAAANEl9bPVhIH/xAAeEAACAwACAwEAAAAAAAAAAAABAwACEQQhNFFikf/aAAgBAQABPwBCwZY5zV1zs6N+ZyV5FNrUdVP7GeXVvqNJZU6Z/8QAFhEAAwAAAAAAAAAAAAAAAAAAARAx/9oACAECAQE/ADF//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwA//9k=",
+    "alt": "МАЛАХИТНИЦА — дизайн-концепт бренда коллекции «Легенды России»",
+    "caption": "Дизайн-концепт · «Легенды России»",
+    "author": "Завод «Велес»",
+    "license": "дизайн-концепт с сайта завода «Велес»",
+    "page": "https://veles-site-kiselev.vercel.app/legendy.html",
+    "own": true,
+    "w": 1000,
+    "h": 558,
+    "render": true
+  },
+  "render-bread": {
+    "src": "/photos/render-bread.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAIEBf/EABUBAQEAAAAAAAAAAAAAAAAAAAED/9oADAMBAAIQAxAAAADPnnSNkKRP/8QAIBAAAgEDBAMAAAAAAAAAAAAAAQIDAAQREjEyQRQhUf/aAAgBAQABPwC+W1JDBlzTWtqbaOVQxY8uhn4KNuM5IfTjoVNOsh16VZ8DfavLnDB3ySvEA+hQv5HBEjsVPVf/xAAZEQACAwEAAAAAAAAAAAAAAAAAEQIiMUH/2gAIAQIBAT8AUlpbp//EABkRAAIDAQAAAAAAAAAAAAAAAAARAiIxQf/aAAgBAwEBPwBxeFeH/9k=",
+    "alt": "Визуализация ремесленного хлеба из меморандума холдинга",
+    "caption": "Визуализация · меморандум холдинга",
+    "author": "УК «Велес И К»",
+    "license": "визуализация из меморандума",
+    "page": "",
+    "own": true,
+    "w": 918,
+    "h": 567,
+    "render": true
+  },
+  "render-jewelry": {
+    "src": "/photos/render-jewelry.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAAQDBf/EABUBAQEAAAAAAAAAAAAAAAAAAAID/9oADAMBAAIQAxAAAADg7QI1pRkf/8QAIRAAAQQBAwUAAAAAAAAAAAAAAQACAxEEEhMhFEFhcYH/2gAIAQEAAT8AGFoaAI90nuDXxPgZxWPF5Ac5SYcVOLbHHHtQZga4mQ2pMrVS6p9lzV//xAAYEQADAQEAAAAAAAAAAAAAAAAAARECE//aAAgBAgEBPwCbouiP/8QAFxEAAwEAAAAAAAAAAAAAAAAAAAECEf/aAAgBAwEBPwDYwbg//9k=",
+    "alt": "Визуализация ювелирных украшений с янтарём из меморандума холдинга",
+    "caption": "Визуализация · меморандум холдинга",
+    "author": "УК «Велес И К»",
+    "license": "визуализация из меморандума",
+    "page": "",
+    "own": true,
+    "w": 918,
+    "h": 567,
+    "render": true
+  },
+  "render-fur": {
+    "src": "/photos/render-fur.jpg",
+    "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAkABgDASIAAhEBAxEB/8QAGgAAAgMBAQAAAAAAAAAAAAAAAAUCAwQBBv/EABYBAQEBAAAAAAAAAAAAAAAAAAIBA//aAAwDAQACEAMQAAAAQaIVl9N5TXhlGV+KRixqDPnQMdf/xAAmEAACAgICAAQHAAAAAAAAAAABAgMSABETIQRBUZEFIiMzNGFi/9oACAEBAAE/AD8rgcYPqcXjLKGi1ZTobySISsVRW69TjXR2Zbb2B3lgzq50KRuSP2PLEMrJPIgIYorJUeZ6yfankKa+pse/WP8AelX13nwiaLpppAoqvZzlnkNe66tnG3Ldkatte+c8vhHRENBWy54UDiQ/zvIpLipRdKehrPHfmZ//xAAZEQACAwEAAAAAAAAAAAAAAAAAAgEQMSH/2gAIAQIBAT8AIylngo2n/8QAGREAAgMBAAAAAAAAAAAAAAAAAAECECEx/9oACAEDAQE/AB1JaMXD/9k=",
+    "alt": "Визуализация меховых изделий из меморандума холдинга",
+    "caption": "Визуализация · меморандум холдинга",
+    "author": "УК «Велес И К»",
+    "license": "визуализация из меморандума",
+    "page": "",
+    "own": true,
+    "w": 1068,
+    "h": 1600,
+    "render": true,
+    "pos": "center 30%"
+  },
   "yaksha-house": {
     "pos": "center 55%",
     "src": "/photos/yaksha-house.jpg",
@@ -71,6 +490,7 @@ export const PHOTOS = {
   },
   "render-lobby": {
     "render": true,
+    "own": true,
     "src": "/photos/render-lobby.jpg",
     "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAMFBv/EABQBAQAAAAAAAAAAAAAAAAAAAAL/2gAMAwEAAhADEAAAAI+izl0NggR//8QAIRAAAQMFAAIDAAAAAAAAAAAAAQIDBAAREiExBUEyU3H/2gAIAQEAAT8AW+pktrZOGXrtQ3mFR0l0jPC5pcppJLgPE/u7U0x9pvv1qonjIRQFqb6KkxVfBh3HFV977X//xAAWEQEBAQAAAAAAAAAAAAAAAAAAASH/2gAIAQIBAT8Aka//xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAwEBPwBZ/9k=",
     "alt": "Визуализация лобби гостиницы из меморандума холдинга",
@@ -83,6 +503,7 @@ export const PHOTOS = {
   },
   "render-cabin": {
     "render": true,
+    "own": true,
     "src": "/photos/render-cabin.jpg",
     "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAYABgDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQL/xAAWAQEBAQAAAAAAAAAAAAAAAAACAwD/2gAMAwEAAhADEAAAAM6atoI00C8NrsyrhD//xAAgEAACAgIDAQADAAAAAAAAAAABAgMRACEEEjFRUoGR/9oACAEBAAE/ADIqqaFtQr94rOVAMdOSNHV5LVgfSw/mcK+wPhX8hnIAl00gvZst5krSMq96YgaI93kYgau8YJ+nGh4hBHQ+fcMXGj2qb+k3n//EABoRAQADAQEBAAAAAAAAAAAAAAEAAgMRBCH/2gAIAQIBAT8Av6bV0+pyGoxzovUhUJ//xAAaEQADAAMBAAAAAAAAAAAAAAAAAQIDESEE/9oACAEDAQE/AJ801HF0rDoWS0tJjptn/9k=",
     "alt": "Визуализация деревянного домика в зимнем лесу из меморандума холдинга",
@@ -95,6 +516,7 @@ export const PHOTOS = {
   },
   "render-izba": {
     "render": true,
+    "own": true,
     "src": "/photos/render-izba.jpg",
     "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAABAD/xAAVAQEBAAAAAAAAAAAAAAAAAAABA//aAAwDAQACEAMQAAAACMy43NLk/8QAIhAAAgEDAwUBAAAAAAAAAAAAAQIDAAQREzGREhQiQUJx/9oACAEBAAE/AOxA89XkU4d3w687n8qeEIEBjZSW91JPc7azbmluRIseuSWWr2duiMjJwPo5xX//xAAXEQEBAQEAAAAAAAAAAAAAAAABAAIR/9oACAECAQE/AEs9S//EABgRAQEAAwAAAAAAAAAAAAAAAAEAAhFB/9oACAEDAQE/AB5OsW//2Q==",
     "alt": "Визуализация интерьера бревенчатого дома с камином из меморандума холдинга",
@@ -107,6 +529,7 @@ export const PHOTOS = {
   },
   "render-dome": {
     "render": true,
+    "own": true,
     "src": "/photos/render-dome.jpg",
     "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAPABgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMFAQb/xAAVAQEBAAAAAAAAAAAAAAAAAAACAf/aAAwDAQACEAMQAAAA5qvLYFogp//EACIQAAIBBAEEAwAAAAAAAAAAAAECAwAEERIhEzEyQUJRcf/aAAgBAQABPwCzeRG2XxGNvYNSPAqxqWBVAx/dqvLpO0ceBwefsVb3ISCRNlIPxK+6M0bhOoM6qADU0kDBgMAZ4Civ/8QAGREAAgMBAAAAAAAAAAAAAAAAAAECETES/9oACAECAQE/AOpXgneo/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAIBERIhMf/aAAgBAwEBPwDBe3slFg//2Q==",
     "alt": "Визуализация купольного домика глэмпинга под северным сиянием из меморандума холдинга",
@@ -119,6 +542,7 @@ export const PHOTOS = {
   },
   "render-gondola": {
     "render": true,
+    "own": true,
     "src": "/photos/render-gondola.jpg",
     "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAiABgDASIAAhEBAxEB/8QAGgABAAIDAQAAAAAAAAAAAAAAAAMEAQIFBv/EABYBAQEBAAAAAAAAAAAAAAAAAAEAAv/aAAwDAQACEAMQAAAA7rz0adx5olHetjLMrm2hKyK//8QAJBAAAgECBQQDAAAAAAAAAAAAAQIAAxEEEhMhMSJRcZFBQoH/2gAIAQEAAT8AXE06g2pkmF+9Bo9VBfNRa3eNiKQN0qN5IjYsHYMfcfEi25a81ZSemzNqZsoW+0xBBIZbgHgQVFI6V3jNmVgy+viIRcXHTxPp+xuI3C+J/8QAFhEAAwAAAAAAAAAAAAAAAAAAACAh/9oACAECAQE/ACL/AP/EABQRAQAAAAAAAAAAAAAAAAAAACD/2gAIAQMBAT8AX//Z",
     "alt": "Визуализация гондолы фуникулёра «Якша Skyview» над тайгой из меморандума холдинга",
@@ -245,8 +669,8 @@ export const PHOTOS = {
   "pechora-city": {
     "pos": "center 45%",
     "src": "/photos/pechora-city.jpg",
-    "caption": "Печора с высоты",
     "blur": "data:image/jpeg;base64,/9j/2wBDABISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////2wBDARISEhITEhQWFhQcHhseHCkmIiImKT4sMCwwLD5eO0U7O0U7XlNlUk1SZVOWdmhodpatkYqRrdK8vNL/+///////wgARCAAQABgDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EABYBAQEBAAAAAAAAAAAAAAAAAAACA//aAAwDAQACEAMQAAAAqLy3NJ1EA//EACMQAAIBAgQHAAAAAAAAAAAAAAECAwARFDFSoQQFEhMyQrH/2gAIAQEAAT8Ak4mRT0lQDWMJ071iTqXepOZkkCN3kIGdgBTtC6Snu+Kglhk1/UUrQPa5+1//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwBX/8QAFREBAQAAAAAAAAAAAAAAAAAAABH/2gAIAQMBAT8AR//Z",
+    "caption": "Печора с высоты",
     "alt": "Город Печора с высоты зимой",
     "author": "k0k00rt",
     "license": "CC BY-SA 3.0",
@@ -277,7 +701,7 @@ export const PHOTOS = {
 };
 
 /** Уникальные авторы для подписи в подвале (визуализации холдинга — не в счёт) */
-export const PHOTO_CREDITS = Object.values(PHOTOS).filter((p) => !p.render).reduce((acc, p) => {
+export const PHOTO_CREDITS = Object.values(PHOTOS).filter((p) => !p.own && !p.render).reduce((acc, p) => {
   const found = acc.find((c) => c.author === p.author);
   if (found) { if (!found.pages.includes(p.page)) found.pages.push(p.page); }
   else acc.push({ author: p.author, license: p.license, pages: [p.page] });

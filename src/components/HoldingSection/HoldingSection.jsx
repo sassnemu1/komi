@@ -22,7 +22,7 @@ export default function HoldingSection() {
       <div className={styles.texture} aria-hidden="true" />
       <div className={styles.inner}>
         <SectionHead
-          num="10"
+          num="09"
           eyebrow="Холдинг"
           title={DATA.title}
           lead={DATA.desc}

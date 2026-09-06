@@ -15,6 +15,9 @@ export default function SectionHead({ num, eyebrow, title, lead, action, classNa
     <header className={`${styles.head} ${className}`}>
       <div className={styles.main}>
         <span className={styles.eyebrow} data-reveal>
+          <svg className={styles.flake} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+            <path d="M12 2v20M4 7l16 10M4 17L20 7M12 6l-2-2M12 6l2-2M12 18l-2 2M12 18l2 2M7 9.5 5 8.8M7 9.5l.3-2.3M17 14.5l2 .7M17 14.5l-.3 2.3M7 14.5l-2 .7M7 14.5l.3 2.3M17 9.5l2-.7M17 9.5l-.3-2.3" />
+          </svg>
           Республика Коми <i className={styles.dot} aria-hidden="true" /> {eyebrow}
         </span>
         <h2 className={styles.title} data-reveal>

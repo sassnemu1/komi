@@ -153,13 +153,13 @@ export default function DistrictPanel({ pathId, onClose }) {
         <div className={styles.body} data-lenis-prevent>
           {/* ── Шапка ── */}
           <header className={styles.head}>
-            {info.flag && (
-              <span className={styles.flag}>
+            {(info.flag || info.arms) && (
+              <span className={`${styles.flag} ${info.flag ? "" : styles.arms}`}>
                 <Image
-                  src={info.flag}
-                  alt={`Флаг: ${info.name}`}
+                  src={info.flag || info.arms}
+                  alt={`${info.flag ? "Флаг" : "Герб"}: ${info.name}`}
                   width={44}
-                  height={30}
+                  height={info.flag ? 30 : 52}
                   sizes="44px"
                 />
               </span>
@@ -209,6 +209,23 @@ export default function DistrictPanel({ pathId, onClose }) {
                 </a>
               ) : (
                 facts.source
+              )}
+            </p>
+          )}
+
+          {/* Официальный символ: флаг или герб с реквизитами утверждения */}
+          {info.symbolNote && (
+            <p className={styles.symbolNote}>
+              <span className={styles.symbolKind}>{info.flag ? "Флаг" : "Герб"}</span>
+              {" "}
+              {info.symbolNote}
+              {info.symbolSource && (
+                <>
+                  {" "}
+                  <a href={info.symbolSource} target="_blank" rel="noopener noreferrer">
+                    {info.symbolSource.replace(/^https?:\/\//, "").split("/")[0]}
+                  </a>
+                </>
               )}
             </p>
           )}

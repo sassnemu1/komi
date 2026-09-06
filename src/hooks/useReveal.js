@@ -4,6 +4,11 @@ import useGSAP from "./useGSAP";
 // Единый reveal-on-scroll для нижних секций: всё, что помечено
 // [data-reveal] внутри sectionRef, появляется снизу с небольшим stagger,
 // когда секция входит в кадр. При prefers-reduced-motion ничего не прячем.
+//
+// Устойчивость к перезагрузке: элементы, которые в момент инициализации
+// уже в кадре или выше него, не прячем вовсе — их нечего «проявлять», а
+// спрятать и не показать было бы хуже. Триггер — once, чтобы не зависеть от
+// пересчётов при изменении высоты страницы (пины, ящики досье).
 export default function useReveal(sectionRef, { selector = "[data-reveal]", start = "top 78%", stagger = 0.06, y = 22 } = {}) {
   const { gsap, ScrollTrigger } = useGSAP();
 
@@ -13,7 +18,8 @@ export default function useReveal(sectionRef, { selector = "[data-reveal]", star
     if (!root) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const targets = root.querySelectorAll(selector);
+    const vh = window.innerHeight;
+    const targets = [...root.querySelectorAll(selector)].filter((el) => el.getBoundingClientRect().top > vh * 0.9);
     if (!targets.length) return;
 
     const ctx = gsap.context(() => {
@@ -27,7 +33,7 @@ export default function useReveal(sectionRef, { selector = "[data-reveal]", star
         // После появления снимаем inline-transform, чтобы CSS-ховеры
         // элементов (translateY плиток и т.п.) снова работали.
         clearProps: "transform",
-        scrollTrigger: { trigger: root, start },
+        scrollTrigger: { trigger: root, start, once: true },
       });
     }, root);
 
