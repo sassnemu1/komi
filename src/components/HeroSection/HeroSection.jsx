@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./HeroSection.module.css";
 import HeroBackdrop from "./HeroBackdrop";
 import {
@@ -53,9 +53,6 @@ export default function HeroSection() {
   const mapRef         = useRef(null);
 
   const { gsap, ScrollTrigger } = useGSAP();
-  const scrollTLRef      = useRef(null);
-  const enterTLRef       = useRef(null);
-  const introPlayedRef   = useRef(false);
 
   // ── Состояние карты: выбранный и подсвеченный район ──────────
   const [selected, setSelected] = useState(null);
@@ -81,7 +78,11 @@ export default function HeroSection() {
     if (!hero) return;
     e.preventDefault();
     const top = hero.offsetTop + hero.offsetHeight * MAP_STAGE_RATIO;
-    window.scrollTo({ top, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    if (window.__lenis) {
+      window.__lenis.scrollTo(top, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    }
   }, []);
 
   // ── Ken Burns drift ───────────────────────────────────────────
@@ -142,184 +143,76 @@ export default function HeroSection() {
     return () => {
       sticky.removeEventListener("pointermove", onMove);
       sticky.removeEventListener("pointerleave", onLeave);
+      layers.forEach((layer) => {
+        layer.x.tween.kill();
+        layer.y.tween.kill();
+      });
     };
   }, [gsap]);
 
-  // ── Scroll choreographer ──────────────────────────────────────
-  //  hero = 400vh  →  sticky = 100svh  →  300vh рельсы
-  //  0–33%   : текст уходит
-  //  33–66%  : карта + легенда появляются
-  //  66–100% : карта висит, пользователь изучает
-  useEffect(() => {
-    if (!gsap || !ScrollTrigger) return;
-
-    const hero    = heroRef.current;
-    const sticky  = stickyRef.current;
+  // Вступление идёт в CSS на внутренних обёртках с первого кадра.
+  // GSAP сразу управляет внешними обёртками по скроллу: загрузка JS
+  // не прячет уже показанный текст и не перезапускает вступление.
+  useLayoutEffect(() => {
+    const hero = heroRef.current;
+    const sticky = stickyRef.current;
     const mapWrap = mapWrapRef.current;
-    const legend  = legendRef.current;
-    const mapHint = mapHintRef.current;
-    if (!hero || !mapWrap) return;
+    if (!hero || !sticky || !mapWrap) return;
 
     const reduced = prefersReducedMotion();
-    const mapAside = [legend, mapHint].filter(Boolean);
+    const mapAside = [legendRef.current, mapHintRef.current].filter(Boolean);
+    const trees = [...sticky.querySelectorAll("[data-layer=trees]")];
+    const night = sticky.querySelector("[data-layer=night]");
+    const syncMapInteraction = () => {
+      sticky.classList.toggle(styles.mapActive, Number(gsap.getProperty(mapWrap, "opacity")) > 0.8);
+    };
 
-    // Слои сцены (HeroBackdrop)
-    const scene  = sticky?.querySelector("[data-layer=scene]");
-    const trees  = sticky ? [...sticky.querySelectorAll("[data-layer=trees]")] : [];
-    const bands  = sticky ? [...sticky.querySelectorAll("[data-layer=band]")] : [];
-    const night  = sticky?.querySelector("[data-layer=night]");
-    const sky    = sticky?.querySelector("[data-layer=sky]");
-
-    // Начальные состояния
-    gsap.set(lettersRef.current,     { y: 110, opacity: 0, rotateX: -55, filter: "blur(6px)" });
-    gsap.set(designRef.current,      { y: 200, scale: 1.22, opacity: 0, filter: "blur(10px)" });
-    gsap.set([socialLeftRef.current, socialRightRef.current], { opacity: 0, x: (i) => (i === 0 ? -36 : 36) });
-    gsap.set(taglineRef.current,     { opacity: 0, y: 12 });
-    gsap.set(scrollCueRef.current,   { opacity: 0 });
-    if (scene) gsap.set(scene, { scale: 1.08, transformOrigin: "50% 60%" });
-    if (trees.length) gsap.set(trees, { yPercent: 16 });
-    if (bands.length) gsap.set(bands, { opacity: 0 });
-    if (sky) gsap.set(sky, { opacity: 0 });
-    // Карта и легенда — изначально скрыты
-    gsap.set(mapWrap,                { opacity: 0, scale: 0.88, transformOrigin: "50% 50%" });
-    if (mapAside.length) gsap.set(mapAside, { opacity: 0, x: -16 });
-
-    // CSS-фолбэк до JS отключаем: дальше хореографией управляет GSAP
-    sticky?.classList.add(styles.jsReady);
-
-    const scrollY         = window.scrollY;
-    // Интро играем, только если JS пришёл быстро: после долгой загрузки
-    // заголовок уже виден (CSS-фолбэк), и заново его прятать — вспышка.
-    const lateHydration   = performance.now() > 2500;
-    const shouldPlayIntro = scrollY < 100 && !reduced && !lateHydration;
-
-    const createScrollTL = () => {
-      if (scrollTLRef.current) return;
-
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
+        defaults: { ease: "none" },
         scrollTrigger: {
           trigger: hero,
           start: "top top",
           end: "bottom top",
-          scrub: reduced ? true : 1.4,
+          scrub: reduced ? true : 0.65,
           invalidateOnRefresh: true,
-          // На стадии карты включаем ей события мыши, боковые точки выключаем
-          onUpdate: (self) => {
-            if (!sticky) return;
-            sticky.classList.toggle(styles.mapActive, self.progress > 0.45);
-          },
-          // Ушли ниже hero — панель района закрываем
+          // Refresh восстанавливает progress без вызова timeline.onUpdate.
+          onRefresh: syncMapInteraction,
           onLeave: () => setSelected(null),
         },
+        // Кликабельность следует за видимой картой, включая scrub и refresh.
+        onUpdate: syncMapInteraction,
       });
 
-      // ── АКТ 1: 0–33% — текст и UI уходят ──────────────────────
       tl
-        .to(scrollCueRef.current,   { opacity: 0, duration: 0.1 },                                              0)
-        .to(taglineRef.current,     { opacity: 0, y: -10, duration: 0.18 },                                     0)
-        .to(socialLeftRef.current,  { x: -70, opacity: 0, duration: 0.28 },                                     0)
-        .to(socialRightRef.current, { x: 70,  opacity: 0, duration: 0.28 },                                     0)
-        .to(lettersRef.current,     { y: -80, opacity: 0, filter: "blur(4px)", stagger: 0.015, duration: 0.3 }, 0)
-        .to(designRef.current,      { y: -60, scale: 0.94, opacity: 0, filter: "blur(6px)", duration: 0.3 },    0.04);
+        .fromTo(scrollCueRef.current, { opacity: 1 }, { opacity: 0, duration: 0.1 }, 0)
+        .fromTo(taglineRef.current, { opacity: 1, y: 0 }, { opacity: 0, y: reduced ? 0 : -10, duration: 0.18 }, 0)
+        .fromTo(socialLeftRef.current, { x: 0, opacity: 1 }, { x: reduced ? 0 : -70, opacity: 0, duration: 0.28 }, 0)
+        .fromTo(socialRightRef.current, { x: 0, opacity: 1 }, { x: reduced ? 0 : 70, opacity: 0, duration: 0.28 }, 0)
+        .fromTo(lettersRef.current, { y: 0, opacity: 1 }, { y: reduced ? 0 : -80, opacity: 0, stagger: 0.015, duration: 0.3 }, 0)
+        .fromTo(designRef.current, { y: 0, scale: 1, opacity: 1 }, { y: reduced ? 0 : -60, scale: reduced ? 1 : 0.94, opacity: 0, duration: 0.3 }, 0.04);
 
-      // Сцена: лес оседает, поднимается ночь — карте нужен тёмный фон
-      if (trees.length) tl.to(trees, { yPercent: 14, duration: 0.5, ease: "none" }, 0);
-      if (night)        tl.to(night, { opacity: 1, duration: 0.4, ease: "none" }, 0.06);
+      if (trees.length && !reduced) tl.fromTo(trees, { yPercent: 0 }, { yPercent: 14, duration: 0.5 }, 0);
+      if (night) tl.fromTo(night, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0.06);
 
-      // ── АКТ 2: 33–66% — карта + легенда появляются ────────────
       tl.fromTo(mapWrap,
-          { opacity: 0, scale: 0.9 },
-          { opacity: 1, scale: 1,   duration: 0.3, ease: "none" },
-          0.33
-        );
-
+        { opacity: 0, scale: reduced ? 1 : 0.9 },
+        { opacity: 1, scale: 1, duration: 0.3 },
+        0.33
+      );
       if (mapAside.length) {
-        tl.fromTo(
-          mapAside,
-          { opacity: 0, x: -16 },
-          { opacity: 1, x: 0, duration: 0.22, ease: "none" },
-          0.45
-        );
+        tl.fromTo(mapAside, { opacity: 0, x: reduced ? 0 : -16 }, { opacity: 1, x: 0, duration: 0.22 }, 0.45);
       }
-
-      // ── АКТ 3: 66–100% — пауза, карта висит ───────────────────
       tl.to({}, { duration: 0.34 }, 0.96);
-
-      scrollTLRef.current = tl;
-    };
-
-    // ── Intro-анимация ────────────────────────────────────────────
-    if (shouldPlayIntro && !introPlayedRef.current) {
-      introPlayedRef.current = true;
-
-      const enterTL = gsap.timeline({
-        defaults:   { ease: "power3.out" },
-        onComplete: () => { createScrollTL(); },
-      });
-      enterTLRef.current = enterTL;
-
-      if (scene)        enterTL.to(scene, { scale: 1, duration: 2.2, ease: "expo.out" }, 0);
-      if (bands.length) enterTL.to(bands, { opacity: 1, duration: 1.4, stagger: 0.16, ease: "power2.out" }, 0.1);
-      if (trees.length) enterTL.to(trees, { yPercent: 0, duration: 1.6, stagger: 0.12, ease: "power3.out" }, 0.15);
-      if (sky)          enterTL.to(sky, { opacity: 1, duration: 2.4, ease: "power2.out" }, 0.6);
-
-      enterTL
-        .fromTo(lettersRef.current,
-          { y: 110, opacity: 0, rotateX: -55, filter: "blur(6px)" },
-          { y: 0,   opacity: 1, rotateX: 0,   filter: "blur(0px)", stagger: 0.042, duration: 0.85, ease: "power4.out" },
-          0.35
-        )
-        .fromTo(designRef.current,
-          { y: 200, scale: 1.22, opacity: 0, filter: "blur(10px)" },
-          { y: 0,   scale: 1,    opacity: 1, filter: "blur(0px)",  duration: 1.05, ease: "expo.out" },
-          "-=0.45"
-        )
-        .fromTo([socialLeftRef.current, socialRightRef.current],
-          { opacity: 0, x: (i) => (i === 0 ? -36 : 36) },
-          { opacity: 1, x: 0, duration: 0.9, stagger: 0.08 },
-          "-=0.65"
-        )
-        .fromTo(taglineRef.current,   { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, "-=1.2")
-        .fromTo(scrollCueRef.current, { opacity: 0 }, { opacity: 1, duration: 0.6 },                          "-=0.2");
-    } else {
-      // Без интро (reduced-motion или страница открыта не с верха) —
-      // всё сразу в финальном состоянии.
-      gsap.set(lettersRef.current,     { y: 0, opacity: 1, rotateX: 0, filter: "blur(0px)" });
-      gsap.set(designRef.current,      { y: 0, scale: 1,  opacity: 1, filter: "blur(0px)" });
-      gsap.set([socialLeftRef.current, socialRightRef.current], { opacity: 1, x: 0 });
-      gsap.set(taglineRef.current,     { opacity: 1, y: 0 });
-      gsap.set(scrollCueRef.current,   { opacity: 1 });
-      if (scene) gsap.set(scene, { scale: 1 });
-      if (trees.length) gsap.set(trees, { yPercent: 0 });
-      if (bands.length) gsap.set(bands, { opacity: 1 });
-      if (sky) gsap.set(sky, { opacity: 1 });
-
-      createScrollTL();
-    }
-
-    const refresh = () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => ScrollTrigger.refresh());
-      });
-    };
-
-    refresh();
-    window.addEventListener("load", refresh);
+      sticky.classList.add(styles.jsReady);
+      // Прямой якорь / восстановленная позиция сразу получают нужный кадр.
+      tl.progress(tl.scrollTrigger.progress);
+      syncMapInteraction();
+    }, hero);
 
     return () => {
-      window.removeEventListener("load", refresh);
-      // Убиваем ОБА таймлайна и сбрасываем флаг интро: иначе в dev (StrictMode
-      // запускает эффект дважды) второй запуск создаёт scroll-таймлайн, который
-      // спорит с ещё живым интро и оставляет заголовок в скрытом состоянии.
-      if (enterTLRef.current) {
-        enterTLRef.current.kill();
-        enterTLRef.current = null;
-        introPlayedRef.current = false;
-      }
-      if (scrollTLRef.current) {
-        scrollTLRef.current.kill();
-        scrollTLRef.current = null;
-      }
+      ctx.revert();
+      sticky.classList.remove(styles.jsReady, styles.mapActive);
     };
   }, [gsap, ScrollTrigger]);
 
@@ -407,7 +300,7 @@ export default function HeroSection() {
                   aria-hidden="true"
                   ref={(el) => { lettersRef.current[i] = el; }}
                 >
-                  {char}
+                  <span className={styles.letterIntro} style={{ "--letter-index": i }}>{char}</span>
                 </span>
               ))}
             </h1>

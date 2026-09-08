@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { PHOTOS } from "@/data/photos";
 import styles from "./HeroBackdrop.module.css";
 
@@ -53,9 +54,11 @@ const STARS = (() => {
 
 export default function HeroBackdrop({ photo = "taiga-fog" }) {
   const p = PHOTOS[photo];
+  const [loadedLayers, setLoadedLayers] = useState(0);
+  const forestReady = loadedLayers === (1 << FOREST.length) - 1;
 
   return (
-    <div className={styles.scene} data-layer="scene" aria-hidden="true">
+    <div className={`${styles.scene} ${forestReady ? styles.forestReady : ""}`} data-layer="scene" aria-hidden="true">
       {/* Дальний план — фото тайги */}
       <div className={styles.photo} data-depth="7">
         {p && (
@@ -74,7 +77,7 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
       </div>
 
       {/* Лес — три плана иллюстраций с прозрачным фоном */}
-      {FOREST.map((f) => {
+      {FOREST.map((f, index) => {
         const p = PHOTOS[`forest-${f.key}`];
         return (
           <div className={`${styles.forest} ${styles[`forest_${f.key}`]}`} data-depth={f.depth} data-layer="trees" key={f.key}>
@@ -84,7 +87,9 @@ export default function HeroBackdrop({ photo = "taiga-fog" }) {
               fill
               sizes="110vw"
               quality={78}
-              priority={f.key === "mid"}
+              priority
+              onLoad={() => setLoadedLayers((loaded) => loaded | (1 << index))}
+              onError={() => setLoadedLayers((loaded) => loaded | (1 << index))}
               placeholder={p?.blur ? "blur" : "empty"}
               blurDataURL={p?.blur}
             />

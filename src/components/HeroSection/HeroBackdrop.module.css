@@ -35,7 +35,13 @@
 .forest :global(img) {
   object-fit: cover;
   object-position: center bottom;
+  opacity: 0;
+  transition: opacity 0.9s ease;
 }
+
+/* Next Image вызывает onLoad после decode. Все три плана проявляются
+   вместе, без резкой подмены размытого слоя посреди вступления. */
+.forestReady .forest :global(img) { opacity: 1; }
 
 .forest_far  { top: 18%; bottom: 8%;  opacity: 0.92; }
 .forest_mid  { top: 2%;  bottom: -2%; }

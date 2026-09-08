@@ -207,7 +207,6 @@
 
 .letter {
   display: inline-block;
-  opacity: 0;
   transform-origin: center bottom;
 }
 
@@ -218,11 +217,11 @@
   gap: 14px;
   line-height: 0.88;
 
-  opacity: 0;
   will-change: transform, opacity;
 }
 
 .designText {
+  display: block;
   font-family: var(--font-title);
   font-size: clamp(76px, 9.6vw, 176px);
   font-weight: 800;
@@ -252,7 +251,6 @@
   letter-spacing: 0.24em;
   line-height: 1.9;
   pointer-events: none;
-  opacity: 0;
 }
 
 /* ─── SOCIALS ─────────────────────────────────────────── */
@@ -302,7 +300,6 @@
   justify-content: center;
   padding-top: 8px;
   pointer-events: none;
-  opacity: 0;
 }
 
 .scrollCueLine {
@@ -421,48 +418,61 @@
   transform: translateY(-50%) translateX(0) scale(1);
 }
 
-/* ─── ДО JS: фолбэк на scroll-timeline ─────────────────── */
-/*
-  Пока не пришёл JS (медленная сеть), рельса hero всё равно 400vh, и без
-  хореографии карта никогда не появится. В браузерах со scroll-timeline
-  заголовок виден сразу, а карта проявляется по скроллу средствами CSS;
-  как только GSAP создаёт свой таймлайн, .jsReady отключает фолбэк.
-*/
-@supports (animation-timeline: scroll()) {
-  .sticky:not(.jsReady) .letter,
-  .sticky:not(.jsReady) .titleBottom,
-  .sticky:not(.jsReady) .tagline,
-  .sticky:not(.jsReady) .scrollCue { opacity: 1; }
+/* Вступление не зависит от гидратации. GSAP анимирует родительские
+   узлы, поэтому ранний скролл не конфликтует с появлением букв.
+   Без JS и без scroll-timeline заголовок тоже остаётся видимым. */
+.letterIntro {
+  display: inline-block;
+  animation: titleEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--letter-index) * 24ms);
+}
 
-  .sticky:not(.jsReady) .titleWrap {
+.designText {
+  animation: titleEnter 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+@keyframes titleEnter {
+  from { opacity: 0.15; transform: translate3d(0, 28px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* До JS карта следует той же доле высоты hero, что и GSAP.
+   View timeline учитывает и мобильные 260vh, и десктопные 400vh. */
+@supports (animation-timeline: view()) {
+  .hero { view-timeline-name: --hero; view-timeline-axis: block; }
+
+  .sticky:not(.jsReady) .titleWrap,
+  .sticky:not(.jsReady) .tagline,
+  .sticky:not(.jsReady) .socialLeft,
+  .sticky:not(.jsReady) .socialRight,
+  .sticky:not(.jsReady) .scrollCue {
     animation: cssTitleOut linear both;
-    animation-timeline: scroll(root);
-    animation-range: 0px 1200px;
+    animation-timeline: --hero;
+    animation-range: entry 100% exit 100%;
   }
 
   .sticky:not(.jsReady) .mapWrap {
-    pointer-events: auto;
     animation: cssMapIn linear both;
-    animation-timeline: scroll(root);
-    animation-range: 1150px 2400px;
+    animation-timeline: --hero;
+    animation-range: entry 100% exit 100%;
   }
 }
 
 @keyframes cssTitleOut {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-60px); }
+  0% { opacity: 1; }
+  33%, 100% { opacity: 0; }
 }
 
 @keyframes cssMapIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to   { opacity: 1; transform: none; }
+  0%, 25.4% { opacity: 0; transform: scale(0.9); }
+  48.5%, 100% { opacity: 1; transform: none; }
 }
 
 .jsReady { /* маркер: хореографией управляет GSAP */ }
 
 /* ─── REDUCED MOTION ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .scrollCueLine { animation: none; }
+  .scrollCueLine, .letterIntro, .designText { animation: none; }
   .dot a, .tooltip { transition: none; }
   .dot a:hover { transform: none; }
 }

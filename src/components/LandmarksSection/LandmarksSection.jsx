@@ -247,7 +247,6 @@ function LandmarksDesktop() {
                 alt=""
                 fill
                 sizes="100vw"
-                priority={i === 0}
                 quality={76}
                 placeholder={photoBySrc(stop.image)?.blur ? "blur" : "empty"}
                 blurDataURL={photoBySrc(stop.image)?.blur}
