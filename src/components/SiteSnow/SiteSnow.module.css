@@ -7,3 +7,7 @@
   z-index: 30;
   pointer-events: none;
 }
+
+/* Атмосфера остаётся на фоне, не перекрывая текст и фотографии. */
+.snow { opacity: .18; }
+@media (max-width: 767px) { .snow { display: none; } }

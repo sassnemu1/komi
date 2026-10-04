@@ -6,7 +6,7 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #0b1214;
+  background: var(--bg);
   transform-origin: 50% 50%;
 }
 
@@ -21,7 +21,7 @@
 .photo :global(img) {
   object-fit: cover;
   object-position: center 42%;
-  filter: saturate(0.82) contrast(1.06) brightness(0.92);
+  filter: saturate(0.65) contrast(1.04) brightness(0.65);
 }
 
 /* Лес — три иллюстрации с прозрачным фоном; cover от нижней кромки,
@@ -35,6 +35,7 @@
 .forest :global(img) {
   object-fit: cover;
   object-position: center bottom;
+  filter: saturate(.45) brightness(.55);
   opacity: 0;
   transition: opacity 0.9s ease;
 }
@@ -48,23 +49,23 @@
 .forest_near { top: 0;   bottom: -6%; }
 
 /* Флаг — полупрозрачные полосы */
-.flag { inset: 0; }
+.flag { inset: 0; background: linear-gradient(180deg, rgba(var(--shade-rgb), .16), rgba(var(--shade-rgb), .48)); }
 
 .band {
   position: absolute;
   left: 0;
   right: 0;
-  display: block;
+  display: none;
 }
 
 .bandBlue  { top: 0;        height: var(--b1); background: rgba(0, 57, 166, 0.62); }
 .bandGreen { top: var(--b1); height: 33.3%;   background: rgba(0, 155, 58, 0.58); }
-.bandWhite { top: var(--b2); bottom: 0;       background: rgba(255, 255, 255, 0.78); }
+.bandWhite { top: var(--b2); bottom: 0;       background: rgba(var(--ink-rgb), 0.78); }
 
 /* Ночь — opacity ведёт scroll-таймлайн HeroSection */
 .night {
   inset: 0;
-  background: linear-gradient(180deg, rgba(4, 8, 24, 0.9) 0%, rgba(4, 6, 16, 0.96) 100%);
+  background: linear-gradient(180deg, rgba(var(--shade-rgb), 0.9) 0%, rgba(var(--shade-rgb), 0.96) 100%);
   opacity: 0;
   will-change: opacity;
 }
@@ -74,7 +75,8 @@
   left: 0;
   right: 0;
   top: 0;
-  height: var(--b1);
+  height: 40%;
+  opacity: .36;
   overflow: hidden;
   will-change: transform;
 }
@@ -84,7 +86,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  fill: #fff;
+  fill: var(--text-strong);
 }
 
 .twinkle { animation: twinkle 4s ease-in-out infinite alternate; }
@@ -98,6 +100,7 @@
   position: absolute;
   border-radius: 50%;
   filter: blur(26px);
+  opacity: .35;
   mix-blend-mode: screen;
   pointer-events: none;
   will-change: transform, opacity;
@@ -108,7 +111,7 @@
   top: 8%;
   width: 78%;
   height: 46%;
-  background: linear-gradient(90deg, transparent 0%, rgba(70, 255, 180, 0.42) 30%, rgba(110, 220, 255, 0.34) 62%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--accent-rgb), .18) 30%, rgba(var(--accent-rgb), .16) 62%, transparent 100%);
   transform: rotate(-7deg) skewX(-14deg);
   animation: auroraA 16s ease-in-out infinite alternate;
 }
@@ -118,7 +121,7 @@
   top: 30%;
   width: 84%;
   height: 40%;
-  background: linear-gradient(90deg, transparent 0%, rgba(140, 120, 255, 0.28) 34%, rgba(64, 240, 170, 0.34) 68%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--accent-rgb), .1) 34%, rgba(var(--accent-rgb), .16) 68%, transparent 100%);
   transform: rotate(4deg) skewX(10deg);
   animation: auroraB 21s ease-in-out infinite alternate;
 }
@@ -128,7 +131,7 @@
   top: 52%;
   width: 60%;
   height: 34%;
-  background: linear-gradient(90deg, transparent 0%, rgba(90, 255, 200, 0.22) 40%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--accent-rgb), .12) 40%, transparent 100%);
   transform: rotate(-3deg) skewX(-6deg);
   animation: auroraC 13s ease-in-out infinite alternate;
 }

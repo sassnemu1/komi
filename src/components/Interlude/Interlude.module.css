@@ -4,7 +4,7 @@
   width: 100%;
   height: clamp(520px, 78vh, 880px);
   overflow: hidden;
-  background: #07070a;
+  background: var(--bg);
   /* изолируем слой — тяжёлые transform не тянут за собой страницу */
   contain: paint;
 }
@@ -29,8 +29,8 @@
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(to top, rgba(7, 7, 10, 0.94) 0%, rgba(7, 7, 10, 0.4) 34%, rgba(7, 7, 10, 0.06) 62%, rgba(7, 7, 10, 0.55) 100%),
-    linear-gradient(100deg, rgba(7, 7, 10, 0.5) 0%, transparent 55%);
+    linear-gradient(to top, rgba(var(--shade-rgb), 0.94) 0%, rgba(var(--shade-rgb), 0.4) 34%, rgba(var(--shade-rgb), 0.06) 62%, rgba(var(--shade-rgb), 0.55) 100%),
+    linear-gradient(100deg, rgba(var(--shade-rgb), 0.5) 0%, transparent 55%);
 }
 
 .text {
@@ -50,10 +50,10 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.3em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--text);
   margin-bottom: 18px;
 }
 
@@ -61,7 +61,7 @@
   content: "";
   width: 28px;
   height: 1px;
-  background: #fff;
+  background: var(--text-strong);
   opacity: 0.6;
 }
 
@@ -69,16 +69,16 @@
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6vw, 5.4rem);
   line-height: 0.94;
-  color: #fff;
+  color: var(--text-strong);
   margin: 0;
-  text-shadow: 0 0 24px rgba(170, 200, 255, 0.3), 0 8px 36px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 24px rgba(var(--accent-rgb), 0.3), 0 8px 36px rgba(0, 0, 0, 0.5);
 }
 
 .caption {
   font-family: var(--font-body);
   font-size: clamp(0.92rem, 1.05vw, 1.02rem);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.74);
+  color: var(--text);
   margin: 16px 0 0;
   max-width: 540px;
 }
@@ -88,10 +88,10 @@
   right: clamp(20px, 5vw, 48px);
   bottom: 18px;
   font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
 }
 
 @media (max-width: 767px) {
@@ -106,3 +106,15 @@
 @media (prefers-reduced-motion: reduce) {
   .media, .text { will-change: auto; }
 }
+
+/* Единая система северного атласа. */
+.interlude { height: clamp(480px, 70vh, 760px); }
+.shade { background: linear-gradient(180deg, var(--bg), rgba(var(--shade-rgb), .04) 28%, rgba(var(--shade-rgb), .32) 60%, var(--bg)), linear-gradient(90deg, rgba(var(--shade-rgb), .3), transparent); }
+.text { left: max(var(--page-gutter), calc((100vw - var(--page-width)) / 2 + var(--page-gutter))); right: var(--page-gutter); bottom: 70px; max-width: 840px; }
+.title { font-size: clamp(44px, 5vw, 76px); line-height: 1.05; text-shadow: none; }
+.eyebrow { color: var(--accent); font-size: 12px; letter-spacing: .12em; }
+.eyebrow::before { background: var(--accent); }
+.caption { font-size: 16px; line-height: 1.75; }
+.credit { font-size: 12px; letter-spacing: .02em; }
+@media (max-width: 767px) { .interlude { height: 560px; } .text { bottom: 60px; } }
+

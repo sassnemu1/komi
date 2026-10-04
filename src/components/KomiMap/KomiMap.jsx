@@ -132,7 +132,7 @@ export default function KomiMap({ className, selected, hovered, onSelect, onHove
               const base = document.createElementNS("http://www.w3.org/2000/svg", "rect");
               base.setAttribute("width", bbox.width);
               base.setAttribute("height", bbox.height);
-              base.setAttribute("fill", "rgba(56, 100, 219, 0.22)");
+              base.setAttribute("fill", "rgba(194, 217, 150, 0.15)");
               pattern.appendChild(base);
               const side = Math.min(bbox.width, bbox.height) * 0.8;
               image.setAttribute("href", info.arms);

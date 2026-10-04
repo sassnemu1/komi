@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Bebas_Neue, DM_Sans, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import localFont from "next/font/local";
 import SmoothScroll from "@/components/SmoothScroll/SmoothScroll";
 import SiteSnow from "@/components/SiteSnow/SiteSnow";
@@ -13,9 +13,7 @@ import ScrollRestore from "@/components/ScrollRestore/ScrollRestore";
 // Next, и загрузчик на каждой сборке писал «Failed to find font override
 // values»; для локального файла метрики считаются из самого шрифта.
 const fontDisplay = localFont({ src: "./fonts/ponomar-regular.woff2", weight: "400", style: "normal", variable: "--font-display-next", display: "swap" });
-const fontBold = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bold-next", display: "swap" });
-const fontTitle = Manrope({ subsets: ["cyrillic", "latin"], weight: ["700", "800"], variable: "--font-title-next", display: "swap" });
-const fontBody = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-body-next", display: "swap" });
+const fontTitle = Manrope({ subsets: ["cyrillic", "latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-title-next", display: "swap" });
 
 const SITE = "https://komi.world";
 const MAP_URL = "https://map.komi.world";
@@ -45,7 +43,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#07070a",
+  themeColor: "#081614",
   colorScheme: "dark",
 };
 
@@ -87,7 +85,7 @@ function jsonLd(data) {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${fontDisplay.variable} ${fontBold.variable} ${fontTitle.variable} ${fontBody.variable}`}>
+    <html lang="ru" className={`${fontDisplay.variable} ${fontTitle.variable}`}>
       <body>
         <SmoothScroll />
         <ScrollRestore />

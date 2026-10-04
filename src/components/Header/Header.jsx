@@ -206,7 +206,7 @@ export default function Header() {
 
     const raf = requestAnimationFrame(() => closeBtnRef.current?.focus?.());
 
-    const mq = window.matchMedia("(min-width: 900px)");
+    const mq = window.matchMedia("(min-width: 1200px)");
     const onWide = (e) => { if (e.matches) setMenuOpen(false); };
     mq.addEventListener("change", onWide);
 

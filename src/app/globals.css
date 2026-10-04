@@ -2,29 +2,37 @@
 /* Шрифты подключает next/font в layout.js (переменные --font-*-next) */
 :root {
   --font-display: var(--font-display-next, "Ponomar"), Georgia, serif;
-  --font-bold: var(--font-bold-next, "Bebas Neue"), Impact, sans-serif;
-  --font-title: var(--font-title-next, "Manrope"), "Helvetica Neue", Arial, sans-serif; /* строгий гротеск для «КОМИ.» */
-  --font-body: var(--font-body-next, "DM Sans"), system-ui, sans-serif;
+  --font-title: var(--font-title-next, "Manrope"), Arial, sans-serif;
+  --font-body: var(--font-title);
+  --font-bold: var(--font-title);
 
-  --accent: #3864db;
-  --green: #1aa861;
-  --ice: #8fb8ff;                       /* лёд — зимние акценты */
-  --frost: rgba(180, 205, 255, 0.34);   /* иней — рамки на ховере */
-
-  --bg: #07070a;
-  --bg-soft: #0b1214;
-  --surface: #0e0e12;
-
-  --text-strong: #fff;
-  --text: rgba(255, 255, 255, 0.72);
-  --text-secondary: rgba(255, 255, 255, 0.72);
-  --text-muted: rgba(255, 255, 255, 0.45);
-  --text-light: rgba(255, 255, 255, 0.45);
-
-  --border: rgba(255, 255, 255, 0.08);
-
-  --header-h: 72px;
-
+  /* Один северный атлас: хвоя, светлая бумага, лишайник. */
+  --bg: #081614;
+  --bg-soft: #0d1e1b;
+  --surface: #102520;
+  --surface-raised: #19342d;
+  --shade-rgb: 8, 22, 20;
+  --ink-rgb: 241, 245, 235;
+  --accent-rgb: 194, 217, 150;
+  --accent: #c2d996;
+  --accent-hover: #d4e7b4;
+  --green: var(--accent);
+  --ice: var(--accent);
+  --frost: rgba(var(--accent-rgb), 0.45);
+  --text-strong: #f1f5eb;
+  --text: #c5d2c9;
+  --text-secondary: #b5c6bb;
+  --text-muted: #8fa69a;
+  --text-light: var(--text-secondary);
+  --border: rgba(var(--ink-rgb), 0.12);
+  --border-strong: rgba(var(--ink-rgb), 0.24);
+  --radius-card: 16px;
+  --radius-control: 8px;
+  --page-width: 1400px;
+  --page-gutter: clamp(22px, 5vw, 72px);
+  --section-space: clamp(80px, 8vw, 120px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --header-h: 80px;
   color-scheme: dark;
 }
 
@@ -43,26 +51,18 @@ html {
 }
 
 body {
-  background: #07070a;
-  color: rgba(255, 255, 255, 0.72);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-body);
   overflow-x: hidden;
   min-height: 100svh;
 }
 
-/* Иней по углам экрана — очень тихая зимняя виньетка поверх всего, без JS */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 25;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 34% 30% at 0% 0%, rgba(180, 205, 255, 0.07), transparent 70%),
-    radial-gradient(ellipse 34% 30% at 100% 0%, rgba(180, 205, 255, 0.06), transparent 70%),
-    radial-gradient(ellipse 40% 34% at 0% 100%, rgba(180, 205, 255, 0.05), transparent 70%),
-    radial-gradient(ellipse 40% 34% at 100% 100%, rgba(180, 205, 255, 0.05), transparent 70%);
-}
+/* Одна типографическая система во всех главах. */
+body { font-size: 16px; line-height: 1.65; }
+h1, h2, h3, h4 { font-weight: 400; text-wrap: balance; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, a { touch-action: manipulation; }
 
 a { text-decoration: none; color: inherit; }
 
@@ -86,7 +86,7 @@ img, svg, video { display: block; max-width: 100%; }
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--bg);
 }
 
 /* Якоря под фиксированной шапкой */
@@ -110,3 +110,6 @@ html.lenis-smooth { scroll-behavior: auto; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Орнамент уже отделяет соседние главы. */
+main > [role="presentation"] + section { border-top: 0; }

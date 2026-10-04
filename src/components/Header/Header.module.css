@@ -5,11 +5,10 @@
   left: 0;
   right: 0;
   z-index: 1000;
-  color: #fff;
+  color: var(--text-strong);
 
   /* Появляемся после интро hero */
-  opacity: 0;
-  animation: headerIn 0.8s ease-out 1.2s forwards;
+  opacity: 1;
 
   transform: translateY(0);
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -29,15 +28,15 @@
 .bar {
   position: relative;
   height: var(--header-h, 72px);
-  padding: 0 clamp(18px, 3vw, 40px);
+  padding: 0 var(--page-gutter);
 
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 24px;
 
-  background: transparent;
-  border-bottom: 1px solid transparent;
+  background: linear-gradient(rgba(var(--shade-rgb), .55), transparent);
+  border-bottom: 1px solid var(--border);
   transition:
     background-color 0.45s ease,
     border-color 0.45s ease,
@@ -46,10 +45,10 @@
 
 .scrolled .bar,
 .menuOpen .bar {
-  background: rgba(7, 7, 10, 0.72);
+  background: rgba(var(--shade-rgb), 0.72);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border-bottom-color: rgba(255, 255, 255, 0.08);
+  border-bottom-color: rgba(var(--ink-rgb), 0.08);
 }
 
 /* ─── LOGO ─────────────────────────────────────────────────────── */
@@ -57,7 +56,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #fff;
+  color: var(--text-strong);
   border-radius: 8px;
   padding: 6px 4px;
 }
@@ -74,9 +73,10 @@
 
 .wordmark {
   font-family: var(--font-bold);
-  font-size: 22px;
+  font-size: 19px;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: 0.06em;
+  letter-spacing: .02em;
   transform: translateY(1px);
 }
 
@@ -99,11 +99,11 @@
   border-radius: 8px;
 
   font-family: var(--font-body);
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.04em;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.66);
+  color: var(--text);
   transition: color 0.25s ease;
 }
 
@@ -120,11 +120,11 @@
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.navLink:hover { color: #fff; }
+.navLink:hover { color: var(--text-strong); }
 .navLink:hover::after { transform: scaleX(1); }
 
 .navLinkActive {
-  color: #fff;
+  color: var(--text-strong);
 }
 
 .navLinkActive::after {
@@ -143,20 +143,20 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 999px;
+  height: 44px;
+  padding: 0 var(--page-gutter);
+  border-radius: var(--radius-control);
 
   font-family: var(--font-body);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: .02em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: #fff;
+  color: var(--accent);
 
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(var(--shade-rgb), 0.35);
+  border: 1px solid rgba(var(--ink-rgb), 0.16);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 
@@ -167,8 +167,8 @@
 }
 
 .pill:hover {
-  background: rgba(56, 100, 219, 0.28);
-  border-color: rgba(56, 100, 219, 0.7);
+  background: rgba(var(--accent-rgb), 0.28);
+  border-color: rgba(var(--accent-rgb), 0.7);
   transform: translateY(-1px);
 }
 
@@ -193,9 +193,9 @@
   width: 44px;
   height: 44px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
+  border: 1px solid rgba(var(--ink-rgb), 0.12);
+  background: rgba(var(--ink-rgb), 0.04);
+  color: var(--text-strong);
 }
 
 .burgerLine {
@@ -219,7 +219,7 @@
   position: fixed;
   inset: 0;
   z-index: -1; /* под баром, чтобы бар оставался кликабельным */
-  background: rgba(7, 7, 10, 0.86);
+  background: rgba(var(--shade-rgb), 0.86);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   overflow-y: auto;
@@ -251,20 +251,21 @@
 
 .menuEyebrow {
   font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.3em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
 }
 
 .menuClose {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
-  font-size: 22px;
+  border: 1px solid rgba(var(--ink-rgb), 0.12);
+  background: rgba(var(--ink-rgb), 0.04);
+  color: var(--text-strong);
+  font-size: 19px;
+  font-weight: 800;
   line-height: 1;
   display: grid;
   place-items: center;
@@ -274,11 +275,11 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(var(--ink-rgb), 0.08);
 }
 
 .menuList li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.08);
   opacity: 0;
   transform: translateY(14px);
   animation: menuItemIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
@@ -297,20 +298,20 @@
   font-family: var(--font-display);
   font-size: clamp(1.9rem, 7.5vw, 2.6rem);
   line-height: 1;
-  color: #fff;
+  color: var(--text-strong);
   transition: color 0.25s ease, padding-left 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .menuLink:hover,
 .menuLink:focus-visible { padding-left: 10px; }
 
-.menuLinkActive { color: #8fb0ff; }
+.menuLinkActive { color: var(--accent); }
 
 .menuNum {
   font-family: var(--font-bold);
   font-size: 12px;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
   min-width: 22px;
 }
 
@@ -328,22 +329,22 @@
   font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
   padding: 8px 4px;
 }
 
-.menuContacts:hover { color: #fff; }
+.menuContacts:hover { color: var(--text-strong); }
 
 /* ─── RESPONSIVE ───────────────────────────────────────────────── */
 @media (max-width: 1180px) {
-  .navLink { padding: 8px 7px; font-size: 12px; }
+  .navLink { padding: 8px 7px; font-size: 13px; }
 }
 
-@media (max-width: 899px) {
+@media (max-width: 1199px) {
   .bar {
     grid-template-columns: auto 1fr;
     gap: 12px;
-    padding: 0 16px;
+    padding: 0 var(--page-gutter);
   }
 
   .nav { display: none; }
@@ -355,7 +356,7 @@
   .wordmark { font-size: 20px; }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1200px) {
   .menu { display: none !important; }
 }
 

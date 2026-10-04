@@ -3,31 +3,19 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./HeroSection.module.css";
 import HeroBackdrop from "./HeroBackdrop";
-import {
-  IconCompass, IconTree, IconPillars, IconIzba, IconBowl,
-  IconSun, IconChum, IconMark, IconSled, IconTaxi,
-} from "./HeroIcons";
+import Image from "next/image";
+import { PHOTOS } from "@/data/photos";
 
 import useGSAP from "@/hooks/useGSAP.js";
 import KomiMap from "@/components/KomiMap/KomiMap";
 import DistrictLegend from "@/components/KomiMap/DistrictLegend";
 import DistrictPanel from "@/components/DistrictPanel/DistrictPanel";
 
-// Боковые рельсы: левый — «где мы», правый — «что делать».
-// Ссылка на #map ведёт к стадии карты через scrollToMap (см. ниже).
-const RAIL_LEFT = [
-  { href: "#map",       label: "Карта районов",         Icon: IconCompass, map: true },
-  { href: "#mythology", label: "Мифология",             Icon: IconTree },
-  { href: "#landmarks", label: "Достопримечательности", Icon: IconPillars },
-  { href: "#stay",      label: "Отели",                 Icon: IconIzba },
-  { href: "#stay",      label: "Рестораны",             Icon: IconBowl },
-];
-const RAIL_RIGHT = [
-  { href: "#experiences",  label: "Впечатления",    Icon: IconSun },
-  { href: "#camping",      label: "Кемпинг",        Icon: IconChum },
-  { href: "#made-in-komi", label: "Сделано в Коми", Icon: IconMark },
-  { href: "#transport",    label: "Транспорт",      Icon: IconSled },
-  { href: "#taxi",         label: "Такси",          Icon: IconTaxi },
+const CHAPTERS = [
+  { href: "#mythology", label: "Предания" },
+  { href: "#landmarks", label: "Места силы" },
+  { href: "#stay", label: "Гостеприимство" },
+  { href: "#experiences", label: "Впечатления" },
 ];
 
 const prefersReducedMotion = () =>
@@ -50,6 +38,7 @@ export default function HeroSection() {
   const designRef      = useRef(null);
   const taglineRef     = useRef(null);
   const scrollCueRef   = useRef(null);
+  const titleWrapRef   = useRef(null);
   const mapRef         = useRef(null);
 
   const { gsap, ScrollTrigger } = useGSAP();
@@ -185,6 +174,7 @@ export default function HeroSection() {
       });
 
       tl
+        .fromTo(titleWrapRef.current, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.34 }, 0)
         .fromTo(scrollCueRef.current, { opacity: 1 }, { opacity: 0, duration: 0.1 }, 0)
         .fromTo(taglineRef.current, { opacity: 1, y: 0 }, { opacity: 0, y: reduced ? 0 : -10, duration: 0.18 }, 0)
         .fromTo(socialLeftRef.current, { x: 0, opacity: 1 }, { x: reduced ? 0 : -70, opacity: 0, duration: 0.28 }, 0)
@@ -266,31 +256,25 @@ export default function HeroSection() {
           <DistrictPanel pathId={selected} onClose={handlePanelClose} />
         )}
 
-        {/* ── РЕЛЬСЫ РАЗДЕЛОВ ── */}
-        <nav className={styles.socialLeft} ref={socialLeftRef} aria-label="Разделы: где мы">
-          {RAIL_LEFT.map(({ href, label, Icon, map }) => (
-            <div className={styles.dot} key={label}>
-              <a href={href} onClick={map ? scrollToMap : undefined} aria-label={label}>
-                <span className={styles.dotIcon}><Icon /></span>
-              </a>
-              <div className={styles.tooltip}>{label}</div>
-            </div>
+        <nav className={styles.socialLeft} ref={socialLeftRef} aria-label="Начать знакомство с Коми">
+          <span className={styles.chapterLabel}>Откройте для себя</span>
+          {CHAPTERS.map(({ href, label }, i) => (
+            <a href={href} key={href}><span className={styles.chapterNum}>0{i + 1}</span>{label}<span aria-hidden="true">↗</span></a>
           ))}
         </nav>
 
-        <nav className={styles.socialRight} ref={socialRightRef} aria-label="Разделы: что делать">
-          {RAIL_RIGHT.map(({ href, label, Icon }) => (
-            <div className={styles.dot} key={label}>
-              <a href={href} aria-label={label}>
-                <span className={styles.dotIcon}><Icon /></span>
-              </a>
-              <div className={styles.tooltip}>{label}</div>
-            </div>
-          ))}
-        </nav>
+        <a href="#landmarks" className={styles.socialRight} ref={socialRightRef}>
+          <div className={styles.featureImage}>
+            <Image src={PHOTOS["manpupuner-summer"].src} alt={PHOTOS["manpupuner-summer"].alt} fill sizes="(max-width: 1000px) 1px, 24vw" quality={76} placeholder="blur" blurDataURL={PHOTOS["manpupuner-summer"].blur} />
+            <span className={styles.featureIndex}>Из атласа Коми · 01</span>
+            <span className={styles.featureArrow} aria-hidden="true">↗</span>
+          </div>
+          <div className={styles.featureCaption}><span>Каменные великаны</span><strong>Маньпупунёр</strong></div>
+        </a>
 
         {/* TITLE */}
-        <div className={styles.titleWrap} data-depth="-9">
+        <div className={styles.titleWrap} ref={titleWrapRef} data-depth="-6">
+          <span className={styles.introEyebrow}><i aria-hidden="true" />Север, который ближе</span>
           <div className={styles.titlePerspective}>
             <h1 className={styles.titleTop} aria-label="Республика Коми">
               {main_title.map((char, i) => (
@@ -307,19 +291,20 @@ export default function HeroSection() {
           </div>
 
           <div className={styles.titleBottom} ref={designRef}>
-            <span className={styles.designText}>КОМИ.</span>
+            <span className={styles.designText}>КОМИ<span className={styles.titleDot}>.</span></span>
+          </div>
+          <div className={styles.tagline} ref={taglineRef}>
+            <p>Бескрайняя тайга, древние предания<br className={styles.desktopBreak} /> и места, которые остаются с вами.</p>
+            <div className={styles.heroActions}>
+              <a href="#map" onClick={scrollToMap} className={styles.primaryAction}>Исследовать Коми <span aria-hidden="true">↗</span></a>
+              <a href="#landmarks" className={styles.secondaryAction}>Найти своё место <span aria-hidden="true">→</span></a>
+            </div>
           </div>
         </div>
 
-        {/* Подпись — на белой полосе, чернилами */}
-        <p className={styles.tagline} ref={taglineRef}>
-          Карта районов · Мифология · Достопримечательности · Отели и рестораны ·<br />
-          Впечатления · Кемпинг · Сделано в Коми · Транспорт · Такси
-        </p>
-
         {/* SCROLL CUE */}
         <div className={styles.scrollCue} ref={scrollCueRef} aria-hidden="true">
-          <div className={styles.scrollCueLine} />
+          <span>Листайте — впереди целый край</span><span className={styles.scrollCueLine}>↓</span>
         </div>
 
       </div>

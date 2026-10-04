@@ -1,7 +1,7 @@
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Interlude from "@/components/Interlude/Interlude";
-import SnowEdge from "@/components/SnowEdge/SnowEdge";
+import SectionDivider from "@/components/SectionDivider/SectionDivider";
 
 import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection/HeroSection";
@@ -33,7 +33,7 @@ export default function Home() {
 
 
         <LandmarksSection />
-        <SnowEdge />
+        <SectionDivider />
         <StayDineSection />
 
         <Interlude
@@ -44,9 +44,9 @@ export default function Home() {
         />
 
         <ExperiencesSection />
-        <SnowEdge />
+        <SectionDivider />
         <CampingSection />
-        <SnowEdge />
+        <SectionDivider />
         <MadeInKomiSection />
 
         <Interlude
@@ -57,7 +57,7 @@ export default function Home() {
         />
 
         <TransportSection />
-        <SnowEdge />
+        <SectionDivider />
         <HoldingSection />
       </main>
 

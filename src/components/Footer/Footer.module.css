@@ -1,9 +1,9 @@
 /* ─── FOOTER ───────────────────────────────────────────────────── */
 .footer {
   position: relative;
-  background: #0b1214;
-  color: rgba(255, 255, 255, 0.72);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg);
+  color: var(--text);
+  border-top: 1px solid rgba(var(--ink-rgb), 0.08);
   overflow: hidden;
 }
 
@@ -30,7 +30,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(var(--ink-rgb), 0.03);
   -webkit-mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
   mask-image: url("/brand/komi-ornament-tile-currentcolor.svg");
   -webkit-mask-size: 200px 186px;
@@ -48,14 +48,14 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(56, 100, 219, 0.10), transparent 70%),
-    linear-gradient(to bottom, #0b1214 0%, rgba(11, 18, 20, 0) 30%, rgba(11, 18, 20, 0) 70%, #0b1214 100%);
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(var(--accent-rgb), 0.10), transparent 70%),
+    linear-gradient(to bottom, var(--bg) 0%, rgba(var(--shade-rgb), 0) 30%, rgba(var(--shade-rgb), 0) 70%, var(--bg) 100%);
 }
 
 .inner {
   position: relative;
   z-index: 1;
-  max-width: 1180px;
+  max-width: var(--page-width);
   margin: 0 auto;
   padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 40px) 32px;
 }
@@ -67,10 +67,10 @@
 
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.3em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   margin-bottom: 18px;
 }
 
@@ -88,19 +88,19 @@
   font-size: clamp(2.6rem, 8vw, 6.4rem);
   line-height: 0.96;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text-strong);
   margin: 0 0 20px;
 }
 
 .wordmarkStrong {
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
 }
 
 .tagline {
   font-family: var(--font-body);
   font-size: clamp(0.88rem, 1.05vw, 0.96rem);
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   max-width: 460px;
 }
 
@@ -110,19 +110,19 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 32px clamp(20px, 3vw, 48px);
   padding: 40px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(var(--ink-rgb), 0.08);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.08);
 }
 
 .col { min-width: 0; }
 
 .colTitle {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   margin-bottom: 18px;
 }
 
@@ -138,7 +138,7 @@
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--text);
 }
 
 .link {
@@ -148,22 +148,22 @@
 }
 
 .link:hover {
-  color: #fff;
+  color: var(--text-strong);
   transform: translateX(4px);
 }
 
-.link span { font-size: 12px; color: rgba(255, 255, 255, 0.45); }
+.link span { font-size: 12px; color: var(--text-muted); }
 
-.plain { color: rgba(255, 255, 255, 0.55); }
+.plain { color: var(--text-muted); }
 
 .mail {
   font-family: var(--font-bold);
   font-size: 22px;
   letter-spacing: 0.04em;
-  color: #fff;
+  color: var(--text-strong);
 }
 
-.mail:hover { color: #8fb0ff; }
+.mail:hover { color: var(--accent); }
 
 /* ─── BOTTOM ───────────────────────────────────────────────────── */
 .bottom {
@@ -179,16 +179,16 @@
 .note {
   font-family: var(--font-body);
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
 }
 
 .noteLink {
-  color: rgba(255, 255, 255, 0.72);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.16);
   transition: color 0.25s ease, border-color 0.25s ease;
 }
 
-.noteLink:hover { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+.noteLink:hover { color: var(--text-strong); border-color: rgba(var(--ink-rgb), 0.5); }
 
 /* ─── RESPONSIVE ───────────────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -210,8 +210,29 @@
 .credits {
   flex-basis: 100%;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-muted);
   margin-top: 6px;
 }
+
+/* Единая система северного атласа. */
+.footer { background: var(--bg); }
+.footer::before { display: none; }
+.texture { opacity: .3; }
+.footer::after { background: linear-gradient(var(--bg), transparent 45%, var(--bg)); }
+.inner { max-width: var(--page-width); padding: var(--section-space) var(--page-gutter) 32px; }
+.top { display: grid; grid-template-columns: 1fr auto; gap: 18px 40px; align-items: end; margin-bottom: 56px; }
+.eyebrow { grid-column: 1 / -1; color: var(--accent); font-size: 12px; letter-spacing: .12em; margin: 0; }
+.eyebrow::after { display: none; }
+.wordmark { font-size: clamp(42px, 5.2vw, 78px); line-height: 1.1; margin: 0; }
+.wordmarkStrong { color: var(--accent); }
+.tagline { font-size: 14px; line-height: 1.8; padding-bottom: 4px; max-width: 330px; }
+.colTitle { color: var(--accent); font-size: 12px; letter-spacing: .1em; }
+.link, .plain { font-size: 14px; }
+.list { gap: 12px; }
+.mail { font: 600 18px var(--font-title); letter-spacing: -.02em; }
+.note, .copy, .credits { font-size: 12px; line-height: 1.7; }
+@media (max-width: 900px) { .top { grid-template-columns: 1fr; gap: 20px; } }
+@media (max-width: 520px) { .columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 22px; } .mail { font-size: 14px; } }
+

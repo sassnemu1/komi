@@ -9,7 +9,7 @@
   position: relative;
   width: 100%;
   height: 100svh;
-  background: #06100b;
+  background: var(--bg);
   overflow: hidden;
 }
 
@@ -38,8 +38,8 @@
 /* Точка без фотографии — типографический постер */
 .bgLayerNoImage {
   background:
-    radial-gradient(ellipse 70% 60% at 70% 30%, rgba(26, 168, 97, 0.18), transparent 65%),
-    linear-gradient(135deg, #06100b 0%, #0b1214 60%, #07070a 100%);
+    radial-gradient(ellipse 70% 60% at 70% 30%, rgba(var(--accent-rgb), 0.18), transparent 65%),
+    linear-gradient(135deg, var(--bg) 0%, var(--bg) 60%, var(--bg) 100%);
   filter: none;
   animation: none;
 }
@@ -51,7 +51,7 @@
   right: 0;
   bottom: 0;
   height: 56px;
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(var(--ink-rgb), 0.08);
   -webkit-mask-image: url(/brand/komi-ornament-tile-currentcolor.svg);
   mask-image: url(/brand/komi-ornament-tile-currentcolor.svg);
   -webkit-mask-size: auto 100%;
@@ -69,7 +69,7 @@
   font-family: var(--font-display);
   font-size: clamp(14rem, 34vw, 30rem);
   line-height: 1;
-  color: #fff;
+  color: var(--text-strong);
   opacity: 0.08;
   pointer-events: none;
   user-select: none;
@@ -83,13 +83,13 @@
   background:
     linear-gradient(
       100deg,
-      rgba(4, 10, 7, 0.92) 0%,
-      rgba(4, 10, 7, 0.64) 40%,
-      rgba(4, 10, 7, 0.18) 100%
+      rgba(var(--shade-rgb), 0.92) 0%,
+      rgba(var(--shade-rgb), 0.64) 40%,
+      rgba(var(--shade-rgb), 0.18) 100%
     ),
     linear-gradient(
       to top,
-      rgba(4, 10, 7, 0.78) 0%,
+      rgba(var(--shade-rgb), 0.78) 0%,
       transparent 34%
     );
 }
@@ -101,10 +101,10 @@
   left: 10vw;
   z-index: 3;
   font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.3em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.22);
+  color: var(--text-muted);
   pointer-events: none;
 }
 
@@ -124,7 +124,7 @@
   top: 0;
   bottom: 0;
   width: 1px;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(var(--ink-rgb), 0.14);
   transform-origin: top center;
 }
 
@@ -132,7 +132,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, #4ee08a, #1aa861);
+  background: linear-gradient(to bottom, var(--accent), var(--accent));
   transform-origin: top center;
   transform: scaleY(inherit);
 }
@@ -150,8 +150,8 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #1aa861;
-  box-shadow: 0 0 10px rgba(26, 168, 97, 0.7);
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.7);
   flex-shrink: 0;
 }
 
@@ -164,9 +164,9 @@
   transform: translateY(-50%);
 
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.32);
+  color: var(--text-muted);
   text-align: right;
 
   white-space: nowrap;
@@ -178,7 +178,7 @@
 }
 
 .routeStopActive .routeName {
-  color: #fff;
+  color: var(--text-strong);
   transform: translateY(-50%) translateX(-2px);
 }
 
@@ -213,9 +213,9 @@
   align-items: center;
   gap: 6px;
   font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: rgba(78, 224, 138, 0.85);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: rgba(var(--accent-rgb), 0.85);
 }
 
 .blockNum::before {
@@ -228,12 +228,12 @@
 
 .badge {
   font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(26, 168, 97, 0.35);
-  background: rgba(26, 168, 97, 0.1);
+  color: var(--text-muted);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.1);
   padding: 4px 12px;
   border-radius: 999px;
 }
@@ -251,7 +251,7 @@
   font-size: clamp(3.2rem, 6.4vw, 6.4rem);
   line-height: 0.96;
   letter-spacing: -0.01em;
-  color: #fff;
+  color: var(--text-strong);
   margin: 0;
 }
 
@@ -260,7 +260,7 @@
   font-family: var(--font-body);
   font-size: 12px;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--text-muted);
   margin-bottom: 22px;
 }
 
@@ -269,7 +269,7 @@
   font-family: var(--font-body);
   font-size: clamp(0.88rem, 1.1vw, 0.98rem);
   line-height: 1.72;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   max-width: 420px;
   margin: 0 0 26px;
 }
@@ -286,15 +286,15 @@
   font-size: clamp(2rem, 3.2vw, 2.6rem);
   line-height: 1;
   letter-spacing: -0.02em;
-  color: #fff;
+  color: var(--text-strong);
 }
 
 .statLabel {
   font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.26em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(26, 168, 97, 0.65);
+  color: rgba(var(--accent-rgb), 0.65);
 }
 
 /* ─── ROW: STAT + CTA ─────────────────────────────────────────── */
@@ -310,13 +310,13 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-body);
-  font-size: 10px;
-  letter-spacing: 0.18em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
-  color: #fff;
-  border: 1px solid rgba(26, 168, 97, 0.4);
-  background: rgba(26, 168, 97, 0.1);
+  color: var(--text-strong);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  background: rgba(var(--accent-rgb), 0.1);
   padding: 13px 24px;
   border-radius: 999px;
   white-space: nowrap;
@@ -328,10 +328,10 @@
 }
 
 .ctaBtn:hover {
-  background: rgba(26, 168, 97, 0.24);
-  border-color: rgba(78, 224, 138, 0.6);
+  background: rgba(var(--accent-rgb), 0.24);
+  border-color: rgba(var(--accent-rgb), 0.6);
   transform: translateY(-3px);
-  box-shadow: 0 14px 36px rgba(26, 168, 97, 0.22);
+  box-shadow: 0 14px 36px rgba(var(--accent-rgb), 0.22);
 }
 
 .ctaBtn svg { transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1); }
@@ -340,31 +340,31 @@
 /* Ссылка на запись фольклорной карты (map.komi.world) */
 .loreLink {
   font-family: var(--font-body);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(var(--ink-rgb), 0.14);
   padding-bottom: 2px;
   white-space: nowrap;
   transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .loreLink:hover {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--text-strong);
+  border-color: rgba(var(--ink-rgb), 0.5);
 }
 
 /* ─── QUOTE ───────────────────────────────────────────────────── */
 .quote {
   margin: 26px 0 0;
   padding-left: 16px;
-  border-left: 2px solid rgba(26, 168, 97, 0.45);
+  border-left: 2px solid rgba(var(--accent-rgb), 0.45);
   font-family: var(--font-display);
   font-size: clamp(0.94rem, 1.2vw, 1.05rem);
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   max-width: 420px;
 }
 
@@ -372,7 +372,7 @@
 .sectionMobile {
   position: relative;
   width: 100%;
-  background: #06100b;
+  background: var(--bg);
   padding: 80px 6vw 60px;
 }
 
@@ -385,17 +385,17 @@
 
 .eyebrow {
   font-family: var(--font-body);
-  font-size: 9px;
-  letter-spacing: 0.28em;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(26, 168, 97, 0.75);
+  color: rgba(var(--accent-rgb), 0.75);
 }
 
 .mobileTitle {
   font-family: var(--font-display);
   font-size: clamp(2.4rem, 11vw, 3.4rem);
   line-height: 0.95;
-  color: #fff;
+  color: var(--text-strong);
   margin: 0;
 }
 
@@ -403,7 +403,7 @@
   font-family: var(--font-body);
   font-size: 0.9rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   max-width: 480px;
   margin: 0;
 }
@@ -416,7 +416,7 @@
 
 .mobileCard {
   position: relative;
-  border-radius: 16px;
+  border-radius: var(--radius-card);
   overflow: hidden;
   min-height: 420px;
   display: flex;
@@ -427,9 +427,9 @@
 
 .mobileCardNoImage {
   background:
-    radial-gradient(ellipse 70% 60% at 70% 20%, rgba(26, 168, 97, 0.18), transparent 65%),
-    linear-gradient(135deg, #06100b 0%, #0b1214 60%, #07070a 100%);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+    radial-gradient(ellipse 70% 60% at 70% 20%, rgba(var(--accent-rgb), 0.18), transparent 65%),
+    linear-gradient(135deg, var(--bg) 0%, var(--bg) 60%, var(--bg) 100%);
+  border: 1px solid rgba(var(--ink-rgb), 0.07);
 }
 
 .mobileCardNoImage .posterLetter {
@@ -448,7 +448,7 @@
 .mobileCardOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(4, 10, 7, 0.95) 0%, rgba(4, 10, 7, 0.4) 50%, rgba(4, 10, 7, 0.1) 100%);
+  background: linear-gradient(to top, rgba(var(--shade-rgb), 0.95) 0%, rgba(var(--shade-rgb), 0.4) 50%, rgba(var(--shade-rgb), 0.1) 100%);
 }
 
 .mobileCardNum {
@@ -458,7 +458,7 @@
   z-index: 2;
   font-family: var(--font-bold);
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text);
 }
 
 .mobileCardBody {
@@ -471,10 +471,11 @@
 }
 
 .mobileCardTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-title);
+  font-weight: 600;
   font-size: 1.7rem;
   line-height: 1.05;
-  color: #fff;
+  color: var(--text-strong);
   margin: 4px 0 0;
 }
 
@@ -482,7 +483,7 @@
   font-family: var(--font-body);
   font-size: 12.5px;
   line-height: 1.55;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   margin: 8px 0 14px;
 }
 
@@ -518,7 +519,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 22px;
-    max-width: 1180px;
+    max-width: var(--page-width);
   }
 }
 
@@ -537,3 +538,20 @@
 .mobileCardOverlay { z-index: 1; }
 .mobileCardNum,
 .mobileCardBody { position: relative; z-index: 2; }
+
+/* Единая система северного атласа. */
+.pinned { background: var(--bg); }
+.block { left: var(--page-gutter); max-width: min(56vw, 680px); }
+.cornerLabel { left: var(--page-gutter); }
+.overlay { background: linear-gradient(90deg, rgba(var(--shade-rgb), .94), rgba(var(--shade-rgb), .5) 55%, rgba(var(--shade-rgb), .2)), linear-gradient(0deg, var(--bg), transparent 28%, transparent 72%, var(--bg)); }
+.name { font-size: clamp(48px, 5.2vw, 80px); line-height: 1.05; }
+.desc { font-size: 16px; line-height: 1.8; color: var(--text-secondary); max-width: 490px; }
+.location { font-size: 14px; }
+.routeName { font-size: 13px; color: var(--text-secondary); }
+.blockNum, .statLabel { color: var(--accent); font-size: 12px; letter-spacing: .1em; }
+.statValue { font-weight: 600; }
+.ctaBtn { border-radius: var(--radius-control); background: var(--accent); color: var(--bg); font-size: 14px; font-weight: 600; letter-spacing: 0; text-transform: none; border-color: var(--accent); }
+.ctaBtn:hover { background: var(--accent-hover); color: var(--bg); box-shadow: none; }
+.badge { font-size: 12px; letter-spacing: .05em; color: var(--accent); }
+@media (max-width: 767px) { .block { max-width: calc(100% - 2 * var(--page-gutter)); } }
+
